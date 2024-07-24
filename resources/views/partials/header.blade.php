@@ -1,0 +1,146 @@
+<!-- Topbar -->
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+    <!-- Sidebar Toggle (Topbar) -->
+    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+        <i class="fa fa-bars"></i>
+    </button>
+
+    <!-- Topbar Navbar -->
+    <ul class="navbar-nav ml-auto">
+
+        <!-- Nav Item - User Information -->
+        <li class="nav-item dropdown no-arrow">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{Auth::user()->name}}</span>
+                <img class="img-profile rounded-circle" src="{{ asset('public/img/undraw_profile.svg') }}">
+            </a>
+            <!-- Dropdown - User Information -->
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                {{-- <a class="dropdown-item" href="#">
+                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Profile
+                </a>
+                <a class="dropdown-item" href="#">
+                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Settings
+                </a>
+                <a class="dropdown-item" href="#">
+                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Activity Log --}}
+                </a>
+                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Logout
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            </div>
+        </li>
+
+    </ul>
+
+</nav>
+@php
+$current_route = Route::currentRouteName();
+
+if($current_route=='student.index'){
+$value='Students List';
+}elseif($current_route=='student.transportationList'){
+$value='Transportation List';
+}elseif($current_route=='admin.accounts_payment'){
+$value='Add Offline Payment';
+}elseif($current_route=='admin.accounts'){
+$value='Pending Payment';
+}elseif($current_route=='customers.list'){
+$value='User List';
+}elseif($current_route=='plan.index'){
+    $value='Plan Name';
+}elseif($current_route=='student.edit'){
+$value='Add Student Transportation Details';
+}elseif($current_route=='home'){
+$value='Dashboard';
+}elseif($current_route=='planType.index'){
+$value='PlanType';
+}elseif($current_route=='admin.approve'){
+$value='Approved Payment';
+}elseif($current_route=='admin.rejected'){
+$value='Rejected Payment';
+}elseif($current_route=='planPrice.index'){
+    $value='Plan Price';  
+}elseif($current_route=='seats'){
+    $value='Library Seat Allotment';  
+}elseif($current_route=='history.seat.list'){
+    $value='History of Seat No.';  
+}elseif($current_route=='plan.create'){
+    $value='Add Plan';  
+}elseif($current_route=='planType.create'){
+    $value='Add Plan Type';  
+}elseif($current_route=='planPrice.create'){
+    $value='Add Plan Price';  
+}elseif($current_route=='seats.create'){
+    $value='Add Seats';  
+}else{
+$value=' List';
+}
+
+@endphp
+
+<!-- Content Header (Page header) -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h3 class="h3 mb-0 text-gray-800">
+                    @php echo $value @endphp
+                </h3>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        @if($value == 'Dashboard')
+                        <li class="breadcrumb-item">Dashboard</li>
+                        @else
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        @endif
+                        @if($value != 'Dashboard')
+                        <li class="breadcrumb-item active" aria-current="page">
+                            @php echo $value @endphp
+                        </li>
+                        @endif
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        {{-- Success Message --}}
+        <div class="col-lg-12">
+            @if (session('success'))
+            <div class="alert alert-success">
+                <p class="m-0"><i class="fa fa-check"></i> {{ session('success') }}</p>
+            </div>
+            @endif
+            @if (session('error'))
+            <div class="alert alert-danger">
+            <p class="text text-danger err-msg"> {{ session('error') }}</p>
+            </div>
+            @endif
+        </div>
+    </div>
+   
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    @if($current_route=='planType.index')
+    <a href="{{ route('planType.create') }}">Add Plan Type</a>
+    @elseif($current_route=='planPrice.index')
+    <a href="{{ route('planPrice.create') }}">Add Plan Price</a>
+    @elseif($current_route=='seats')
+    <a href="{{ route('seats.create') }}">Add seats</a>
+    @elseif($current_route=='plan.index')
+    <a href="{{ route('plan.create') }}">Add Plan Name</a> 
+    
+    @endif
+</div>
+</div>
+
+<!-- End of Topbar -->
