@@ -50,11 +50,7 @@
                                     </tr>
                                    @foreach($planPrice as $key => $value)
                                    <tr class="text-center">
-                                    @if($value->plan_name==7)
-                                    <td style="width: 20% "> Yearly</td>
-                                    @else
-                                    <td style="width: 20% "> {{$value->plan_name}} months</td>
-                                    @endif
+                                    <td style="width: 20% "> {{$value->plan_name}}</td>
                                     <td style="width: 20% "> {{$value->plan_type}}</td>
                                     <td style="width: 20% "> {{$value->price}}</td>
                                     <td style="width: 20% "><a href="{{route('planPrice.edit', $value->id)}}"class="btn tooltips btn-default p-2 btn-sm rounded mr-2" title="Edit Price"><i class="fas fa-edit"></i></a></td>
@@ -72,14 +68,10 @@
                                         <th style="width: 20% "> Name</th>
                                         <th style="width: 20% ">Action</th>
                                     </tr>
+                                    
                                     @foreach($plan as $key => $value)
                                     <tr class="text-center">
-                                        @if($value->name==7)
-                                        <td style="width: 20% "> Yearly</td>
-                                        @else
-                                        <td style="width: 20% "> {{$value->name}} months</td>
-                                        @endif
-                                       
+                                        <td style="width: 20% "> {{$value->name}}</td>
                                         <td style="width: 20% "><a href="{{route('plan.edit', $value->id)}}"class="btn tooltips btn-default p-2 btn-sm rounded mr-2" title="Edit Route"><i class="fas fa-edit"></i></a></td>
                                     </tr>
                                     @endforeach

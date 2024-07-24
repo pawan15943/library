@@ -14,6 +14,14 @@ use Carbon\Carbon;
 class UserController extends Controller
 {
     public function index(){
+         // Fetch seat data and update custor and seat table
+         $seats = DB::table('seats')->get();
+
+         foreach($seats as $seat){
+             $total_hourse=Customers::where('status', 1)->where('seat_no',$seat->id)->sum('hours');
+             DB::table('seats')->where('id', $seat->id)->update(['total_hours' => $total_hourse]);
+         }
+        //Fetch user data and update seat table and customer table
         $userUpdates = Customers::where('status', 1)->get();
     
         foreach ($userUpdates as $userUpdate) {
@@ -27,13 +35,17 @@ class UserController extends Controller
                 // Update seats status
                 $seatNo = $userUpdate->seat_no;
                 $seat = DB::table('seats')->where('seat_no', $seatNo)->first();
+                 //is_available=>available(not booked)=1,not available=0, firstHBook= 2 secondHbook=3 hourly=4 , fullbooked=5 in seat table
+                //plan_type_id 1=fullday, 2=firstH, 3=secondH,4=hourly slot 1,5=hourly slot 2, 6=hourly slot 3, 7=hourly slot4 in customer table
+                // $totalBookedHours = $seat->total_hours;
+                //$remainingHours = 16 - $totalBookedHours;
                 
-                // Determine new seat availability based on conditions
+                // update seat availability based on conditions
                 $available = 1; // Default to available
                 
                 if ($seat->is_available == 5) {
                     $available = 1;
-                } elseif ($seat->is_available == 4 && $userUpdate->plan_type_id == 4) {
+                } elseif ($seat->is_available == 4 && ($userUpdate->plan_type_id == 4 || $userUpdate->plan_type_id==5 || $userUpdate->plan_type_id==6 || $userUpdate->plan_type_id==7)) {
                     $available = 1;
                 } elseif ($seat->is_available == 3 && $userUpdate->plan_type_id == 3) {
                     $available = 1;
@@ -52,13 +64,8 @@ class UserController extends Controller
             }
         }
 
-        // Fetch updated seat and user data itni values kyu aa rhi hai ?
-        $seats = DB::table('seats')->get();
+       
 
-        foreach($seats as $seat){
-            $total_hourse=Customers::where('status', 1)->where('seat_no',$seat->id)->sum('hours');
-            DB::table('seats')->where('id', $seat->id)->update(['total_hours' => $total_hourse]);
-        }
         $users = Customers::where('status', 1);
       
         $plans=Plan::get();
@@ -129,6 +136,7 @@ class UserController extends Controller
                 'success' => false,
                 'errors' => $validator->errors()
             ], 422);
+            die;
         }
 
         // Handle the file upload
@@ -142,7 +150,7 @@ class UserController extends Controller
             $hours=16;
         }elseif($request->plan_type_id==2 || $request->plan_type_id==3){
             $hours=8;
-        }elseif($request->plan_type_id==4){
+        }elseif($request->plan_type_id==4 || $request->plan_type_id==5 || $request->plan_type_id==6 || $request->plan_type_id==7){
             $hours=4;
         }
         $planDurations = [

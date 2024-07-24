@@ -22,16 +22,9 @@
                         <div class="col-lg-6 ">
                             <div class="form-group">
                                 <label> Plan Name<sup class="text-danger">*</sup></label>
-                                <select class="form-control @error('name') is-invalid @enderror" name="name">
-                                    <option value="1" {{ old('name', isset($plan) ? $plan->name : '') == 1 ? 'selected' : '' }}>1 month</option>
-                                    <option value="2" {{ old('name', isset($plan) ? $plan->name : '') == 2 ? 'selected' : '' }}>2 months</option>
-                                    <option value="3" {{ old('name', isset($plan) ? $plan->name : '') == 3 ? 'selected' : '' }}>3 months</option>
-                                    <option value="4" {{ old('name', isset($plan) ? $plan->name : '') == 4 ? 'selected' : '' }}>4 months</option>
-                                    <option value="5" {{ old('name', isset($plan) ? $plan->name : '') == 5 ? 'selected' : '' }}>5 months</option>
-                                    <option value="6" {{ old('name', isset($plan) ? $plan->name : '') == 6 ? 'selected' : '' }}>6 months</option>
-                                    <option value="7" {{ old('name', isset($plan) ? $plan->name : '') == 7 ? 'selected' : '' }}>Yearly</option>
-                                </select>
-                                @error('name')
+                                <input type="text" name="plan_id" class="form-control digit-only @error('plan_id') is-invalid @enderror" id="" placeholder="Enter Only months" value="{{ old('plan_id', isset($plan) ? $plan->plan_id : '') }}">
+
+                                @error('plan_id')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

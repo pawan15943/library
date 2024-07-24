@@ -15,7 +15,7 @@ class PlanController extends Controller
     {
         $user = auth()->user();
        
-       $plan=Plan::all();
+        $plan=Plan::all();
         return view('plan.index',compact('plan'));
     }
     public function craetePlanName()
@@ -31,21 +31,68 @@ class PlanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-        ]);
-       
-        Plan::create($request->all());
-        return redirect()->route('plan.index')->with('success', 'Plan created successfully.');
-    }
-    public function update(Request $request, plan $plan)
-    {
-        $request->validate([
-            'name' => 'required',
+            'plan_id' => 'required',
         ]);
 
-        $plan->update($request->all());
+        switch ($request->plan_id) {
+            case 1:
+                $name = 'Monthly';
+                break;
+            case 3:
+                $name = 'Quarterly';
+                break;
+            case 6:
+                $name = 'HalfYearly';
+                break;
+            case 12:
+                $name = 'Yearly';
+                break;
+            default:
+                $name = $request->plan_id . ' Months';
+                break;
+        }
+        
+       
+        Plan::create([
+            'plan_id' => $request->plan_id,
+            'name' => $name,
+        ]);
+        return redirect()->route('plan.index')->with('success', 'Plan created successfully.');
+    }
+    public function update(Request $request, Plan $plan)
+    {
+        $request->validate([
+            'plan_id' => 'required|integer',
+        ]);
+
+        // Determine the plan name based on the plan_id
+        switch ($request->plan_id) {
+            case 1:
+                $name = 'Monthly';
+                break;
+            case 3:
+                $name = 'Quarterly';
+                break;
+            case 6:
+                $name = 'HalfYearly';
+                break;
+            case 12:
+                $name = 'Yearly';
+                break;
+            default:
+                $name = $request->plan_id . ' Months';
+                break;
+        }
+
+        // Update the plan with the new data
+        $plan->update([
+            'plan_id' => $request->plan_id,
+            'name' => $name,
+        ]);
+
         return redirect()->route('plan.index')->with('success', 'Plan updated successfully.');
     }
+
     public function planTypeList(){
         $plan=PlanType::all();
         return view('plan.index',compact('plan'));
@@ -64,7 +111,9 @@ class PlanController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'slot_hours' => 'required|regex:/^\d+$/', // Custom validation rule to ensure integer value
         ]);
        
         PlanType::create($request->all());

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->int('plan_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

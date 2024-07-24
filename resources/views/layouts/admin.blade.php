@@ -20,15 +20,19 @@
     <link href="{{ asset('public/css/sb-admin-2.min.css') }}" rel="stylesheet">
 
     <link href="{{ asset('public/css/style.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Include Datatables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<!-- Optional theme -->
+
 
 </head>
 
@@ -78,6 +82,7 @@
 
 
     <!-- Bootstrap core JavaScript-->
+ 
     <script src="{{ asset('public/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('public/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
