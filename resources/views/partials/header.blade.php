@@ -91,7 +91,7 @@ $value=' List';
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
-            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <div class="d-sm-flex align-items-center justify-content-between">
                 <h3 class="h3 mb-0 text-gray-800">
                     @php echo $value @endphp
                 </h3>
@@ -100,7 +100,7 @@ $value=' List';
                         @if($value == 'Dashboard')
                         <li class="breadcrumb-item">Dashboard</li>
                         @else
-                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="">Dashboard</a></li>
                         @endif
                         @if($value != 'Dashboard')
                         <li class="breadcrumb-item active" aria-current="page">

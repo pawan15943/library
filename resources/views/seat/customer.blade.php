@@ -9,47 +9,47 @@
     <div class="col-lg-12 ">
 
         <!-- Add Document -->
-        <div class="card card-default main_card_content" id="generalInfo ">
-
+        <div class="card card-default main_card_content">
             <!-- /.card-header -->
             <div class="card-body p-0">
                 <div class="row">
                     <div class="col-lg-12">
-
                         <div class="table-responsive tableRemove_scroll mt-2">
-
-                            <table class="table table-hover border data-table" id="datatable">
+                            <table class="table table-hover data-table" id="datatable">
                                 <thead>
                                     <tr class="text-center">
-                                        <th style="width: 20% ">Seat No.</th>
+                                        <th style="width: 20% ">Seat</th>
                                         <th style="width: 20% ">Name</th>
-                                        <th style="width: 20% ">Mobile Number</th>
+                                        <th style="width: 20% ">Mobile</th>
                                         <th style="width: 20% ">Email</th>
-                                        <th style="width: 20% ">Plan Name</th>
+                                        <th style="width: 20% ">Plan</th>
                                         <th style="width: 20% ">Plan Type</th>
                                         <th style="width: 20% ">Starts On</th>
-                                        <th style="width: 20% ">Expired On</th>
+                                        <th style="width: 20% ">Ends On</th>
                                         <th style="width: 20% ">Action</th>
                                     </tr>
-
-
                                 </thead>
                                 <tbody>
-                                  
-                                   
                                     @foreach($customers as $key => $value)
                                     <tr class="text-center">
-                                        <td style="width: 20% "> {{$value->seat_no}}</td>
-                                        <td style="width: 20% "> {{$value->name}}</td>
-                                        <td style="width: 20% "> {{$value->mobile}}</td>
-                                        <td style="width: 20% "> {{$value->email }}</td>
-                                        <td style="width: 20% "> {{$value->name}}</td>
-                                        <td style="width: 20% "> {{$value->seat_no}}</td>
-                                        <td style="width: 20% "> {{$value->plan_start_date}}</td>
-                                        <td style="width: 20% "> {{$value->plan_end_date}}</td>
-                                        <td style="width: 20% "><a href="#" class="btn tooltips btn-default p-2 btn-sm rounded " title="Edit Route"><i class="fas fa-edit"></i></a>
-                                        <a href="#" class="btn tooltips btn-default p-2 btn-sm rounded" title="Edit Route"><i class="fas fa-eye"></i></a>
-                                        <a href="#" class="btn tooltips btn-default p-2 btn-sm rounded" title="Edit Route"><i class="fas fa-trash"></i></a>
+                                        <td > {{$value->seat_no}}</td>
+                                        <td style="width: 20%;"> <span class="truncate">{{$value->name}}</span></td>
+                                        <td> {{$value->mobile}}</td>
+                                        <td> {{$value->email }}</td>
+                                        <td> {{$value->seat_no}}</td>
+                                        <td style="width: 15%;"> {{$value->seat_no}}</td>
+                                        <td style="width: 10%;"> {{$value->plan_start_date}}</td>
+                                        <td style="width: 13%;"> {{$value->plan_end_date}}
+                                            <small class="text-danger fs-10">Expired On 2 Days</small>
+                                        </td>
+                                        <td style="width: 20%;">
+                                            <ul class="actionables">
+                                                <li><a href="#" class="btn tooltips btn-default p-2 btn-sm rounded " title="Edit Route"><i class="fas fa-edit"></i></a></li>
+                                                <li>
+                                                <a href="#" class="btn tooltips btn-default p-2 btn-sm rounded" title="Edit Route"><i class="fas fa-eye"></i></a></li>
+                                                <li><a href="#" class="btn tooltips btn-default p-2 btn-sm rounded" title="Edit Route"><i class="fas fa-trash"></i></a></li>
+                                            </ul>
+                                            
                                     </td>
                                     </tr>
                                     @endforeach

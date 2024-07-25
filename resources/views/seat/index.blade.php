@@ -435,25 +435,6 @@ h3.text-center.mb-4 {
     @endforeach
 </ul>
 
-<!-- Summary Counts -->
-<div class="summary">
-    <h3>Booking Summary</h3>
-    <p>Full Day: {{ $fullDayCount }} booked</p>
-    <p>Half Day First Half: {{ $halfDayFirstHalfCount }} booked</p>
-    <p>Half Day Second Half: {{ $halfDaySecondHalfCount }} booked</p>
-    <p>Hourly: {{ $hourlyCount }} booked</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
 
     <div class="seat-booking d-none">
 
