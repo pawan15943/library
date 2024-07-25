@@ -264,6 +264,8 @@ use App\Models\Customers;
     justify-content: center;
     gap: .5rem;
     padding: 0;
+    align-items: center;
+
 }
 
 ul.main-box>li {
@@ -273,6 +275,8 @@ ul.main-box>li {
     flex-wrap: wrap;
     border:     1px solid #e6e6e6;
     justify-content: center;
+    align-items: center;
+
 }
 
 ul.main-box li {
@@ -287,6 +291,7 @@ ul.main-box li ul {
     list-style: none;
     padding: 0;
     justify-content: center;
+    align-items: center;
 }
 
 ul.main-box li ul li img {
@@ -358,7 +363,6 @@ h3.text-center.mb-4 {
         @endphp
 
         <li>
-            Seat No {{ $seat->id }}
 
             @if($isFullDayBooked)
                 <div class="seat second_popup" id="{{ $seat->id }}">
@@ -366,8 +370,8 @@ h3.text-center.mb-4 {
                     <img src="{{ asset('public/img/full-day.svg') }}" alt="seat" class="seat_svg">
                 </div>
             @elseif($isHalfDayBooked)
-                <div class="seat second_popup" id="{{ $seat->id }}">
-                    <div class="details d-none">
+                <div class="seat second_popup d-none" id="{{ $seat->id }}">
+                    <div class="details ">
                         T: {{ $halfDayAvailable }} <br> FH: {{ $halfDayBookedFirstHalf }} B <br>  SH: {{ $halfDayBookedSecondHalf }} A
                     </div>  
                 </div>
@@ -396,8 +400,8 @@ h3.text-center.mb-4 {
                     </ul>
                 @endif
             @elseif($isHourlyBooked)
-                <div class="seat second_popup" id="{{ $seat->id }}">
-                    <div class="details d-none">
+                <div class="seat second_popup d-none" id="{{ $seat->id }}">
+                    <div class="details ">
                         T: {{ $hourlyAvailable }} | H: {{ $hourlyBookedCount }} B
                     </div>
                 </div>

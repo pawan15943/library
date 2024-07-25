@@ -104,7 +104,7 @@ h3.h3.mb-0.text-gray-800 {
     gap: .3rem;
     align-items: center;
     font-weight: 700 !important;
-    color: 2C3E50 !important;
+    color: #000 !important;
     font-size: 1.2rem;
 }
 
@@ -321,9 +321,8 @@ nav.navbar span.text-gray-600 {
     font-weight: 600;
 }
 
-.topbar.navbar-light .navbar-nav .nav-item .nav-link {
-    color: #d1d3e2;
-    background: #eeeeee;
+.topbar.navbar-light .navbar-nav .nav-item .nav-link span{
+    color: #000 !important; 
 }
 
 .topbar .nav-item .nav-link {
@@ -485,6 +484,23 @@ a.text-center.d-block {
 }
 
 button.btn.btn-primary.btn-user.btn-block.bg-custom-primary {
-    background: #1bb3d5 !important;
+    background: #18BC9C !important; 
     border: none;
+}
+.d-sm-flex.align-items-center.justify-content-between.mb-4 {
+    display: flex !important;
+    justify-content: flex-end !important;
+
+}
+.d-sm-flex.align-items-center.justify-content-between.mb-4 a {
+    padding: .3rem 1rem;
+    background: #18BC9C;
+    border-radius: .4rem;
+    margin-top: .3rem;
+    color: #fff;
+    margin-bottom: -15px;
+}
+
+.d-sm-flex.align-items-center.justify-content-between {
+    margin-top: -.5rem;
 }

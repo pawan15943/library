@@ -11,7 +11,7 @@ use App\Models\Customers;
     <!-- Main Info -->
     <div class="col-lg-12">
         <!-- Add Document -->
-        <div class="card card-default main_card_content">
+        <div class="card card-default main_card_content border-0">
             <!-- /.card-header -->
             <div class="card-body p-0">
                 <div class="row">

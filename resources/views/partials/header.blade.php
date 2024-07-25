@@ -12,7 +12,7 @@
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{Auth::user()->name}}</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Welcome, {{Auth::user()->name}}</span>
                 <img class="img-profile rounded-circle" src="{{ asset('public/img/undraw_profile.svg') }}">
             </a>
             <!-- Dropdown - User Information -->
@@ -131,13 +131,13 @@ $value=' List';
    
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     @if($current_route=='planType.index')
-    <a href="{{ route('planType.create') }}">Add Plan Type</a>
+    <a href="{{ route('planType.create') }}"><i class="fa fa-plus"></i> Add Plan Type</a>
     @elseif($current_route=='planPrice.index')
-    <a href="{{ route('planPrice.create') }}">Add Plan Price</a>
+    <a href="{{ route('planPrice.create') }}"><i class="fa fa-plus"></i> Add Plan Price</a>
     @elseif($current_route=='seats')
-    <a href="{{ route('seats.create') }}">Add seats</a>
+    <a href="{{ route('seats.create') }}"><i class="fa fa-plus"></i> Add seats</a>
     @elseif($current_route=='plan.index')
-    <a href="{{ route('plan.create') }}">Add Plan Name</a> 
+    <a href="{{ route('plan.create') }}"><i class="fa fa-plus"></i> Add Plan Name</a> 
     
     @endif
 </div>

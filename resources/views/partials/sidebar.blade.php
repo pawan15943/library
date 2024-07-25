@@ -28,7 +28,7 @@
      <!-- Nav Item - Utilities Collapse Menu -->
      <li class="nav-item @if ($current_route == 'seats') @endif">
          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-             <i class="fas fa-user-graduate"></i>
+             <i class="fa fa-fw fa-chair"></i>
              <span>Manage Seats</span>
          </a>
          <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
@@ -51,7 +51,7 @@
 
      <li class="nav-item">
          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseManageMasters" aria-expanded="true" aria-controls="collapseManageMasters">
-             <i class="fas fa-fw fa-folder"></i>
+             <i class="fa fa-fw fa-cog"></i>
              <span>Manage Masters</span>
          </a>
          <div id="collapseManageMasters" class="collapse" aria-labelledby="headingManageMasters" data-parent="#accordionSidebar">

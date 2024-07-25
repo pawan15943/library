@@ -11,29 +11,25 @@
     <div class="col-lg-12 ">
 
         <!-- Add Document -->
-        <div class="card card-default main_card_content" id="generalInfo ">
-            
+        <div class="card card-default main_card_content border-0" id="generalInfo ">
             <!-- /.card-header -->
             <div class="card-body p-0">
                 <div class="row">
                     <div class="col-lg-12">
-
-                        <div class="table-responsive tableRemove_scroll mt-2">
-                           
+                        <div class="table-responsive tableRemove_scroll">
                             @if($current_route=='planType.index')
                             <table class="table table-hover border data-table" id="datatable">
                                 <thead>
                                     <tr class="text-center">
-                                        <th style="width: 20% "> Plan Type</th>
-                                        <th style="width: 20% ">Action</th>
+                                        <th style="width: 20%"> Plan Type</th>
+                                        <th style="width: 20%">Action</th>
                                     </tr>
                                     @foreach($plan as $key => $value)
                                     <tr class="text-center">
-                                        <td style="width: 20% "> {{$value->name}}</td>
-                                        <td style="width: 20% "><a href="{{route('planType.edit', $value->id)}}"class="btn tooltips btn-default p-2 btn-sm rounded mr-2" title="Edit Route"><i class="fas fa-edit"></i></a></td>
+                                        <td style="width: 20%"> {{$value->name}}</td>
+                                        <td style="width: 20%"><a href="{{route('planType.edit', $value->id)}}"class="btn tooltips btn-default p-2 btn-sm rounded mr-2" title="Edit Route"><i class="fas fa-edit"></i></a></td>
                                     </tr>
                                     @endforeach
-                                   
                                 </thead>
                                 <tbody>
                                 </tbody>
@@ -92,12 +88,4 @@
 
 </div>
 <!-- /.row (main row) -->
-  
-<!-- /.content -->
-
-<script type="text/javascript">
- 
-</script>
-
-
 @endsection
