@@ -172,7 +172,6 @@ class PlanController extends Controller
         if($request->plan_id){
             $planId=$request->plan_id;
             $PlanType=PlanType::where('plan_id',$planId)->pluck('name','id');
-            
             return response()->json($PlanType);
         }
     }
