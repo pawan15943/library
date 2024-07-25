@@ -69,25 +69,25 @@
             <ul>
                 <li>
                     <div class="d-flex">
-                        <h4>Course Name</h4>
+                        <h5>Advanced Computer Course</h5>
                         <div class="count">15</div>
                     </div>
                 </li>
                 <li>
                     <div class="d-flex">
-                        <h4>Course Name</h4>
+                        <h5>RSCIT</h5>
                         <div class="count">10</div>
                     </div>
                 </li>
                 <li>
                     <div class="d-flex">
-                        <h4>Course Name</h4>
+                        <h5>TALLY PRIME</h5>
                         <div class="count">20</div>
                     </div>
                 </li>
                 <li>
                     <div class="d-flex">
-                        <h4>Course Name</h4>
+                        <h5>AI Specilist</h5>
                         <div class="count">18</div>
                     </div>
                 </li>
@@ -101,25 +101,25 @@
             <ul>
                 <li>
                     <div class="d-flex">
-                        <h4>Full Day</h4>
+                        <h5>Full Day</h5>
                         <div class="count">15</div>
                     </div>
                 </li>
                 <li>
                     <div class="d-flex">
-                        <h4>First Half</h4>
+                        <h5>First Half</h5>
                         <div class="count">10</div>
                     </div>
                 </li>
                 <li>
                     <div class="d-flex">
-                        <h4>Second Half</h4>
+                        <h5>Second Half</h5>
                         <div class="count">20</div>
                     </div>
                 </li>
                 <li>
                     <div class="d-flex">
-                        <h4>Hourly</h4>
+                        <h5>Hourly</h5>
                         <div class="count">18</div>
                     </div>
                 </li>
@@ -128,7 +128,7 @@
     </div>
 </div>
 <!-- Content Row -->
-<div class="row">
+<div class="row d-none">
 
     <!-- Total Subscriptions -->
     <div class="col-xl-3 col-md-6 mb-4">
