@@ -2,10 +2,15 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CourseTypeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GradeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\RouteController;
+use App\Http\Controllers\StateController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -69,6 +74,29 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('user/show', [UserController::class, 'geUser'])->name('geUser');
     Route::post('user/update', [UserController::class, 'userUpdate'])->name('user.update');
     
+    Route::get('/state', [StateController::class, 'index'])->name('state');
+    Route::post('/state/store', [StateController::class, 'store'])->name('state.store');
+    Route::get('/state/edit', [StateController::class, 'edit'])->name('state.edit');
+    Route::delete('state/{id}', [StateController::class, 'destroy'])->name('state.destroy');
+    Route::get('/city', [CityController::class, 'index'])->name('city');
+    Route::post('/city/store', [CityController::class, 'store'])->name('city.store');
+    Route::get('/city/edit', [CityController::class, 'edit'])->name('city.edit');
+    Route::post('city/destroy', [CityController::class, 'destroy'])->name('city.destroy');
+
+    Route::get('/class', [GradeController::class, 'index'])->name('class');
+    Route::post('/class/store', [GradeController::class, 'store'])->name('class.store');
+    Route::get('/class/edit', [GradeController::class, 'edit'])->name('class.edit');
+    Route::post('class/destroy', [GradeController::class, 'destroy'])->name('class.destroy');
+
+    Route::get('/course', [CourseController::class, 'index'])->name('course');
+    Route::post('/course/store', [CourseController::class, 'store'])->name('course.store');
+    Route::get('/course/edit', [CourseController::class, 'edit'])->name('course.edit');
+    Route::post('course/destroy', [CourseController::class, 'destroy'])->name('course.destroy');
+
+    Route::get('/course-type', [CourseTypeController::class, 'index'])->name('courseType');
+    Route::post('/course-type/store', [CourseTypeController::class, 'store'])->name('courseType.store');
+    Route::get('/course-type/edit', [CourseTypeController::class, 'edit'])->name('courseType.edit');
+    Route::post('course-type/destroy', [CourseTypeController::class, 'destroy'])->name('courseType.destroy');
    
 });
 

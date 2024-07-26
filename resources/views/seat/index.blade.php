@@ -18,9 +18,6 @@
         font-size: 12px !important;
     }
 
-
-
-
     input,
     select {
         height: 40px !important;

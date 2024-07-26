@@ -65,6 +65,11 @@
                  <a href="{{ route('planPrice.index') }}" class="collapse-item @if ($current_route == 'planPrice.index') active @endif">
                      Manage Plans Price
                  </a>
+                 <a href="{{route('state')}}" class="collapse-item {{ Route::is('state') ? '' : '' }}">State Master</a>
+                 <a href="{{route('city')}}" class="collapse-item {{ Route::is('city') ? '' : '' }}">City Master</a>
+                <a href="{{route('course')}}" class="collapse-item {{ Route::is('course') ? '' : '' }}">Course Master</a>
+                <a href="{{route('class')}}" class="collapse-item {{ Route::is('class') ? '' : '' }}">Class Master</a>
+                <a href="{{route('courseType')}}" class="collapse-item {{ Route::is('courseType') ? '' : '' }}">Course Type Master</a>
              </div>
          </div>
      </li>
