@@ -571,13 +571,21 @@ button.btn.btn-primary.btn-user.btn-block.bg-custom-primary {
     color: #000 !important;
     font-weight: 600 !important;
     margin-bottom: 1.2rem;
+    font-size: 1.2rem !important;
 }
 
 .course-list h5 {
-    color: #2c3e50;
+    color: #020202;
     margin: 0;
+    font-size: 15px;
+    font-weight: 600 !IMPORTANT;
 }
 
 .course-list ul li+li {
     margin-top: 1rem;
+}
+
+.last-login {
+    color: red;
+    font-size: .8rem;
 }

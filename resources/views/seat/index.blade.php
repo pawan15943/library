@@ -313,14 +313,6 @@ h3.text-center.mb-4 {
     text-transform: uppercase;
 }
 </style>
-@php
-    // Initialize counters
-    $fullDayCount = 0;
-    $halfDayFirstHalfCount = 0;
-    $halfDaySecondHalfCount = 0;
-    $hourlyCount = 0;
-@endphp
-
 <ul class="main-box">
     @foreach($seats as $seat)
         @php
@@ -347,13 +339,10 @@ h3.text-center.mb-4 {
             foreach ($usersForSeat as $customer) {
                 if ($customer->plan_type_id == 2) {
                     $halfDayBookedFirstHalf++;
-                    $halfDayFirstHalfCount++;
                 } elseif ($customer->plan_type_id == 3) {
                     $halfDayBookedSecondHalf++;
-                    $halfDaySecondHalfCount++;
                 } elseif (in_array($customer->plan_type_id, [4, 5, 6, 7])) {
                     $hourlyBookedCount++;
-                    $hourlyCount++;
                 }
             }
 
@@ -363,16 +352,15 @@ h3.text-center.mb-4 {
         @endphp
 
         <li>
-
             @if($isFullDayBooked)
-                <div class="seat second_popup" id="{{ $seat->id }}">
+                <div class="seat second_popup" id="{{ $customer->id }}">
                     <div class="number">{{ $seat->id }}</div>
                     <img src="{{ asset('public/img/full-day.svg') }}" alt="seat" class="seat_svg">
                 </div>
             @elseif($isHalfDayBooked)
                 <div class="seat second_popup d-none" id="{{ $seat->id }}">
                     <div class="details ">
-                        T: {{ $halfDayAvailable }} <br> FH: {{ $halfDayBookedFirstHalf }} B <br>  SH: {{ $halfDayBookedSecondHalf }} A
+                        FH: {{ $halfDayBookedFirstHalf }} B <br> SH: {{ $halfDayBookedSecondHalf }} A
                     </div>  
                 </div>
                 @if($halfDayAvailable > 0)
@@ -391,7 +379,7 @@ h3.text-center.mb-4 {
                     <ul class="inner-seats">
                         @for ($i = 0; $i < 2; $i++)
                             <li>
-                                <div class="seat {{ $i < $halfDayBookedFirstHalf ? 'booked second_popup' : 'available first_popup' }}" id="{{ $seat->id }}">
+                                <div class="seat {{ $i < $halfDayBookedFirstHalf ? 'booked second_popup' : 'available first_popup' }}" id="{{ $customer->id }}">
                                     <div class="number">{{ $i }}</div>
                                     <img src="{{ asset($i < $halfDayBookedFirstHalf ? 'public/img/full-day.svg' : 'public/img/available.svg') }}" alt="seat" class="seat_svg">
                                 </div>
@@ -402,7 +390,7 @@ h3.text-center.mb-4 {
             @elseif($isHourlyBooked)
                 <div class="seat second_popup d-none" id="{{ $seat->id }}">
                     <div class="details ">
-                        T: {{ $hourlyAvailable }} | H: {{ $hourlyBookedCount }} B
+                        H: {{ $hourlyBookedCount }} B
                     </div>
                 </div>
                 @if($hourlyAvailable > 0)
@@ -421,7 +409,7 @@ h3.text-center.mb-4 {
                     <ul class="inner-seats">
                         @for ($i = 0; $i < 4; $i++)
                             <li>
-                                <div class="seat {{ $i < $hourlyBookedCount ? 'booked second_popup' : 'available first_popup' }}" id="{{ $seat->id }}">
+                                <div class="seat {{ $i < $hourlyBookedCount ? 'booked second_popup' : 'available first_popup' }}" id="{{ $customer->id }}">
                                     <div class="number">{{ $i }}</div>
                                     <img src="{{ asset($i < $hourlyBookedCount ? 'public/img/full-day.svg' : 'public/img/available.svg') }}" alt="seat" class="seat_svg">
                                 </div>

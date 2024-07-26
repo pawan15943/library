@@ -5,6 +5,8 @@
     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
         <i class="fa fa-bars"></i>
     </button>
+    <div class="last-login">Last login : <br>
+    10-11-2024 06:05:58 AM</div>
 
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
