@@ -65,9 +65,25 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Slot Hours</label>
-                                <input type="text" id="slot_hours" class="form-control" name="slot_hours" readonly value="{{ old('slot_hours', isset($planType) ? $planType->slot_hours : '') }}">
+                                <input type="text" id="slot_hours" class="form-control @error('slot_hours') is-invalid @enderror" name="slot_hours" readonly value="{{ old('slot_hours', isset($planType) ? $planType->slot_hours : '') }}">
+                                @error('slot_hours')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <input type="radio"  name="image_colour" value="orange">
+                                <label for="html">Orange</label><br>
+                                <input type="radio"  name="image_colour" value="light_orange">
+                                <label for="css">Light Orange</label><br>
+                                <input type="radio"  name="image_colour" value="green">
+                                <label for="javascript">Green</label>
+                            </div>
+                        </div>
+                       
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <input type="submit" class="btn btn-primary" value="Submit">
@@ -123,9 +139,37 @@
                 var hours = Math.floor(diffInMinutes / 60);
                 var minutes = diffInMinutes % 60;
 
-                $('#slot_hours').val(hours + " hours " + minutes + " minutes");
+                $('#slot_hours').val(hours);
             }
         }
     });
+
+    
 </script>
+<script>
+    flatpickr("#start_time", {
+      enableTime: true,
+      noCalendar: true,
+      dateFormat: "h:i K", // Include minutes to format correctly
+      time_24hr: false, // Use 12-hour format with AM/PM
+      minuteIncrement: 60, // Disable minute selection by making it increment by 60
+      defaultHour: 12, // Set a default hour if needed
+      onValueUpdate: function(selectedDates, dateStr, instance) {
+        let hours = instance.formatDate(selectedDates[0], "h");
+        let minutes = "00";
+        let ampm = instance.formatDate(selectedDates[0], "K");
+        
+        // Add leading zero to hours if necessary
+        if (hours.length < 2) {
+          hours = '0' + hours;
+        }
+        
+        // Construct the final formatted time
+        let formattedTime = `${hours}:${minutes} ${ampm}`;
+        instance.input.value = formattedTime;
+      }
+    });
+  </script>
+
+
 @endsection

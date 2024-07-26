@@ -129,7 +129,13 @@ class UserController extends Controller
         
             // 'id_proof_file' => 'file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
-
+        if(Customers::where('seat_no',$request->seat_no)->where('plan_type_id',$request->plan_type_id)->count()>0){
+            return response()->json([
+                'error' => true,
+                'message' => 'This Plan Type Seat already booked'
+            ], 422);
+            die;
+        }
         // Check if the validation fails
         if ($validator->fails()) {
             return response()->json([
@@ -146,25 +152,15 @@ class UserController extends Controller
         }else{
             $filePath=null;
         }
-        if($request->plan_type_id==1){
-            $hours=16;
-        }elseif($request->plan_type_id==2 || $request->plan_type_id==3){
-            $hours=8;
-        }elseif($request->plan_type_id==4 || $request->plan_type_id==5 || $request->plan_type_id==6 || $request->plan_type_id==7){
-            $hours=4;
+
+        if(PlanType::where('id',$request->plan_type_id)->count()>0){
+            $hours=PlanType::where('id',$request->plan_type_id)->value('slot_hours');
         }
-        $planDurations = [
-            1 => 1,   // 1 month
-            2 => 2,   // 2 months
-            3 => 3,   // 3 months
-            4 => 4,   // 4 months
-            5 => 5,   // 5 months
-            6 => 6,   // 6 months
-            7 => 12   // 1 year
-        ];
+      
     
         $plan_id = $request->input('plan_id');
-        $duration = $planDurations[$plan_id] ?? 0;
+        $months=Plan::where('id',$plan_id)->value('plan_id');
+        $duration = $months ?? 0;
 
         $start_date = Carbon::parse($request->input('plan_start_date'));
       
@@ -181,6 +177,7 @@ class UserController extends Controller
             'plan_price_id' => $request->input('plan_price_id'),
             'plan_start_date' =>$start_date->format('Y-m-d'),
             'plan_end_date' => $endDate->format('Y-m-d'),
+            'join_date' => date('Y-m-d'),
             'id_proof_name' => $request->input('id_proof_name'),
             'id_proof_file' => $filePath, // Store the file path
             'hours' =>$hours,
@@ -228,15 +225,14 @@ class UserController extends Controller
         ->leftJoin('seats', 'customers.seat_no', '=', 'seats.id')
         ->leftJoin('plans', 'customers.plan_id', '=', 'plans.id')
         ->leftJoin('plan_types', 'customers.plan_type_id', '=', 'plan_types.id')
-        ->leftJoin('plan_prices', 'customers.plan_price_id', '=', 'plan_prices.id')
+       
         ->select(
             'plan_types.name as plan_type_name',
-            'plan_prices.price as price',
             'plans.name as plan_name',
             'seats.seat_no','customers.*'
         )
         ->first();
-       
+        
         return response()->json($customer_seats);
     }
    

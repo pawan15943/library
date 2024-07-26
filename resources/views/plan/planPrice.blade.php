@@ -25,10 +25,10 @@
                                     @foreach ($plans as $value)
                                         <option value="{{ $value->id }}"
                                             {{ isset($planPrice) && $planPrice->plan_id == $value->id ? 'selected' : '' }}>
-                                            @if($value->name==7)
+                                            @if($value->name==12)
                                             Yearly
                                             @else
-                                            {{ $value->name }} months
+                                            {{ $value->name }} 
                                             @endif
                                         </option>
                                     @endforeach

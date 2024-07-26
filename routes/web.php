@@ -57,7 +57,9 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::put('planPrice/{planPrice}', [PlanController::class, 'planPriceupdate'])->name('planPrice.update');
     Route::post('planPrice/store', [PlanController::class, 'planPricestore'])->name('planPrice.store');
     Route::get('getPlanType', [PlanController::class, 'getPlanType'])->name('gettypePlanwise');
+    Route::get('getPlanTypeSeatWise', [PlanController::class, 'getPlanTypeSeatWise'])->name('gettypeSeatwise');
     Route::get('getPrice', [PlanController::class, 'getPrice'])->name('getPricePlanwise');
+    Route::get('getPricePlanwiseUpgrade', [PlanController::class, 'getPricePlanwiseUpgrade'])->name('getPricePlanwiseUpgrade');
     Route::get('seats/list', [UserController::class, 'index'])->name('seats');
     Route::get('seats/create', [UserController::class, 'seatCreate'])->name('seats.create');
     Route::post('seats/create', [UserController::class, 'seatStore'])->name('seats.store');

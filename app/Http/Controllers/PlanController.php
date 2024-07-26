@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customers;
 use App\Models\Plan;
 use App\Models\PlanPrice;
 use App\Models\PlanType;
@@ -34,23 +35,7 @@ class PlanController extends Controller
             'plan_id' => 'required',
         ]);
 
-        switch ($request->plan_id) {
-            case 1:
-                $name = 'Monthly';
-                break;
-            case 3:
-                $name = 'Quarterly';
-                break;
-            case 6:
-                $name = 'HalfYearly';
-                break;
-            case 12:
-                $name = 'Yearly';
-                break;
-            default:
-                $name = $request->plan_id . ' Months';
-                break;
-        }
+        $name = $request->plan_id . ' MONTHS';
         
        
         Plan::create([
@@ -66,23 +51,7 @@ class PlanController extends Controller
         ]);
 
         // Determine the plan name based on the plan_id
-        switch ($request->plan_id) {
-            case 1:
-                $name = 'Monthly';
-                break;
-            case 3:
-                $name = 'Quarterly';
-                break;
-            case 6:
-                $name = 'HalfYearly';
-                break;
-            case 12:
-                $name = 'Yearly';
-                break;
-            default:
-                $name = $request->plan_id . ' Months';
-                break;
-        }
+        $name = $request->plan_id . ' MONTHS';
 
         // Update the plan with the new data
         $plan->update([
@@ -109,23 +78,59 @@ class PlanController extends Controller
     }
     public function planTypestore(Request $request)
     {
+       
         $request->validate([
             'name' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
             'slot_hours' => 'required|regex:/^\d+$/', // Custom validation rule to ensure integer value
         ]);
-       
-        PlanType::create($request->all());
+        $data=$request->all();
+        if ($request->image_colour == 'orange') {
+            $data['image'] = 'public/img/first-half.svg';
+        } elseif ($request->image_colour == 'light_orange') {
+            $data['image'] = 'public/img/second-half.svg';
+        } else {
+            $data['image'] = 'public/img/full-day.svg';
+        }
+        
+        PlanType::create([
+            'name' => $data['name'],
+            'start_time' => $data['start_time'],
+            'end_time' => $data['end_time'],
+            'slot_hours' => $data['slot_hours'],
+            'image' => $data['image'],
+        ]);
         return redirect()->route('planType.index')->with('success', 'Plan Type created successfully.');
     }
     public function planTypeupdate(Request $request, PlanType $planType)
     {
         $request->validate([
             'name' => 'required',
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i|after:start_time',
+            'slot_hours' => 'required|regex:/^\d+$/',
         ]);
-
-        $planType->update($request->all());
+        
+        $data = $request->all();
+        
+        if ($request->image_colour == 'orange') {
+            $data['image'] = 'public/img/first-half.svg';
+        } elseif ($request->image_colour == 'light_orange') {
+            $data['image'] = 'public/img/second-half.svg';
+        } else {
+            $data['image'] = 'public/img/full-day.svg';
+        }
+        
+        // Ensure $planType is defined and is the correct instance
+        $planType->update([
+            'name' => $data['name'],
+            'start_time' => $data['start_time'],
+            'end_time' => $data['end_time'],
+            'slot_hours' => $data['slot_hours'],
+            'image' => $data['image'],
+        ]);
+        
         return redirect()->route('planType.index')->with('success', 'Plan Type updated successfully.');
     }
     public function planPriceList(){
@@ -169,20 +174,73 @@ class PlanController extends Controller
     }
 
     public function getPlanType(Request $request){
-        if($request->plan_id){
-            $planId=$request->plan_id;
-            $PlanType=PlanType::where('plan_id',$planId)->pluck('name','id');
-            return response()->json($PlanType);
-        }
+        $seatId = $request->seat_no_id;
+       
+        $customer_plan=Customers::where('seat_no', $seatId)->where('id',$request->user_id)
+        ->pluck('plan_type_id');
+        // Step 1: Retrieve the plan_type_ids from Customers for the given seat
+        $filteredPlanTypes=PlanType::where('id',$customer_plan)->pluck('name', 'id');
+
+        $planTypesRemovals = Customers::where('seat_no', $seatId)
+            ->pluck('plan_type_id')
+            ->toArray();
+    
+        // Step 2: Retrieve all plan_types as an associative array
+        $planTypes = PlanType::pluck('name', 'id');
+      
+        
+      
+        // Step 3: Filter out the plan_types that match the retrieved plan_type_ids
+        if(!$planTypesRemovals){
+                $filteredPlanTypes = $planTypes->reject(function ($name, $id) use ($planTypesRemovals) {
+                    return in_array($id, $planTypesRemovals);
+                });
+            }
+   
+        // Return the filtered plan types as JSON
+        return response()->json($filteredPlanTypes);
     }
+    
+    
     public function getPrice(Request $request){
-        if($request->plan_type_id){
+        if($request->plan_type_id && $request->plan_id){
             $planId=$request->plan_type_id;
-            $PlanpPrice=PlanPrice::where('plan_type_id',$planId)->pluck('price','id');
+            $PlanpPrice=PlanPrice::where('plan_type_id',$planId)->where('plan_id',$request->plan_id)->pluck('price','id');
             
             return response()->json($PlanpPrice);
         }
     }
+    public function getPricePlanwiseUpgrade(Request $request){
+        if($request->update_plan_type_id && $request->update_plan_id){
+           
+            $planId=$request->update_plan_type_id;
+            $PlanpPrice=PlanPrice::where('plan_type_id',$planId)->where('plan_id',$request->update_plan_id)->pluck('price','id');
+           
+            return response()->json($PlanpPrice);
+        }
+    }
+    
+    public function getPlanTypeSeatWise(Request $request){
+        $seatId = $request->seatId;
+
+        // Step 1: Retrieve the plan_type_ids from Customers for the given seat
+        $planTypesRemovals = Customers::where('seat_no', $seatId)
+        ->where('status',1)
+            ->pluck('plan_type_id')
+            ->toArray();
+
+        // Step 2: Retrieve all plan_types as an associative array
+        $planTypes = PlanType::pluck('name', 'id');
+
+        // Step 3: Filter out the plan_types that match the retrieved plan_type_ids
+        $filteredPlanTypes = $planTypes->reject(function ($name, $id) use ($planTypesRemovals) {
+            return in_array($id, $planTypesRemovals);
+        });
+
+        // Return the filtered plan types as JSON
+        return response()->json($filteredPlanTypes);
+    }
+    
     
 
 }

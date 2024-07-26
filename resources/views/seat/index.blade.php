@@ -244,19 +244,7 @@
         border: none;
         border-radius: .5rem;
     }
-</style>
 
-@php
-use App\Models\Customers;
-@endphp
-<div id="success-message" class="alert alert-success" style="display:none;"></div>
-<div id="error-message" class="alert alert-danger" style="display:none;"></div>
-<div class="row justify-content-center">
-    <div class="col-lg-12 p-3">
-        <h3 class="text-center mb-4">Library Seat Allotment</h3>
-
-
-<style>
     ul.main-box {
     display: flex;
     flex-wrap: wrap;
@@ -313,228 +301,229 @@ h3.text-center.mb-4 {
     text-transform: uppercase;
 }
 </style>
+
 @php
-    // Initialize counters
-    $fullDayCount = 0;
+use App\Models\Customers;
+$fullDayCount = 0;
     $halfDayFirstHalfCount = 0;
     $halfDaySecondHalfCount = 0;
     $hourlyCount = 0;
 @endphp
+<div id="success-message" class="alert alert-success" style="display:none;"></div>
+<div id="error-message" class="alert alert-danger" style="display:none;"></div>
+    <div class="row justify-content-center">
+        <div class="col-lg-12 p-3">
+                <h3 class="text-center mb-4">Library Seat Allotment</h3>
+            {{-- <ul class="main-box">
+                
+                @foreach($seats as $seat)
+                    @php
+                        $fullDayHours = 16;
+                        $halfDayHours = 8;
+                        $hourlySlotHours = 4;
 
-<ul class="main-box">
-    @foreach($seats as $seat)
-        @php
-            $fullDayHours = 16;
-            $halfDayHours = 8;
-            $hourlySlotHours = 4;
+                        // Assuming 'total_hours' is the total hours booked for this seat
+                        $bookedHours = $seat->total_hours;
+                        $remainingHours = $fullDayHours - $bookedHours;
 
-            // Assuming 'total_hours' is the total hours booked for this seat
-            $bookedHours = $seat->total_hours;
-            $remainingHours = $fullDayHours - $bookedHours;
+                        // Calculate available positions
+                        $halfDayAvailable = $remainingHours >= $halfDayHours ? 2 : 0; // 2 slots for half-day
+                        $hourlyAvailable = $remainingHours >= $hourlySlotHours ? 4 : 0; // 4 slots for hourly
 
-            // Calculate available positions
-            $halfDayAvailable = $remainingHours >= $halfDayHours ? 2 : 0; // 2 slots for half-day
-            $hourlyAvailable = $remainingHours >= $hourlySlotHours ? 4 : 0; // 4 slots for hourly
+                        // Fetch users who booked this seat
+                        $usersForSeat = Customers::where('seat_no', $seat->id)->select('id', 'seat_no', 'plan_type_id')->get();
 
-            // Fetch users who booked this seat
-            $usersForSeat = Customers::where('seat_no', $seat->id)->select('id', 'seat_no', 'plan_type_id')->get();
+                        // Initialize counters for booked slots
+                        $halfDayBookedFirstHalf = 0;
+                        $halfDayBookedSecondHalf = 0;
+                        $hourlyBookedCount = 0;
+                        
+                        foreach ($usersForSeat as $customer) {
+                            if ($customer->plan_type_id == 2) {
+                                $halfDayBookedFirstHalf++;
+                                $halfDayFirstHalfCount++;
+                            } elseif ($customer->plan_type_id == 3) {
+                                $halfDayBookedSecondHalf++;
+                                $halfDaySecondHalfCount++;
+                            } elseif (in_array($customer->plan_type_id, [4, 5, 6, 7])) {
+                                $hourlyBookedCount++;
+                                $hourlyCount++;
+                            }
+                        }
 
-            // Initialize counters for booked slots
-            $halfDayBookedFirstHalf = 0;
-            $halfDayBookedSecondHalf = 0;
-            $hourlyBookedCount = 0;
-            
-            foreach ($usersForSeat as $customer) {
-                if ($customer->plan_type_id == 2) {
-                    $halfDayBookedFirstHalf++;
-                    $halfDayFirstHalfCount++;
-                } elseif ($customer->plan_type_id == 3) {
-                    $halfDayBookedSecondHalf++;
-                    $halfDaySecondHalfCount++;
-                } elseif (in_array($customer->plan_type_id, [4, 5, 6, 7])) {
-                    $hourlyBookedCount++;
-                    $hourlyCount++;
-                }
-            }
+                        $isFullDayBooked = $usersForSeat->contains(fn($customer) => $customer->plan_type_id == 1);
+                        $isHalfDayBooked = $usersForSeat->contains(fn($customer) => $customer->plan_type_id == 2 || $customer->plan_type_id == 3);
+                        $isHourlyBooked = $usersForSeat->contains(fn($customer) => in_array($customer->plan_type_id, [4, 5, 6, 7]));
+                    @endphp
 
-            $isFullDayBooked = $usersForSeat->contains(fn($customer) => $customer->plan_type_id == 1);
-            $isHalfDayBooked = $usersForSeat->contains(fn($customer) => $customer->plan_type_id == 2 || $customer->plan_type_id == 3);
-            $isHourlyBooked = $usersForSeat->contains(fn($customer) => in_array($customer->plan_type_id, [4, 5, 6, 7]));
-        @endphp
+                    <li>
 
-        <li>
-
-            @if($isFullDayBooked)
-                <div class="seat second_popup" id="{{ $seat->id }}">
-                    <div class="number">{{ $seat->id }}</div>
-                    <img src="{{ asset('public/img/full-day.svg') }}" alt="seat" class="seat_svg">
-                </div>
-            @elseif($isHalfDayBooked)
-                <div class="seat second_popup d-none" id="{{ $seat->id }}">
-                    <div class="details ">
-                        T: {{ $halfDayAvailable }} <br> FH: {{ $halfDayBookedFirstHalf }} B <br>  SH: {{ $halfDayBookedSecondHalf }} A
-                    </div>  
-                </div>
-                @if($halfDayAvailable > 0)
-                    <ul class="inner-seats">
-                        @for ($i = 0; $i < 2; $i++)
-                            <li>
-                                <div class="seat {{ $i < $halfDayBookedFirstHalf ? 'booked second_popup' : 'available first_popup' }}" id="{{ $seat->id }}">
-                                    <div class="number">{{ $i }}</div>
-                                    <img src="{{ asset($i < $halfDayBookedFirstHalf ? 'public/img/full-day.svg' : 'public/img/available.svg') }}" alt="seat" class="seat_svg">
+                        @if($isFullDayBooked)
+                            <div class="seat second_popup" id="{{ $seat->id }}">
+                                <div class="number">{{ $seat->id }}</div>
+                                <img src="{{ asset('public/img/full-day.svg') }}" alt="seat" class="seat_svg">
+                            </div>
+                        @elseif($isHalfDayBooked)
+                            <div class="seat second_popup d-none" id="{{ $seat->id }}">
+                                <div class="details ">
+                                    T: {{ $halfDayAvailable }} <br> FH: {{ $halfDayBookedFirstHalf }} B <br>  SH: {{ $halfDayBookedSecondHalf }} A
+                                </div>  
+                            </div>
+                            @if($halfDayAvailable > 0)
+                                <ul class="inner-seats">
+                                    @for ($i = 0; $i < 2; $i++)
+                                        <li>
+                                            <div class="seat {{ $i < $halfDayBookedFirstHalf ? 'booked second_popup' : 'available first_popup' }}" id="{{ $seat->id }}">
+                                                <div class="number">{{ $i }}</div>
+                                                <img src="{{ asset($i < $halfDayBookedFirstHalf ? 'public/img/full-day.svg' : 'public/img/available.svg') }}" alt="seat" class="seat_svg">
+                                            </div>
+                                        </li>
+                                    @endfor
+                                </ul>
+                            @endif
+                            @if($halfDayAvailable == 0)
+                                <ul class="inner-seats">
+                                    @for ($i = 0; $i < 2; $i++)
+                                        <li>
+                                            <div class="seat {{ $i < $halfDayBookedFirstHalf ? 'booked second_popup' : 'available first_popup' }}" id="{{ $seat->id }}">
+                                                <div class="number">{{ $i }}</div>
+                                                <img src="{{ asset($i < $halfDayBookedFirstHalf ? 'public/img/full-day.svg' : 'public/img/available.svg') }}" alt="seat" class="seat_svg">
+                                            </div>
+                                        </li>
+                                    @endfor
+                                </ul>
+                            @endif
+                        @elseif($isHourlyBooked)
+                            <div class="seat second_popup d-none" id="{{ $seat->id }}">
+                                <div class="details ">
+                                    T: {{ $hourlyAvailable }} | H: {{ $hourlyBookedCount }} B
                                 </div>
-                            </li>
-                        @endfor
-                    </ul>
-                @endif
-                @if($halfDayAvailable == 0)
-                    <ul class="inner-seats">
-                        @for ($i = 0; $i < 2; $i++)
-                            <li>
-                                <div class="seat {{ $i < $halfDayBookedFirstHalf ? 'booked second_popup' : 'available first_popup' }}" id="{{ $seat->id }}">
-                                    <div class="number">{{ $i }}</div>
-                                    <img src="{{ asset($i < $halfDayBookedFirstHalf ? 'public/img/full-day.svg' : 'public/img/available.svg') }}" alt="seat" class="seat_svg">
-                                </div>
-                            </li>
-                        @endfor
-                    </ul>
-                @endif
-            @elseif($isHourlyBooked)
-                <div class="seat second_popup d-none" id="{{ $seat->id }}">
-                    <div class="details ">
-                        T: {{ $hourlyAvailable }} | H: {{ $hourlyBookedCount }} B
+                            </div>
+                            @if($hourlyAvailable > 0)
+                                <ul class="inner-seats">
+                                    @for ($i = 0; $i < 4; $i++)
+                                        <li>
+                                            <div class="seat {{ $i < $hourlyBookedCount ? 'booked second_popup' : 'available first_popup' }}" id="{{ $seat->id }}">
+                                                <div class="number">{{ $i }}</div>
+                                                <img src="{{ asset($i < $hourlyBookedCount ? 'public/img/full-day.svg' : 'public/img/available.svg') }}" alt="seat" class="seat_svg">
+                                            </div>
+                                        </li>
+                                    @endfor
+                                </ul>
+                            @endif
+                            @if($hourlyAvailable == 0)
+                                <ul class="inner-seats">
+                                    @for ($i = 0; $i < 4; $i++)
+                                        <li>
+                                            <div class="seat {{ $i < $hourlyBookedCount ? 'booked second_popup' : 'available first_popup' }}" id="{{ $seat->id }}">
+                                                <div class="number">{{ $i }}</div>
+                                                <img src="{{ asset($i < $hourlyBookedCount ? 'public/img/full-day.svg' : 'public/img/available.svg') }}" alt="seat" class="seat_svg">
+                                            </div>
+                                        </li>
+                                    @endfor
+                                </ul>
+                            @endif
+                        @else
+                            <div class="seat first_popup" id="{{ $seat->id }}">
+                                <div class="number">{{ $seat->id }}</div>
+                                <img src="{{ asset('public/img/available.svg') }}" alt="seat" class="seat_svg">
+                            </div>
+                        @endif
+                    </li>
+                @endforeach
+            </ul> --}}
+            <div class="seat-booking ">
+
+
+                @foreach($seats as $seat)
+
+                <div class="seat_no">
+                    @php
+                    $usersForSeat = Customers::where('seat_no', $seat->id)->select('id','seat_no','plan_type_id');
+                    $halfday = 1;
+                    $hourly =1;
+                    //available(not booked)=1,not available=0, firstHBook= 2 secondHbook=3 hourly=4 , fullbooked=5
+                    //plan type 1=fullday, 2=firstH, 3=secondH,4=hourly
+
+                    @endphp
+
+                    @if($usersForSeat->count() > 0)
+                    @php
+                    $usersForSeat=$usersForSeat->get();
+                    $totalBookedHours = $seat->total_hours;
+                    $remainingHours = 16 - $totalBookedHours;
+                    $seatCount = 0;
+                    if ($remainingHours == 12 && $seat->is_available == 4) {
+                    $seatCount = 3;
+                    } elseif ($remainingHours == 8 && $seat->is_available == 4) {
+                    $seatCount = 2;
+                    } elseif ($remainingHours == 4 && $seat->is_available == 4) {
+                    $seatCount = 1;
+                    }elseif($remainingHours==8 && $seat->is_available!=4){
+                    $seatCount = 1;
+                    }
+                    @endphp
+                    @foreach($usersForSeat as $user)
+                    @if($user->plan_type_id == 1)
+                    <div class="seat second_popup" id="{{ $user->id }}">
+                        <div class="number">{{ $user->seat_no }}</div>
+                        <img src="{{ asset('public/img/full-day.svg') }}" alt="seat" class="seat_svg">
                     </div>
-                </div>
-                @if($hourlyAvailable > 0)
-                    <ul class="inner-seats">
-                        @for ($i = 0; $i < 4; $i++)
-                            <li>
-                                <div class="seat {{ $i < $hourlyBookedCount ? 'booked second_popup' : 'available first_popup' }}" id="{{ $seat->id }}">
-                                    <div class="number">{{ $i }}</div>
-                                    <img src="{{ asset($i < $hourlyBookedCount ? 'public/img/full-day.svg' : 'public/img/available.svg') }}" alt="seat" class="seat_svg">
-                                </div>
-                            </li>
-                        @endfor
-                    </ul>
-                @endif
-                @if($hourlyAvailable == 0)
-                    <ul class="inner-seats">
-                        @for ($i = 0; $i < 4; $i++)
-                            <li>
-                                <div class="seat {{ $i < $hourlyBookedCount ? 'booked second_popup' : 'available first_popup' }}" id="{{ $seat->id }}">
-                                    <div class="number">{{ $i }}</div>
-                                    <img src="{{ asset($i < $hourlyBookedCount ? 'public/img/full-day.svg' : 'public/img/available.svg') }}" alt="seat" class="seat_svg">
-                                </div>
-                            </li>
-                        @endfor
-                    </ul>
-                @endif
-            @else
+                    @elseif($user->plan_type_id == 2)
+                    <div class="seat hourly_wise second_popup" id="{{ $user->id }}">
+                        <div class="number">{{$hourly++ }}</div>
+                        <img src="{{ asset('public/img/first-half.svg') }}" alt="seat" class="seat_svg">
+                    </div>
+                    @elseif($user->plan_type_id == 3)
+                    <div class="seat hourly_wise second_popup" id="{{ $user->id }}">
+                        <div class="number">{{$hourly++ }}</div>
+                        <img src="{{ asset('public/img/second-half.svg') }}" alt="seat" class="seat_svg">
+                    </div>
+                    @elseif($user->plan_type_id == 4 || $user->plan_type_id == 5 || $user->plan_type_id == 6 ||$user->plan_type_id == 7)
+                    <div class="seat hourly_wise second_popup" id="{{ $user->id }}">
+                        <div class="number">{{$hourly++ }}</div>
+                        <img src="{{ asset('public/img/full-day.svg') }}" alt="seat" class="seat_svg">
+                    </div>
+                    @endif
+                    @endforeach
+                    @for ($i = 0; $i < $seatCount; $i++) 
+                    <div class="seat hourly_wise first_popup" id="{{ $seat->id }}">
+                        <div class="number">{{$hourly++}}</div>
+                        <img src="{{ asset('public/img/available.svg') }}" alt="seat" class="seat_svg">
+                    </div>
+                    @endfor
+
+                @else
+
                 <div class="seat first_popup" id="{{ $seat->id }}">
-                    <div class="number">{{ $seat->id }}</div>
+                    <div class="number">{{ $seat->seat_no }}</div>
                     <img src="{{ asset('public/img/available.svg') }}" alt="seat" class="seat_svg">
                 </div>
-            @endif
-        </li>
-    @endforeach
-</ul>
 
-
-    <div class="seat-booking d-none">
-
-
-        @foreach($seats as $seat)
-
-
-
-
-        <div class="seat_no">
-            @php
-            $usersForSeat = Customers::where('seat_no', $seat->id)->select('id','seat_no','plan_type_id');
-            $halfday = 1;
-            $hourly =1;
-            //available(not booked)=1,not available=0, firstHBook= 2 secondHbook=3 hourly=4 , fullbooked=5
-            //plan type 1=fullday, 2=firstH, 3=secondH,4=hourly
-
-            @endphp
-
-            @if($usersForSeat->count() > 0)
-            @php
-            $usersForSeat=$usersForSeat->get();
-            $totalBookedHours = $seat->total_hours;
-            $remainingHours = 16 - $totalBookedHours;
-            $seatCount = 0;
-            if ($remainingHours == 12 && $seat->is_available == 4) {
-            $seatCount = 3;
-            } elseif ($remainingHours == 8 && $seat->is_available == 4) {
-            $seatCount = 2;
-            } elseif ($remainingHours == 4 && $seat->is_available == 4) {
-            $seatCount = 1;
-            }elseif($remainingHours==8 && $seat->is_available!=4){
-            $seatCount = 1;
-            }
-            @endphp
-            @foreach($usersForSeat as $user)
-            @if($user->plan_type_id == 1)
-            <div class="seat second_popup" id="{{ $user->id }}">
-                <div class="number">{{ $user->seat_no }}</div>
-                <img src="{{ asset('public/img/full-day.svg') }}" alt="seat" class="seat_svg">
+                @endif
             </div>
-            @elseif($user->plan_type_id == 2)
-            <div class="seat hourly_wise second_popup" id="{{ $user->id }}">
-                <div class="number">{{$hourly++ }}</div>
-                <img src="{{ asset('public/img/first-half.svg') }}" alt="seat" class="seat_svg">
-            </div>
-            @elseif($user->plan_type_id == 3)
-            <div class="seat hourly_wise second_popup" id="{{ $user->id }}">
-                <div class="number">{{$hourly++ }}</div>
-                <img src="{{ asset('public/img/second-half.svg') }}" alt="seat" class="seat_svg">
-            </div>
-            @elseif($user->plan_type_id == 4 || $user->plan_type_id == 5 || $user->plan_type_id == 6)
-            <div class="seat hourly_wise second_popup" id="{{ $seat->id }}">
-                <div class="number">{{$hourly++ }}</div>
-                <img src="{{ asset('public/img/full-day.svg') }}" alt="seat" class="seat_svg">
-            </div>
-            @endif
             @endforeach
-            @for ($i = 0; $i < $seatCount; $i++) 
-            <div class="seat hourly_wise first_popup" id="{{ $seat->id }}">
-                <div class="number">{{$hourly++}}</div>
-                <img src="{{ asset('public/img/available.svg') }}" alt="seat" class="seat_svg">
-            </div>
-            @endfor
-
-        @else
-
-        <div class="seat first_popup" id="{{ $seat->id }}">
-            <div class="number">{{ $seat->seat_no }}</div>
-            <img src="{{ asset('public/img/available.svg') }}" alt="seat" class="seat_svg">
         </div>
 
-        @endif
-    </div>
-    @endforeach
-</div>
+        <div class="d-flex color_lable">
+            <div class="full-day">
+                <span></span> Full Day ({{$count_fullday}})
+            </div>
+            <div class="first-half">
+                <span></span> First Half ({{$count_firstH}})
+            </div>
+            <div class="second-half">
+                <span></span> Second Half ({{$count_secondH}})
+            </div>
+            <div class="available">
+                <span></span> Available ({{$available}})
+            </div>
+            <div class="not-available">
+                <span></span> Not Available ({{$not_available}})
+            </div>
+        </div>
 
-<div class="d-flex color_lable">
-    <div class="full-day">
-        <span></span> Full Day ({{$count_fullday}})
     </div>
-    <div class="first-half">
-        <span></span> First Half ({{$count_firstH}})
-    </div>
-    <div class="second-half">
-        <span></span> Second Half ({{$count_secondH}})
-    </div>
-    <div class="available">
-        <span></span> Available ({{$available}})
-    </div>
-    <div class="not-available">
-        <span></span> Not Available ({{$not_available}})
-    </div>
-</div>
-
-</div>
 </div>
 
 <!-- /.content -->
@@ -578,32 +567,23 @@ h3.text-center.mb-4 {
                                 <select name="" id="plan_id" class="form-control" name="plan_id">
                                     <option value="">Select Plan</option>
                                     @foreach($plans as $key => $value)
-                                    @if($value->name==7)
-                                    <option value="{{$value->id}}">Yearly</option>
-                                    @else
-                                    <option value="{{$value->id}}">{{$value->name}}months</option>
-                                    @endif
-
+                                    <option value="{{$value->id}}">{{$value->name}}</option>
                                     @endforeach
-
-
                                 </select>
                             </div>
                             <div class="col-lg-4">
                                 <label for="">Plan Type <span>*</span></label>
                                 <select id="plan_type_id" class="form-control" name="plan_type_id">
                                     <option value="">Select Plan Type</option>
-                                    @foreach($plan_types as $key => $value)
+                                    {{-- @foreach($plan_types as $key => $value)
                                     <option value="{{$value->id}}">{{$value->name}}</option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                             </div>
                             <div class="col-lg-4">
                                 <label for="">Plan Price <span>*</span></label>
-                                <select id="plan_price_id" class="form-control" name="plan_price_id">
-                                    <option value="">Select Price</option>
-
-                                </select>
+                                <input id="plan_price_id" class="form-control" name="plan_price_id" @readonly(true)> 
+                              
                             </div>
                             <div class="col-lg-4">
                                 <label for="">Plan Starts On <span>*</span></label>
@@ -723,11 +703,7 @@ h3.text-center.mb-4 {
                                 <select name="" id="update_plan_id" class="form-control" name="plan_id">
                                     <option value="">Select Plan</option>
                                     @foreach($plans as $key => $value)
-                                    @if($value->name==7)
-                                    <option value="{{$value->id}}">Yearly</option>
-                                    @else
-                                    <option value="{{$value->id}}">{{$value->name}}months</option>
-                                    @endif
+                                    <option value="{{$value->id}}">{{$value->name}}</option>
 
                                     @endforeach
 
@@ -737,17 +713,15 @@ h3.text-center.mb-4 {
                                 <label for="">Plan Type <span>*</span></label>
                                 <select id="updated_plan_type_id" class="form-control" name="plan_type_id">
                                     <option value="">Select Plan Type</option>
-                                    @foreach($plan_types as $key => $value)
+                                    {{-- @foreach($plan_types as $key => $value)
                                     <option value="{{$value->id}}">{{$value->name}}</option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                             </div>
                             <div class="col-lg-6">
                                 <label for="">Plan Price <span>*</span></label>
-                                <select id="updated_plan_price_id" class="form-control" name="plan_price_id">
-                                    <option value="">Select Price</option>
-
-                                </select>
+                                <input id="updated_plan_price_id" class="form-control" name="plan_price_id" @readonly(true)> 
+                               
                             </div>
                             <div class="col-lg-6">
                                 <label for="">Plan Ends On <span>*</span></label>
@@ -774,11 +748,48 @@ h3.text-center.mb-4 {
             $('#seat_no').val(seatId);
             $('#seat_no_head').text('Book Seat No ' + seatId);
             $('#seatAllotmentModal').modal('show');
+
+            
+            if (seatId) {
+                $.ajax({
+                    url: '{{ route('gettypeSeatwise') }}',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    },
+                    type: 'GET',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "seatId": seatId,
+                    },
+                    dataType: 'json',
+                    success: function (html) {
+                       console.log(html);
+                        if (html) {
+                            $("#plan_type_id").empty();
+                            $("#plan_type_id").append('<option value="">Select Plan Type</option>');
+                            $.each(html, function(key, value) {
+                               
+                                $("#plan_type_id").append('<option value="'+key+'">'+value+'</option>');
+                            });
+                        } else {
+                            $("#plan_type_id").append('<option value="">Select Plan Type</option>');
+                        }
+
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX error:", status, error); // Log any errors
+                    }
+                    });
+            } else {
+                    $("#plan_type_id").empty();
+                    $("#plan_type_id").append('<option value="">Select Plan Type</option>');
+            }
         });
         $('.second_popup').on('click', function() {
             var seatId = $(this).attr('id');
             $('#seatAllotmentModal2').modal('show');
             $('#user_id').val(seatId);
+           
             if (seatId) {
                 $.ajax({
                     url: '{{ route('geUser')}}',
@@ -792,7 +803,7 @@ h3.text-center.mb-4 {
                     },
                     dataType: 'json',
                     success: function(html) {
-
+            
                         $('#owner').text(html.name);
                         if (html.id_proof_name == 1) {
                             var proof = 'Aadhar';
@@ -812,8 +823,8 @@ h3.text-center.mb-4 {
                         $('#joinOn').text(html.join_date);
                         $('#startOn').text(html.plan_start_date);
                         $('#endOn').text(html.plan_end_date);
-                        $('#price').text(html.price);
-                        $('#seat_name').text('Booking Details of Seat No: ' + html.seat_no);
+                        $('#price').text(html.plan_price_id);
+                        $('#seat_name').text( html.seat_no);
                     }
                 });
             }
@@ -822,7 +833,7 @@ h3.text-center.mb-4 {
         });
         $('#upgrade').on('click', function() {
             var user_id = $('#user_id').val();
-            var seat_no = $('#seat_name').text().trim();
+            var seat_no_id = $('#seat_name').text().trim();
 
             var endOnDate = $('#endOn').text().trim();
 
@@ -831,11 +842,46 @@ h3.text-center.mb-4 {
 
             // Update the fields in the second modal
             $('#update_plan_end_date').val(endOnDate);
-            $('#update_seat_no').val(seat_no);
+            $('#update_seat_no').val(seat_no_id);
             $('#update_user_id').val(user_id);
 
             // Show the second modal
             $('#seatAllotmentModal3').modal('show');
+          
+            if (seat_no_id && user_id) {
+                $.ajax({
+                    url: '{{ route('gettypePlanwise') }}',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    },
+                    type: 'GET',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "seat_no_id": seat_no_id,
+                        "user_id": user_id,
+                    },
+                    dataType: 'json',
+                    success: function (html) {
+                        // console.log(html);
+                        if (html) {
+                            $("#updated_plan_type_id").empty();
+                            
+                            $.each(html, function(key, value) {
+                                $("#updated_plan_type_id").append('<option value="'+key+'">'+value+'</option>');
+                            });
+                        } else {
+                            $("#updated_plan_type_id").append('<option value="">Select Plan Type</option>');
+                        }
+
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX error:", status, error); // Log any errors
+                    }
+                    });
+            } else {
+                    $("#updated_plan_type_id").empty();
+                    $("#updated_plan_type_id").append('<option value="">Select Plan Type</option>');
+            }
         });
         // $(document).on('change', '#plan_id', function(event) {
 
@@ -923,8 +969,9 @@ h3.text-center.mb-4 {
         $('#plan_type_id').on('change', function(event) {
             event.preventDefault();
             var plan_type_id = $(this).val();
+            var plan_id = $('#plan_id').val();
 
-            if (plan_type_id) {
+            if (plan_type_id && plan_id) {
                 $.ajax({
                     url: '{{ route('getPricePlanwise') }}',
                     headers: {
@@ -934,52 +981,52 @@ h3.text-center.mb-4 {
                     data: {
                         "_token": "{{ csrf_token() }}",
                         "plan_type_id": plan_type_id,
+                        "plan_id": plan_id,
                     },
                     dataType: 'json',
                     success: function(html) {
-                        if (html) {
-                            $("#plan_price_id").empty();
-                            $("#plan_price_id").append('<option value="">Select Plan Price</option>');
-                            $.each(html, function(key, value) {
-                                $("#plan_price_id").append('<option value="' + key + '">' + value + '</option>');
+                             $.each(html, function(key, value) {
+                                $("#plan_price_id").val(value);
                             });
-                        } else {
-                            $("#plan_price_id").append('<option value="">Select Plan Price</option>');
-                        }
+                        // if (html) {
+                        //     $("#plan_price_id").empty();
+                            
+                        //     $.each(html, function(key, value) {
+                        //         $("#plan_price_id").append('<option value="' + key + '">' + value + '</option>');
+                        //     });
+                        // } else {
+                        //     $("#plan_price_id").append('<option value="">Select Plan Price</option>');
+                        // }
                     }
                 });
             } else {
                 $("#plan_price_id").empty();
-                $("#plan_price_id").append('<option value="">Select Plan Price</option>');
+               
             }
         });
 
-        $('#updated_plan_type_id').on('change', function(event) {
+        $('#update_plan_id').on('change', function(event) {
             event.preventDefault();
-            var plan_type_id = $(this).val();
+            var update_plan_type_id = $('#updated_plan_type_id').val();
+            var update_plan_id =$(this).val();
 
-            if (plan_type_id) {
+            if (update_plan_id && update_plan_type_id) {
                 $.ajax({
-                    url: '{{ route('getPricePlanwise') }}',
+                    url: '{{ route('getPricePlanwiseUpgrade') }}',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                     },
                     type: 'GET',
                     data: {
                         "_token": "{{ csrf_token() }}",
-                        "plan_type_id": plan_type_id,
+                        "update_plan_type_id": update_plan_type_id,
+                        "update_plan_id": update_plan_id,
                     },
                     dataType: 'json',
                     success: function(html) {
-                        if (html) {
-                            $("#updated_plan_price_id").empty();
-                            $("#updated_plan_price_id").append('<option value="">Select Plan Price</option>');
-                            $.each(html, function(key, value) {
-                                $("#updated_plan_price_id").append('<option value="' + key + '">' + value + '</option>');
-                            });
-                        } else {
-                            $("#updated_plan_price_id").append('<option value="">Select Plan Price</option>');
-                        }
+                        $.each(html, function(key, value) {
+                            $("#updated_plan_price_id").val(value);
+                        });
                     }
                 });
             } else {
@@ -1061,10 +1108,11 @@ h3.text-center.mb-4 {
 
                         $("#success-message").text('Form submission successful').show();
                         $("#error-message").hide();
+
                         setTimeout(function() {
-                            window.location.href = '{{ route('seats') }}';
+                            $(".first_popup").hide(); // Hide the success popup
                             location.reload(true); // Force reload from the server
-                        }, 2000); // Delay for 2 seconds before redirecting
+                        }, 2000); // Delay for 2 seconds before closing popup and reloading
                     } else if (response.errors) {
                         $(".is-invalid").removeClass("is-invalid");
                         $(".invalid-feedback").remove();

@@ -44,7 +44,7 @@
 </nav>
 @php
 $current_route = Route::currentRouteName();
-
+// dd($current_route );
 if($current_route=='student.index'){
 $value='Students List';
 }elseif($current_route=='student.transportationList'){
@@ -81,6 +81,12 @@ $value='Rejected Payment';
     $value='Add Plan Price';  
 }elseif($current_route=='seats.create'){
     $value='Add Seats';  
+}elseif($current_route=='plan.edit'){
+    $value='Edit Plan';  
+}elseif($current_route=='planType.edit'){
+    $value='Edit Plan Type';  
+}elseif($current_route=='planPrice.edit'){
+    $value='Edit Plan Price';  
 }else{
 $value=' List';
 }
