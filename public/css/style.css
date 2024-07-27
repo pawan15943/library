@@ -440,7 +440,7 @@ div#datatable_paginate span .paginate_button.current {
 }
 
 .login-form .right-box {
-    background: 2C3E50;
+    background: #2C3E50;
 }
 
 .logo {
@@ -588,4 +588,10 @@ button.btn.btn-primary.btn-user.btn-block.bg-custom-primary {
 .last-login {
     color: red;
     font-size: .8rem;
+}
+
+img.fav_img.img-fluid.p-3 {
+    width: 70%;
+    display: block;
+    margin: 0 auto;
 }
