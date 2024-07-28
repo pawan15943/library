@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('seat_no');
             $table->boolean('is_available')->default(1);
-            $table->json('plan_type')->nullable();
+           
             $table->integer('total_hours')->default(0);
             $table->timestamps();
         });

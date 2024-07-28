@@ -108,8 +108,9 @@
                                 <label>Class<sup class="text-danger">*</sup></label>
                                 <select name="grade_id" id="grade" class="form-control @error('grade_id') is-invalid @enderror event">
                                     <option value="">Select Class</option>
+                                   
                                     @foreach($grades as $value)
-                                        <option value="{{ $value->id }}" {{ isset($student) && $student->grade_id == $value->id ? 'selected' : '' }}>
+                                        <option value="{{ $value->id }}" {{  old('grade_id', isset($student) && $student->grade_id == $value->id ? 'selected' : '') }}>
                                             {{ $value->class_name }}
                                         </option>
                                     @endforeach
@@ -154,7 +155,7 @@
                             <div class="form-group">
                                 <label>City<sup class="text-danger">*</sup></label>
                                 <select name="city_id" id="cityid" class="form-control @error('city_id') is-invalid @enderror event">
-                                    @if(isset($student) && $student->city_id == $value->id)
+                                    @if(isset($student) && $student->city_id )
                                         @foreach ($cities as $key => $value)
                                         <option value="{{$value}}" @if($value == $student->city_id) {{ "selected" }} @endif>{{$key}}</option> 
                                         @endforeach
@@ -210,7 +211,7 @@
                             <div class="form-group">
                                 <label>Course<sup class="text-danger">*</sup></label>
                                 <select name="course_id" id="course" class="form-control @error('course_id') is-invalid @enderror ">
-                                    @if(isset($student) && $student->course_id == $value->id)
+                                    @if(isset($student) && $student->course_id )
                                         @foreach ($courses as $key => $value)
                                         <option value="{{$value}}" @if($value == $student->course_id) {{ "selected" }} @endif>{{$key}}</option> 
                                         @endforeach

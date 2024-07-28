@@ -87,7 +87,7 @@ class StudentController extends Controller
             'dob' => 'required|date',
             'gender' => 'required|in:male,female',
             'grade_id' => 'required|exists:grades,id',
-            'stream' => 'nullable|string|max:255',
+            'stream' => 'required|string|max:255',
             'state_id' => 'required|exists:states,id',
             'city_id' => 'required|exists:cities,id',
             'address' => 'required|string|max:255',
@@ -123,7 +123,7 @@ class StudentController extends Controller
         $states = State::all();
         $cities = City::where('state_id',$student->state_id)->pluck('id','city_name');
         $course_types = CourseType::all();
-        $courses = Course::where('id',$student->course_id)->pluck('id','course_name');
+        $courses = Course::where('course_type',$student->course_type_id)->pluck('id','course_name');
         $fees=Course::where('id',$student->course_id)->select('course_fees','duration')->first();
 
         // Check if the student exists
@@ -157,7 +157,7 @@ class StudentController extends Controller
             'dob' => 'required|date',
             'gender' => 'required|in:male,female',
             'grade_id' => 'required|exists:grades,id',
-            'stream' => 'nullable|string|max:255',
+            'stream' => 'required|string|max:255',
             'state_id' => 'required|exists:states,id',
             'city_id' => 'required|exists:cities,id',
             'address' => 'required|string|max:255',

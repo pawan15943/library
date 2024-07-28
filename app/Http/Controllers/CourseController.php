@@ -54,7 +54,7 @@ class CourseController extends Controller
         $data=$request->all();
 
       
-        $data['is_active']=0;
+        $data['is_active']=1;
      
         $course_fees=$data['course_fees'];
 
