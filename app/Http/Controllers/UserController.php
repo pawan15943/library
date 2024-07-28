@@ -164,7 +164,7 @@ class UserController extends Controller
 
         $start_date = Carbon::parse($request->input('plan_start_date'));
         $endDate = $start_date->copy()->addMonths($duration);
-
+        
         // Create a new customer using mass assignment
         $customer = Customers::create([
             'seat_no' => $request->input('seat_no'),
@@ -187,7 +187,8 @@ class UserController extends Controller
         //available(not booked)=1,not available=0, firstHBook= 2 secondHbook=3 hourly=4 , fullbooked=5
                     //plan type 1=fullday, 2=firstH, 3=secondH,4=hourly	
                     // Determine new seat availability based on conditions
-    
+                      
+                    $available=5;
         if( $seat->is_available == 1 && $request->plan_type_id==1 ){
             $available = 5;
         }elseif($seat->is_available == 1 && $request->plan_type_id==2 ){
@@ -196,10 +197,14 @@ class UserController extends Controller
             $available = 3;
         }elseif($seat->is_available == 1 && $request->plan_type_id==4 ){
             $available = 4;
-        }else{
+        }elseif($seat->is_available == 2 && $request->plan_type_id==3){
+            $available = 5;
+        }elseif($seat->is_available == 3 && $request->plan_type_id==2){
+            $available = 5;
+        }elseif($seat->is_available == 4 && ($request->plan_type_id==5 || $request->plan_type_id==6 || $request->plan_type_id==5)){
             $available = 4;
         }
-        
+      
         // Update seat availability
         DB::table('seats')->where('seat_no', $request->seat_no)->update(['is_available' => $available]);
         // Return a JSON response

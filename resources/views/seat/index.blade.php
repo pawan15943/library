@@ -987,15 +987,7 @@ $fullDayCount = 0;
                              $.each(html, function(key, value) {
                                 $("#plan_price_id").val(value);
                             });
-                        // if (html) {
-                        //     $("#plan_price_id").empty();
-                            
-                        //     $.each(html, function(key, value) {
-                        //         $("#plan_price_id").append('<option value="' + key + '">' + value + '</option>');
-                        //     });
-                        // } else {
-                        //     $("#plan_price_id").append('<option value="">Select Plan Price</option>');
-                        // }
+                     
                     }
                 });
             } else {
@@ -1105,13 +1097,15 @@ $fullDayCount = 0;
 
                     if (response.success) {
 
-                        $("#success-message").text('Form submission successful').show();
-                        $("#error-message").hide();
-
-                        setTimeout(function() {
-                            $(".first_popup").hide(); // Hide the success popup
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Form submission successful',
+                            icon: 'success',
+                            timer: 2000,
+                            showConfirmButton: false
+                        }).then(() => {
                             location.reload(true); // Force reload from the server
-                        }, 2000); // Delay for 2 seconds before closing popup and reloading
+                        });
                     } else if (response.errors) {
                         $(".is-invalid").removeClass("is-invalid");
                         $(".invalid-feedback").remove();
