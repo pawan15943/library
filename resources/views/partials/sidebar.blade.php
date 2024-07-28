@@ -24,7 +24,22 @@
 
      <!-- Divider -->
      <hr class="sidebar-divider">
+     <li class="nav-item @if ($current_route == 'student.index') @endif">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+            <i class="fa fa-fw fa-chair"></i>
+            <span>Manage Students</span>
+        </a>
+        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
 
+                <a href="{{ route('student.index') }}" class="collapse-item @if ($current_route == 'student.index') active @endif">
+                    Student List
+                </a>
+             
+            </div>
+        </div>
+
+    </li>
      <!-- Nav Item - Utilities Collapse Menu -->
      <li class="nav-item @if ($current_route == 'seats') @endif">
          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">

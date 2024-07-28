@@ -40,7 +40,6 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('accounts/add-payment', [AccountController::class, 'addPayment'])->name('admin.accounts_payment');
     Route::post('accounts/add-payment', [AccountController::class, 'savePayment'])->name('admin.account.save_payment');
    
-    Route::resource('student', StudentController::class);
     Route::get('accounts', [AccountController::class, 'index'])->name('admin.accounts');
     Route::patch('accounts-verification', [AccountController::class, 'verifyStatus'])->name('admin.accounts_verification');
     Route::get('accounts/approve', [AccountController::class, 'approveAccountList'])->name('admin.approve');
@@ -98,6 +97,11 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/course-type/edit', [CourseTypeController::class, 'edit'])->name('courseType.edit');
     Route::post('course-type/destroy', [CourseTypeController::class, 'destroy'])->name('courseType.destroy');
    
+    Route::resource('student', StudentController::class);
+    Route::get('/cityGetStateWise', [StudentController::class, 'stateWiseCity'])->name('cityGetStateWise');
+    Route::get('/getCity/{state_id}', [StudentController::class, 'getCity']);
+    Route::get('/getCourse/{course_type_id}', [StudentController::class, 'getCourse']);
+    Route::get('/getCourseDetails/{course_id}', [StudentController::class, 'getCourseDetails']);
 });
 
 

@@ -163,8 +163,8 @@ class UserController extends Controller
         $duration = $months ?? 0;
 
         $start_date = Carbon::parse($request->input('plan_start_date'));
-      
-        $endDate = $start_date->addMonths($duration);
+        $endDate = $start_date->copy()->addMonths($duration);
+
         // Create a new customer using mass assignment
         $customer = Customers::create([
             'seat_no' => $request->input('seat_no'),

@@ -1,6 +1,8 @@
-@extends('layouts.admin')
-
-@section('content')
+@extends('layouts.admin') 
+@section('content') 
+<div>
+    <a href="{{route('student.create')}}">Add Student</a>
+</div>
 
 <!-- Main row -->
 <div class="row">
@@ -20,14 +22,13 @@
                                 <thead>
                                     <tr class="text-center">
 
-                                        <th>Form No</th>
                                         <th style="width: 20% ">Student Name</th>
-                                        <th>Country</th>
-                                        <th>Grade</th>
-                                        <th>Stream</th>
-                                        <th>Fee </th>
                                         <th>Mobile No. </th>
                                         <th>Email </th>
+                                        <th>City</th>
+                                        <th>Course</th>
+                                        <th>Course Type</th>
+                                        <th>Grade</th>
                                         <th style="width: 20% ">Action</th>
                                     </tr>
                                 </thead>
@@ -60,49 +61,42 @@
             ]
             , columns: [
 
-                {
-                    data: 'form_num'
-                    , name: 'form_num',
-                    searchable: true
-
-                }
-                , {
+                 {
                     data: 'name'
                     , name: 'name'
                 },
 
                 {
-                    data: 'countries_name'
-                    , name: 'countries_name'
+                    data: 'mobile'
+                    , name: 'mobile'
                     , searchable: false
                 },
-
                 {
-                    data: 'classes_name'
-                    , name: 'classes_name'
-                    , searchable: false
-                }
-                , {
-                    data: 'stream'
-                    , name: 'stream',
-
-                }
-                , {
-                    data: 'fee_status'
-                    , name: 'fee_status',
-
-                }
-                , {
-                    data: 'mobile_no'
-                    , name: 'mobile_no'
-                    , searchable: true
-                    , visible: false
-                }
-                , {
                     data: 'email'
                     , name: 'email'
                     , searchable: true
                     , visible: false
+                },
+
+                {
+                    data: 'city_name'
+                    , name: 'city_name'
+                    , searchable: false
+                },
+                {
+                    data: 'course_name'
+                    , name: 'course_name'
+                    , searchable: false
+                },
+                {
+                    data: 'course_type'
+                    , name: 'course_type'
+                    , searchable: false
+                },
+                {
+                    data: 'class_name'
+                    , name: 'class_name'
+                    , searchable: false
                 }
                 , {
                     data: 'action'
