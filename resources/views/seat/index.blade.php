@@ -229,8 +229,7 @@
         width: 40px;
     }
 
-    h3#seat_name,
-    h3#seat_no_head {
+    h3 {
         font-size: 1.2rem;
         color: #000;
         margin-bottom: 1rem;
@@ -629,7 +628,7 @@ $fullDayCount = 0;
             <div class="modal-body m-0">
                 <div class="detailes">
                     <button type="button" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
-                    <h3 id="seat_name"></h3>
+                    <h3 id="seat_details_info"></h3>
 
                     <div class="row">
                         <div class="col-lg-12">
@@ -638,19 +637,24 @@ $fullDayCount = 0;
                                 <table class="table table-bordered mb-0">
 
                                     <tr>
-                                        <th>Seat Owner Name</th>
-                                        <th id="owner"></th>
+                                        <th class="w-50">Seat Owner Name</th>
+                                        <th id="owner" style="font-weight:700 !important;"></th>
                                     </tr>
+                                    
                                     <tr>
-                                        <td>Id Proof</td>
-                                        <td id="proof"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Selected Plan</td>
+                                        <td>Your Plan</td>
                                         <td id="planName"></td>
                                     </tr>
                                     <tr>
-                                        <td>Plan Type</td>
+                                        <td>Plan Price & Status</td>
+                                        <td id="price"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Your Plan Type</td>
+                                        <td id="planTypeName"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Plan Timings</td>
                                         <td id="planTypeName"></td>
                                     </tr>
                                     <tr>
@@ -662,12 +666,12 @@ $fullDayCount = 0;
                                         <td id="startOn"></td>
                                     </tr>
                                     <tr>
-                                        <td>Plan Ends On</td>
+                                        <td>Plan Ends On (Pending Days)</td>
                                         <td id="endOn"></td>
                                     </tr>
                                     <tr>
-                                        <td>Plan Price</td>
-                                        <td id="price"></td>
+                                        <td>Id Proof Name & Received Status</td>
+                                        <td id="proof"></td>
                                     </tr>
                                 </table>
                             </div>
@@ -689,11 +693,8 @@ $fullDayCount = 0;
             <div class="modal-body m-0">
                 <form id="upgradeForm">
                     <div class="detailes">
-                        <div class="seat">
-                            <div class="number"></div>
-                            {{-- <img src="assets/images/first-half.svg" alt="first-half" class="seat"> --}}
-                        </div>
                         <button type="button" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
+                        <h3 id="seat_number_upgrades"></h3>
                         <div class="row g-4 mt-1">
                             <div class="col-lg-6">
                                 <label for="">Select Plan <span>*</span></label>
@@ -821,7 +822,8 @@ $fullDayCount = 0;
                         $('#startOn').text(html.plan_start_date);
                         $('#endOn').text(html.plan_end_date);
                         $('#price').text(html.plan_price_id);
-                        $('#seat_name').text( html.seat_no);
+                        $('#seat_name').text(html.seat_no);
+                        $('#seat_details_info').text('Booking Details of Seat No. : ' + html.seat_no);
                     }
                 });
             }
@@ -841,7 +843,7 @@ $fullDayCount = 0;
             $('#update_plan_end_date').val(endOnDate);
             $('#update_seat_no').val(seat_no_id);
             $('#update_user_id').val(user_id);
-
+            $('#seat_number_upgrades').text('Upgrade Seat No. : '  + seat_no_id);
             // Show the second modal
             $('#seatAllotmentModal3').modal('show');
           

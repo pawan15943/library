@@ -1,10 +1,9 @@
 @extends('layouts.admin')
 @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}" />               
-<div class="container-fluid">
     <!-- Page Heading -->
-   
-    <div class="card shadow mb-4 py-4">
+     <div class="row">
+        
         <div class="col-lg-12">
             <form id="submit" >
                 @csrf
@@ -51,7 +50,9 @@
             </form>
         </div>
     </div>
-    <div class="card shadow mb-4">
+    <div class="row mt-4">
+        <div class="col-lg-12">
+        <div class="card card-default main_card_content">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">City List</h6>
         </div>
@@ -95,7 +96,9 @@
         </div>
     </div>
 
-</div>
+        </div>
+    </div>
+   
 
 <script type="text/javascript">
 $(document).ready(function() {

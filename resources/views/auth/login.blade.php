@@ -31,7 +31,7 @@
             <div class="creative">
                 <img src="{{ asset('public/img/Vector.png') }}" class="fav_img img-fluid p-3" alt="logo" />
             </div>
-            <div class="footer text-center text-dark">Student Tranportation Portal</div>
+            <div class="footer text-center text-dark">Admin Portal</div>
         </div>
         <div class="right-box">
             <div class="login-fields">
