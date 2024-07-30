@@ -6,7 +6,7 @@
         <i class="fa fa-bars"></i>
     </button>
     <div class="last-login">Last login : <br>
-    10-11-2024 06:05:58 AM</div>
+        {{ Auth::user()->updated_at->format('d-m-Y H:i:s') }}</div>
 
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">

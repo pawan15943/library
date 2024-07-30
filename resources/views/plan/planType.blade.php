@@ -43,7 +43,8 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Plan Start Time<sup class="text-danger">*</sup></label>
-                                <input type="time" id="start_time" class="form-control @error('start_time') is-invalid @enderror" name="start_time" value="{{ old('start_time', isset($planType) ? $planType->start_time : '') }}">
+                              
+                                <input type="text" id="start_time" class="form-control @error('start_time') is-invalid @enderror" name="start_time" value="{{ old('start_time', isset($planType) ? $planType->start_time : '') }}">
                                 @error('start_time')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -108,6 +109,10 @@
                                 <thead>
                                     <tr class="text-center">
                                         <th style="width: 20% "> Plan Type</th>
+                                        <th style="width: 20% ">Start Time</th>
+                                        <th style="width: 20% ">End Time</th>
+                                        <th style="width: 20% ">Hours</th>
+                                        <th style="width: 20% ">Seat Colour</th>
                                         <th style="width: 20% ">Action</th>
                                     </tr>
                                     @foreach($plan_types as $key => $value)

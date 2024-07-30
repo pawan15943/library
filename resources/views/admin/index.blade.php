@@ -67,30 +67,16 @@
         <div class="course-list">
             <h4>Course Wise Enrollments</h4>
             <ul>
+                @foreach ($count_course_wise as $course)
                 <li>
                     <div class="d-flex">
-                        <h5>Advanced Computer Course</h5>
-                        <div class="count">15</div>
+                        <h5>{{$course->course_name }}</h5>
+                        <div class="count">{{ $course->student_count }}</div>
                     </div>
                 </li>
-                <li>
-                    <div class="d-flex">
-                        <h5>RSCIT</h5>
-                        <div class="count">10</div>
-                    </div>
-                </li>
-                <li>
-                    <div class="d-flex">
-                        <h5>TALLY PRIME</h5>
-                        <div class="count">20</div>
-                    </div>
-                </li>
-                <li>
-                    <div class="d-flex">
-                        <h5>AI Specilist</h5>
-                        <div class="count">18</div>
-                    </div>
-                </li>
+                @endforeach
+               
+               
             </ul>
         </div>
     </div>
@@ -99,30 +85,15 @@
         <div class="course-list">
             <h4>Plan Wise Enrolments</h4>
             <ul>
+                @foreach ($planwise_count as $count)
                 <li>
                     <div class="d-flex">
-                        <h5>Full Day</h5>
-                        <div class="count">15</div>
+                        <h5>{{$count->name }}</h5>
+                        <div class="count">{{ $count->customer_count }}</div>
                     </div>
                 </li>
-                <li>
-                    <div class="d-flex">
-                        <h5>First Half</h5>
-                        <div class="count">10</div>
-                    </div>
-                </li>
-                <li>
-                    <div class="d-flex">
-                        <h5>Second Half</h5>
-                        <div class="count">20</div>
-                    </div>
-                </li>
-                <li>
-                    <div class="d-flex">
-                        <h5>Hourly</h5>
-                        <div class="count">18</div>
-                    </div>
-                </li>
+                @endforeach
+                
             </ul>
         </div>
     </div>
