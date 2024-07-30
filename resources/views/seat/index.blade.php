@@ -655,7 +655,7 @@ $fullDayCount = 0;
                                     </tr>
                                     <tr>
                                         <td>Plan Timings</td>
-                                        <td id="planTypeName"></td>
+                                        <td id="planTiming"></td>
                                     </tr>
                                     <tr>
                                         <td>Join On</td>
@@ -711,9 +711,7 @@ $fullDayCount = 0;
                                 <label for="">Plan Type <span>*</span></label>
                                 <select id="updated_plan_type_id" class="form-control" name="plan_type_id">
                                     <option value="">Select Plan Type</option>
-                                    {{-- @foreach($plan_types as $key => $value)
-                                    <option value="{{$value->id}}">{{$value->name}}</option>
-                                    @endforeach --}}
+                                   
                                 </select>
                             </div>
                             <div class="col-lg-6">
@@ -810,19 +808,16 @@ $fullDayCount = 0;
                         } else {
                             var proof = 'Other';
                         }
-                        if (html.plan_name == 7) {
-                            var plan = 'yearly';
-                        } else {
-                            var plan = (html.plan_name) + ' months';
-                        }
+                        
                         $('#proof').text(proof);
-                        $('#planName').text(plan);
+                        $('#planName').text(html.plan_name);
                         $('#planTypeName').text(html.plan_type_name);
                         $('#joinOn').text(html.join_date);
                         $('#startOn').text(html.plan_start_date);
                         $('#endOn').text(html.plan_end_date);
                         $('#price').text(html.plan_price_id);
                         $('#seat_name').text(html.seat_no);
+                        $('#planTiming').text(html.start_time+' to '+html.end_time);
                         $('#seat_details_info').text('Booking Details of Seat No. : ' + html.seat_no);
                     }
                 });
@@ -882,88 +877,7 @@ $fullDayCount = 0;
                     $("#updated_plan_type_id").append('<option value="">Select Plan Type</option>');
             }
         });
-        // $(document).on('change', '#plan_id', function(event) {
-
-        //     event.preventDefault();
-
-        //     var plan_id = $(this).val();
-
-
-        //     if (plan_id) {
-        //         $.ajax({
-        //             url: '{{ route('gettypePlanwise') }}',
-        //             headers: {
-        //                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-        //             },
-        //             type: 'GET',
-        //             data: {
-        //                 "_token": "{{ csrf_token() }}",
-        //                 "plan_id": plan_id,
-        //             },
-        //             dataType: 'json',
-        //             success: function (html) {
-
-        //                 if (html) {
-        //                     $("#plan_type_id").empty();
-        //                     $("#plan_type_id").append('<option value="">Select Plan Type</option>');
-        //                     $.each(html, function(key, value) {
-        //                         $("#plan_type_id").append('<option value="'+key+'">'+value+'</option>');
-        //                     });
-        //                 } else {
-        //                     $("#plan_type_id").append('<option value="">Select Plan Type</option>');
-        //                 }
-
-        //             },
-        //             error: function(xhr, status, error) {
-        //                 console.error("AJAX error:", status, error); // Log any errors
-        //             }
-        //             });
-        //     } else {
-        //             $("#plan_type_id").empty();
-        //             $("#plan_type_id").append('<option value="">Select Plan Type</option>');
-        //     }
-        // });
-        // $(document).on('change', '#update_plan_id', function(event) {
-
-        //     event.preventDefault();
-
-        //     var plan_id = $(this).val();
-
-
-        //     if (plan_id) {
-        //         $.ajax({
-        //             url: '{{ route('gettypePlanwise') }}',
-        //             headers: {
-        //                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-        //             },
-        //             type: 'GET',
-        //             data: {
-        //                 "_token": "{{ csrf_token() }}",
-        //                 "plan_id": plan_id,
-        //             },
-        //             dataType: 'json',
-        //             success: function (html) {
-
-        //                 if (html) {
-        //                     $("#updated_plan_type_id").empty();
-        //                     $("#updated_plan_type_id").append('<option value="">Select Plan Type</option>');
-        //                     $.each(html, function(key, value) {
-        //                         $("#updated_plan_type_id").append('<option value="'+key+'">'+value+'</option>');
-        //                     });
-        //                 } else {
-        //                     $("#updated_plan_type_id").append('<option value="">Select Plan Type</option>');
-        //                 }
-
-        //             },
-        //             error: function(xhr, status, error) {
-        //                 console.error("AJAX error:", status, error); // Log any errors
-        //             }
-        //             });
-        //     } else {
-        //             $("#updated_plan_type_id").empty();
-        //             $("#updated_plan_type_id").append('<option value="">Select Plan Type</option>');
-        //     }
-        // });
+      
 
         $('#plan_type_id').on('change', function(event) {
             event.preventDefault();

@@ -87,7 +87,41 @@
             </div>
             <!-- /.card-body -->
         </div>
-
+        <div class="card card-default main_card_content" id="generalInfo ">
+            
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive tableRemove_scroll mt-2">
+                           
+                            <table class="table table-hover border data-table" id="datatable">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th style="width: 20% "> Plan Name</th>
+                                        <th style="width: 20% "> Plan Type</th>
+                                        <th style="width: 20% "> Plan Price</th>
+                                        <th style="width: 20% ">Action</th>
+                                    </tr>
+                                   @foreach($planPrice_list as $key => $value)
+                                   <tr class="text-center">
+                                    <td style="width: 20% "> {{$value->plan_name}} </td>
+                                    <td style="width: 20% "> {{$value->plan_type}}</td>
+                                    <td style="width: 20% "> {{$value->price}}</td>
+                                    <td style="width: 20% "><a href="{{route('planPrice.edit', $value->id)}}"class="btn tooltips btn-default p-2 btn-sm rounded mr-2" title="Edit Price"><i class="fas fa-edit"></i></a></td>
+                                    </tr>
+                                   @endforeach
+                                   
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
     </div>
 </div>
    

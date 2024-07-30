@@ -21,13 +21,13 @@ class PlanController extends Controller
     }
     public function craetePlanName()
     {
-        
-        return view('plan.plan');
+        $plans=Plan::all();
+        return view('plan.plan',compact('plans'));
     }
     public function planNameedit(Plan $plan)
     {
-        
-        return view('plan.plan', compact('plan'));
+        $plans=Plan::all();
+        return view('plan.plan', compact('plan','plans'));
     }
     public function store(Request $request)
     {
@@ -42,7 +42,7 @@ class PlanController extends Controller
             'plan_id' => $request->plan_id,
             'name' => $name,
         ]);
-        return redirect()->route('plan.index')->with('success', 'Plan created successfully.');
+        return redirect()->back()->with('success', 'Plan created successfully.');
     }
     public function update(Request $request, Plan $plan)
     {
@@ -59,7 +59,7 @@ class PlanController extends Controller
             'name' => $name,
         ]);
 
-        return redirect()->route('plan.index')->with('success', 'Plan updated successfully.');
+        return redirect()->route('plan.create')->with('success', 'Plan updated successfully.');
     }
 
     public function planTypeList(){
@@ -68,13 +68,15 @@ class PlanController extends Controller
     }
     public function craeteplanType()
     {
+        $plan_types=PlanType::all();
         $plans=Plan::all();
-        return view('plan.planType', compact('plans'));
+        return view('plan.planType', compact('plans','plan_types'));
     }
     public function planTypedit(PlanType $planType)
     {
+        $plan_types=PlanType::all();
         $plans=Plan::all();
-        return view('plan.planType', compact('planType','plans'));
+        return view('plan.planType', compact('planType','plans','plan_types'));
     }
     public function planTypestore(Request $request)
     {
@@ -101,7 +103,7 @@ class PlanController extends Controller
             'slot_hours' => $data['slot_hours'],
             'image' => $data['image'],
         ]);
-        return redirect()->route('planType.index')->with('success', 'Plan Type created successfully.');
+        return redirect()->route('planType.create')->with('success', 'Plan Type created successfully.');
     }
     public function planTypeupdate(Request $request, PlanType $planType)
     {
@@ -131,7 +133,7 @@ class PlanController extends Controller
             'image' => $data['image'],
         ]);
         
-        return redirect()->route('planType.index')->with('success', 'Plan Type updated successfully.');
+        return redirect()->route('planType.create')->with('success', 'Plan Type updated successfully.');
     }
     public function planPriceList(){
         $planPrice=PlanPrice::leftJoin('plan_types','plan_prices.plan_type_id','=','plan_types.id')->leftJoin('plans','plan_prices.plan_id','=','plans.id')->select('plans.name as plan_name','plan_types.name as plan_type','plan_prices.*')->get();
@@ -142,13 +144,17 @@ class PlanController extends Controller
     {
         $plans=Plan::all();
         $plantypes=PlanType::all();
-        return view('plan.planPrice', compact('plans','plantypes'));
+        $planPrice_list=PlanPrice::leftJoin('plan_types','plan_prices.plan_type_id','=','plan_types.id')->leftJoin('plans','plan_prices.plan_id','=','plans.id')->select('plans.name as plan_name','plan_types.name as plan_type','plan_prices.*')->get();
+
+        return view('plan.planPrice', compact('plans','plantypes','planPrice_list'));
     }
     public function planPricedit(PlanPrice $planPrice)
     {
         $plans=Plan::all();
         $plantypes=PlanType::all();
-        return view('plan.planPrice', compact('planPrice','plans','plantypes'));
+        $planPrice_list=PlanPrice::leftJoin('plan_types','plan_prices.plan_type_id','=','plan_types.id')->leftJoin('plans','plan_prices.plan_id','=','plans.id')->select('plans.name as plan_name','plan_types.name as plan_type','plan_prices.*')->get();
+
+        return view('plan.planPrice', compact('planPrice','plans','plantypes','planPrice_list'));
     }
     public function planPricestore(Request $request)
     {
@@ -160,7 +166,7 @@ class PlanController extends Controller
         ]);
      
         PlanPrice::create($request->all());
-        return redirect()->route('planPrice.index')->with('success', 'Plan Price created successfully.');
+        return redirect()->route('planPrice.create')->with('success', 'Plan Price created successfully.');
     }
     public function planPriceupdate(Request $request, PlanPrice $planPrice)
     {
@@ -170,7 +176,7 @@ class PlanController extends Controller
             'price' => 'required',
         ]);
         $planPrice->update($request->all());
-        return redirect()->route('planPrice.index')->with('success', 'Plan Price updated successfully.');
+        return redirect()->route('planPrice.create')->with('success', 'Plan Price updated successfully.');
     }
 
     public function getPlanType(Request $request){

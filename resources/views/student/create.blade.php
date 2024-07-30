@@ -22,7 +22,8 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label>Full Name</label>
-                                <input type="text"  class="form-control char-only @error('name') is-invalid @enderror" name="name"  value="{{ old('name', isset($student) ? $student->name : '') }}">
+                                <input type="text" class="form-control char-only @error('name') is-invalid @enderror" name="name" 
+                                    value="{{ old('name', isset($student) ? $student->name : '') }}" placeholder="Enter full name">
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -33,7 +34,8 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Mobile No.</label>
-                                <input type="text"  class="form-control digit-only @error('mobile') is-invalid @enderror" name="mobile"  value="{{ old('mobile', isset($student) ? $student->mobile : '') }}">
+                                <input type="text" class="form-control digit-only @error('mobile') is-invalid @enderror" name="mobile" 
+                                    value="{{ old('mobile', isset($student) ? $student->mobile : '') }}" placeholder="Enter mobile number">
                                 @error('mobile')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -44,7 +46,8 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Alternative Mobile No.</label>
-                                <input type="text"  class="form-control digit-only @error('alt_mobile') is-invalid @enderror" name="alt_mobile"  value="{{ old('alt_mobile', isset($student) ? $student->alt_mobile : '') }}">
+                                <input type="text" class="form-control digit-only @error('alt_mobile') is-invalid @enderror" name="alt_mobile" 
+                                    value="{{ old('alt_mobile', isset($student) ? $student->alt_mobile : '') }}" placeholder="Enter alternative mobile number">
                                 @error('alt_mobile')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -55,7 +58,8 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Email Address</label>
-                                <input type="email"  class="form-control @error('email') is-invalid @enderror" name="email"  value="{{ old('email', isset($student) ? $student->email : '') }}">
+                                <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" 
+                                    value="{{ old('email', isset($student) ? $student->email : '') }}" placeholder="Enter email address">
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -66,7 +70,8 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Father's Name</label>
-                                <input type="text"  class="form-control char-only @error('father_name') is-invalid @enderror" name="father_name"  value="{{ old('father_name', isset($student) ? $student->father_name : '') }}">
+                                <input type="text" class="form-control char-only @error('father_name') is-invalid @enderror" name="father_name" 
+                                    value="{{ old('father_name', isset($student) ? $student->father_name : '') }}" placeholder="Enter father's name">
                                 @error('father_name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -77,7 +82,8 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>DOB</label>
-                                <input type="date"  class="form-control @error('dob') is-invalid @enderror" name="dob"  value="{{ old('dob', isset($student) ? $student->dob : '') }}">
+                                <input type="date" class="form-control @error('dob') is-invalid @enderror" name="dob" 
+                                    value="{{ old('dob', isset($student) ? $student->dob : '') }}">
                                 @error('dob')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -88,44 +94,43 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Gender</label>
-                                
                                 <input type="radio" id="male" name="gender" value="male" class="form-control @error('gender') is-invalid @enderror"
-                                {{ isset($student) && $student->gender == 'male' ? 'checked' : '' }}>
-                            <label for="male">Male</label><br>
-                            <input type="radio" id="female" name="gender" value="female" class="form-control @error('gender') is-invalid @enderror"
-                                {{ isset($student) && $student->gender == 'female' ? 'checked' : '' }}>
-                            <label for="female">Female</label><br>
-                            @error('gender')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                            
+                                    {{ isset($student) && $student->gender == 'male' ? 'checked' : '' }}>
+                                <label for="male">Male</label><br>
+                                <input type="radio" id="female" name="gender" value="female" class="form-control @error('gender') is-invalid @enderror"
+                                    {{ isset($student) && $student->gender == 'female' ? 'checked' : '' }}>
+                                <label for="female">Female</label><br>
+                                @error('gender')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
-                        <div class="col-lg-6 ">
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Class<sup class="text-danger">*</sup></label>
                                 <select name="grade_id" id="grade" class="form-control @error('grade_id') is-invalid @enderror event">
                                     <option value="">Select Class</option>
-                                   
                                     @foreach($grades as $value)
-                                        <option value="{{ $value->id }}" {{  old('grade_id', isset($student) && $student->grade_id == $value->id ? 'selected' : '') }}>
-                                            {{ $value->class_name }}
-                                        </option>
+                                    <option value="{{ $value->id }}" 
+                                        {{ old('grade_id', isset($student) ? $student->grade_id : '') == $value->id ? 'selected' : '' }}>
+                                        {{ $value->class_name }}
+                                    </option>
                                     @endforeach
-                                    @error('grade_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                    @enderror
                                 </select>
+                                @error('grade_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Stream</label>
-                                <input type="text"  class="form-control char-only @error('stream') is-invalid @enderror" name="stream"  value="{{ old('stream', isset($student) ? $student->stream : '') }}">
+                                <input type="text" class="form-control char-only @error('stream') is-invalid @enderror" name="stream" 
+                                    value="{{ old('stream', isset($student) ? $student->stream : '') }}" placeholder="Enter stream">
                                 @error('stream')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -139,7 +144,7 @@
                                 <select name="state_id" id="stateid" class="form-control @error('state_id') is-invalid @enderror event">
                                     <option value="">Select State</option>
                                     @foreach($states as $value)
-                                        <option value="{{ $value->id }}" {{ isset($student) && $student->state_id == $value->id ? 'selected' : '' }}>
+                                        <option value="{{ $value->id }}" {{ old('state_id', isset($student) ? $student->state_id : '') == $value->id ? 'selected' : '' }}>
                                             {{ $value->state_name }}
                                         </option>
                                     @endforeach
@@ -149,6 +154,7 @@
                                     </span>
                                     @enderror
                                 </select>
+                                
                             </div>
                         </div>
                         <div class="col-lg-6 ">
@@ -180,7 +186,8 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Pin Code</label>
-                                <input type="text"  class="form-control digit-only @error('pin_code') is-invalid @enderror" name="pin_code"  value="{{ old('pin_code', isset($student) ? $student->pin_code : '') }}">
+                                <input type="text" class="form-control digit-only @error('pin_code') is-invalid @enderror" name="pin_code" 
+                                    value="{{ old('pin_code', isset($student) ? $student->pin_code : '') }}" placeholder="Enter pin code">
                                 @error('pin_code')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -195,8 +202,9 @@
                                 <select name="course_type_id" id="course_type" class="form-control @error('course_type_id') is-invalid @enderror event">
                                     <option value="">Select Course Type</option>
                                     @foreach($course_types as $value)
-                                        <option value="{{ $value->id }}" {{ isset($student) && $student->course_type_id == $value->id ? 'selected' : '' }}>
-                                            {{ $value->name }}
+
+                                    <option value="{{ $value->id }}" {{ old('course_type_id', isset($student) ? $student->course_type_id : '') == $value->id ? 'selected' : '' }}>
+                                        {{ $value->name }}
                                         </option>
                                     @endforeach
                                     @error('course_type_id')
@@ -265,58 +273,102 @@
 
 <script>
     $(document).ready(function() {
+       
+        var oldDuration = "{{ old('duration', isset($student) ? $fees->duration : '') }}";
+        var oldFees = "{{ old('fees', isset($student) ? $fees->course_fees : '') }}";
+        
+        if (oldDuration) {
+            $('#duration').val(oldDuration);
+        }
+        if (oldFees) {
+            $('#fees').val(oldFees);
+        }
+
+        // Function to fetch and set course details
+        function readonlyget(courseID) {
+            if (courseID) {
+                console.log('Fetching details for course ID:', courseID); // Debugging line
+                $.ajax({
+                    url: '{{ url('/getCourseDetails') }}/' + courseID,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log('Response data:', data); // Debugging line
+                        if (data && data.duration && data.fees) {
+                            $('#duration').val(data.duration);
+                            $('#fees').val(data.fees);
+                        } else {
+                            console.error('Invalid data:', data); // Debugging line
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error:', status, error); // Debugging line
+                    }
+                });
+            }
+        }
+
+        // Get initial course details if a course is already selected
+        var course_id = $('#course').val();
+        console.log('Initial course ID:', course_id); // Debugging line
+        if (course_id) {
+            readonlyget(course_id);
+        }
+
+        // Handle change event on course dropdown
+        $('#course').change(function() {
+            var courseID = $(this).val();
+            console.log('Selected course ID:', courseID); // Debugging line
+            if (courseID) {
+                readonlyget(courseID);
+            } else {
+                $('#duration').val('');
+                $('#fees').val('');
+            }
+        });
         // Handle state and city dropdowns
         $('#stateid').on('change', function(event){
-               event.preventDefault();
-               var state_id = $(this).val();
-               console.log(state_id);
-               if(state_id){
-                   $.ajax({
-                           url: '{{ route('cityGetStateWise') }}',
-                           headers: {
-                               'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                           },
-                           type: 'GET',
-                           data: {
-                               "_token": "{{ csrf_token() }}",
-                               "state_id": state_id,
-                           
-                           },
-
-                           dataType: 'json',
-                           success: function (html) {
-                               
-                               if(html){
-                                   $("#cityid").empty();
-                                   $("#cityid").append('<option value="">Select City</option>');
-                                   $.each(html,function(key,value){
-                                   
-                                       $("#cityid").append('<option value="'+key+'">'+value+'</option>');
-                                   });
-                               }else{
-                                   
-                                   $("#cityid").append('<option value="">Select City</option>');
-                               }
-                               
-                                   
-                           }
-                       });
-               }else{
-                   $("#cityid").empty();
-                   $("#cityid").append('<option value="">Select City</option>');
-               }
+            event.preventDefault();
+            var state_id = $(this).val();
+            console.log(state_id);
+            if(state_id){
+                $.ajax({
+                    url: '{{ route('cityGetStateWise') }}',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    },
+                    type: 'GET',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "state_id": state_id,
+                    },
+                    dataType: 'json',
+                    success: function(html) {
+                        if(html){
+                            $("#cityid").empty();
+                            $("#cityid").append('<option value="">Select City</option>');
+                            $.each(html, function(key, value){
+                                var selected = (key == "{{ old('city_id', isset($student) ? $student->city_id : '') }}") ? 'selected' : '';
+                                $("#cityid").append('<option value="'+key+'" '+selected+'>'+value+'</option>');
+                            });
+                        }else{
+                            $("#cityid").append('<option value="">Select City</option>');
+                        }
+                    }
+                });
+            } else {
+                $("#cityid").empty();
+                $("#cityid").append('<option value="">Select City</option>');
+            }
         });
-
 
         // Handle course type and course dropdowns
         $('#course_type').on('change', function(event){
             event.preventDefault();
-      
             var courseTypeID = $(this).val();
-            console.log(courseTypeID); 
+           
             if (courseTypeID) {
                 $.ajax({
-                   
                     url: '{{ url('/getCourse') }}/' + courseTypeID,
                     type: 'GET',
                     dataType: 'json',
@@ -324,7 +376,8 @@
                         $('#course').empty();
                         $('#course').append('<option value="">Select Course</option>');
                         $.each(data, function(key, value) {
-                            $('#course').append('<option value="' + key + '">' + value + '</option>');
+                            var selected = (key == "{{ old('course_id', isset($student) ? $student->course_id : '') }}") ? 'selected' : '';
+                            $('#course').append('<option value="' + key + '" ' + selected + '>' + value + '</option>');
                         });
                     }
                 });
@@ -335,59 +388,53 @@
         });
 
         // Handle course dropdown change to get duration and fees
-        $('#course').change(function() {
-            var courseID = $(this).val();
-            if (courseID) {
-                $.ajax({
-                     url: '{{ url('/getCourseDetails') }}/' + courseID,
-                  
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        $('#duration').val(data.duration);
-                        $('#fees').val(data.fees);
-                    }
-                });
-            } else {
-                $('#duration').val('');
-                $('#fees').val('');
-            }
-        });
+        
 
         // Set the initial value of cities and courses if editing
         var stateID = $('#stateid').val();
-        var cityID = "{{ isset($student) ? $student->city_id : '' }}";
+        var cityID = "{{ old('city_id', isset($student) ? $student->city_id : '') }}";
         if (stateID && cityID) {
             $.ajax({
-                url: '/getCity/' + stateID,
+                url: '{{ url('/getCity') }}/' + stateID,
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
                     $('#cityid').empty();
                     $('#cityid').append('<option value="">Select City</option>');
                     $.each(data, function(key, value) {
-                        $('#cityid').append('<option value="' + key + '"' + (key == cityID ? ' selected' : '') + '>' + value + '</option>');
+                        var selected = (key == cityID) ? 'selected' : '';
+                        $('#cityid').append('<option value="' + key + '" ' + selected + '>' + value + '</option>');
                     });
                 }
             });
         }
 
         var courseTypeID = $('#course_type').val();
-        var courseID = "{{ isset($student) ? $student->course_id : '' }}";
+        var courseID = "{{ old('course_id', isset($student) ? $student->course_id : '') }}";
         if (courseTypeID && courseID) {
             $.ajax({
-                url: '/getCourse/' + courseTypeID,
+                url: '{{ url('/getCourse') }}/' + courseTypeID,
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
                     $('#course').empty();
                     $('#course').append('<option value="">Select Course</option>');
                     $.each(data, function(key, value) {
-                        $('#course').append('<option value="' + key + '"' + (key == courseID ? ' selected' : '') + '>' + value + '</option>');
+                        var selected = (key == courseID) ? 'selected' : '';
+                        $('#course').append('<option value="' + key + '" ' + selected + '>' + value + '</option>');
                     });
                 }
             });
         }
+
+        // Trigger the initial change events to load the data if editing
+        if (stateID) {
+            $('#stateid').trigger('change');
+        }
+        if (courseTypeID) {
+            $('#course_type').trigger('change');
+        }
     });
 </script>
+
 @endsection

@@ -2,7 +2,9 @@
 @section('content')
 
 <!-- Content Header (Page header) -->
-
+@php
+      use Carbon\Carbon;
+@endphp
 <!-- Main row -->
 <div class="row ">
     <!-- Main Info -->
@@ -31,16 +33,29 @@
                                 </thead>
                                 <tbody>
                                     @foreach($customers as $key => $value)
+                                    @php
+                                       
+                                         $today = Carbon::today();
+                                        $endDate = Carbon::parse($value->plan_end_date);
+                                        $diffInDays = $today->diffInDays($endDate, false);
+                                    @endphp
                                     <tr class="text-center">
                                         <td > {{$value->seat_no}}</td>
                                         <td style="width: 20%;"> <span class="truncate">{{$value->name}}</span></td>
                                         <td> {{$value->mobile}}</td>
                                         <td> {{$value->email }}</td>
-                                        <td> {{$value->seat_no}}</td>
-                                        <td style="width: 15%;"> {{$value->seat_no}}</td>
+                                        <td> {{$value->plan_name}}</td>
+                                        <td style="width: 15%;"> {{$value->plan_type_name}}</td>
                                         <td style="width: 10%;"> {{$value->plan_start_date}}</td>
                                         <td style="width: 13%;"> {{$value->plan_end_date}}
-                                            <small class="text-danger fs-10">Expired On 2 Days</small>
+                                            @if ($diffInDays > 0)
+                                            <small class="text-success fs-10">Expires in {{ $diffInDays }} days</small>
+                                            @elseif ($diffInDays < 0)
+                                                <small class="text-danger fs-10">Expired {{ abs($diffInDays) }} days ago</small>
+                                            @else
+                                                <small class="text-warning fs-10">Expires today</small>
+                                            @endif
+                                           
                                         </td>
                                         <td style="width: 20%;">
                                             <ul class="actionables">

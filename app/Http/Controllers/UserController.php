@@ -188,7 +188,7 @@ class UserController extends Controller
                     //plan type 1=fullday, 2=firstH, 3=secondH,4=hourly	
                     // Determine new seat availability based on conditions
                       
-                    $available=5;
+        $available=5;
         if( $seat->is_available == 1 && $request->plan_type_id==1 ){
             $available = 5;
         }elseif($seat->is_available == 1 && $request->plan_type_id==2 ){
@@ -215,7 +215,18 @@ class UserController extends Controller
     }
     
     public function custmorList(){
-        $customers=Customers::get();
+        $customers = Customers::leftJoin('seats', 'customers.seat_no', '=', 'seats.id')
+        ->leftJoin('plans', 'customers.plan_id', '=', 'plans.id')
+        ->leftJoin('plan_types', 'customers.plan_type_id', '=', 'plan_types.id')
+       
+        ->select(
+            'plan_types.name as plan_type_name',
+            'plans.name as plan_name',
+            'seats.seat_no','customers.*',
+            'plan_types.start_time',
+            'plan_types.end_time',
+        )
+        ->get();
         return view('seat.customer' ,compact('customers'));
     }
     public function seatHistory(){
@@ -234,7 +245,9 @@ class UserController extends Controller
         ->select(
             'plan_types.name as plan_type_name',
             'plans.name as plan_name',
-            'seats.seat_no','customers.*'
+            'seats.seat_no','customers.*',
+            'plan_types.start_time',
+            'plan_types.end_time',
         )
         ->first();
         

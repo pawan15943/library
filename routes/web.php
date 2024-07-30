@@ -37,8 +37,8 @@ Route::get('/home', [DashboardController::class, 'index'])->name('home')->middle
 // Admin routes
 Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('student/transportationList', [StudentController::class, 'transportationList'])->name('student.transportationList');
-    Route::get('accounts/add-payment', [AccountController::class, 'addPayment'])->name('admin.accounts_payment');
-    Route::post('accounts/add-payment', [AccountController::class, 'savePayment'])->name('admin.account.save_payment');
+    Route::get('accounts/add-payment/{id}', [AccountController::class, 'addPayment'])->name('admin.accounts_payment');
+    Route::post('accounts/make-payment', [AccountController::class, 'savePayment'])->name('admin.account.save_payment');
    
     Route::get('accounts', [AccountController::class, 'index'])->name('admin.accounts');
     Route::patch('accounts-verification', [AccountController::class, 'verifyStatus'])->name('admin.accounts_verification');

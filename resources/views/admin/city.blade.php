@@ -104,150 +104,149 @@
 $(document).ready(function() {
    
     
-    $(document.body).on('submit', '#submit', function(event){
-        event.preventDefault();
-            var state_id = $("#stateid").val();   
-            var city_name = $('#city').val();
-            var city_id=$('#city_id').val();
-          
-          
-            if(state_id=='' || state_id==undefined ){
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'State is required.', 
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-                return;
-            }
-            if(city_name=='' || city_name==undefined ){
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'City is required.', 
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-                return;
-            }
-
-
-                $.ajax({
-                    url: '{{ route('city.store') }}',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                    },
-                    type: 'POST',
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                       
-                        state_id: state_id,
-                        city_name: city_name,
-                        id:city_id,
-                    },
-
-                    dataType: 'json',
-                    success: function (response) {
-                        
-                        if (response.success) {
-                            Swal.fire({
-                                title: 'Success!',
-                                text: response.message,
-                                icon: 'success'
-                            }).then(function () {
-                                location.reload();
-                            });
-                        } else if (response.errors) {
-                          
-                            $(".is-invalid").removeClass("is-invalid");
-                            $(".invalid-feedback").remove();
-
-                            $.each(response.errors, function (key, value) {
-                            
-                                if(key=='city_name'){
-                                    $("#city" ).addClass("is-invalid");
-                                    $("#city").after('<span class="invalid-feedback" role="alert">' + value + '</span>');
-                                }
-                               
-                                if(key=='state_id'){
-                                    $("#stateid" ).addClass("is-invalid");
-                                    $("#stateid").after('<span class="invalid-feedback" role="alert">' + value + '</span>');
-                                }
-                             
-                            });
-                        } else {
-                            Swal.fire({
-                                title: 'Error!',
-                                text: response.message,
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            });
-                        }
-                       
-                    }
-                });
-     });
-     $(document.body).on('click','.city_edit',function(){
-        var city_id=$(this).data('id');
-            console.log(city_id);
-            $.ajax({
-                    url: '{{ route('city.edit') }}',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                    },
-                    type: 'GET',
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                        "id": city_id,
-                       
-                    },
-
-                    dataType: 'json',
-                    success: function (response) {
-                        
-                        $('#city_id').val(response.city.id);
-                        $('#countryid').val(response.city.country_id);
-                        $('#city').val(response.city.city_name);
-                        $("#stateid").append('<option value="'+response.city.state_id+'"selected>'+response.state+'</option>');
-                    }
-                });
-
-    });
-
-     $('.delete').click(function(e) {
-        if(!confirm('Are you sure you want to delete this City?')) {
-            e.preventDefault();
-        }
-        var city_id=$(this).data('id');
-        $.ajax({
-            url: '{{ route('city.destroy') }}',
-            type: 'post',
-            data: {
-                "_token": "{{ csrf_token() }}",
-                "id": city_id,
-                       
-                },
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
+        $(document.body).on('submit', '#submit', function(event){
+            event.preventDefault();
+                var state_id = $("#stateid").val();   
+                var city_name = $('#city').val();
+                var city_id=$('#city_id').val();
+            
+            
+                if(state_id=='' || state_id==undefined ){
                     Swal.fire({
-                        title: 'Success!',
-                        text: response.message,
-                        icon: 'success'
-                    }).then(function() {
-                       
-                        location.reload(); 
-                        
+                        title: 'Error!',
+                        text: 'State is required.', 
+                        icon: 'error',
+                        confirmButtonText: 'OK'
                     });
-                } else {
-                    // Handle other cases if needed
+                    return;
                 }
-            },
-            error: function(error) {
-                // Handle errors if the AJAX request fails
-            }
+                if(city_name=='' || city_name==undefined ){
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'City is required.', 
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+
+
+                    $.ajax({
+                        url: '{{ route('city.store') }}',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                        },
+                        type: 'POST',
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                        
+                            state_id: state_id,
+                            city_name: city_name,
+                            id:city_id,
+                        },
+
+                        dataType: 'json',
+                        success: function (response) {
+                            
+                            if (response.success) {
+                                Swal.fire({
+                                    title: 'Success!',
+                                    text: response.message,
+                                    icon: 'success'
+                                }).then(function () {
+                                    location.reload();
+                                });
+                            } else if (response.errors) {
+                            
+                                $(".is-invalid").removeClass("is-invalid");
+                                $(".invalid-feedback").remove();
+
+                                $.each(response.errors, function (key, value) {
+                                
+                                    if(key=='city_name'){
+                                        $("#city" ).addClass("is-invalid");
+                                        $("#city").after('<span class="invalid-feedback" role="alert">' + value + '</span>');
+                                    }
+                                
+                                    if(key=='state_id'){
+                                        $("#stateid" ).addClass("is-invalid");
+                                        $("#stateid").after('<span class="invalid-feedback" role="alert">' + value + '</span>');
+                                    }
+                                
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: response.message,
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                });
+                            }
+                        
+                        }
+                    });
+        });
+        
+        $(document.body).on('click','.city_edit',function(){
+            var city_id=$(this).data('id');
+                console.log(city_id);
+                $.ajax({
+                        url: '{{ route('city.edit') }}',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                        },
+                        type: 'GET',
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            "id": city_id,
+                        
+                        },
+
+                        dataType: 'json',
+                        success: function (response) {
+                            
+                            $('#city_id').val(response.city.id);
+                            $('#city').val(response.city.city_name);
+                            $("#stateid").val(response.city.state_id);                        }
+                    });
+
         });
 
-     });
+        $('.delete').click(function(e) {
+            if(!confirm('Are you sure you want to delete this City?')) {
+                e.preventDefault();
+            }
+            var city_id=$(this).data('id');
+            $.ajax({
+                url: '{{ route('city.destroy') }}',
+                type: 'post',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "id": city_id,
+                        
+                    },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: response.message,
+                            icon: 'success'
+                        }).then(function() {
+                        
+                            location.reload(); 
+                            
+                        });
+                    } else {
+                        // Handle other cases if needed
+                    }
+                },
+                error: function(error) {
+                    // Handle errors if the AJAX request fails
+                }
+            });
+
+        });
     });
     
 </script>
