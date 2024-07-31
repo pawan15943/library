@@ -79,8 +79,8 @@ class AccountController extends Controller
             $pending_amount=$total_fees;
         }
        
-
-        return view('accounts.add-payment', compact('student','total_fees','pending_amount'));
+        $transaction_list=Transaction::where('student_id',$student->id)->orderBy('id','ASC')->get();
+        return view('accounts.add-payment', compact('student','total_fees','pending_amount','transaction_list'));
     }
 
     

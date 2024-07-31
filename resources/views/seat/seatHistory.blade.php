@@ -66,7 +66,7 @@ $today = Carbon::today();
                                             <td rowspan="{{ $usersForSeat->count() }}">
                                                 <ul class="actionables">
                                                     <li>
-                                                        <a href="{{$seat->id}}" class="btn tooltips btn-default p-2 btn-sm rounded" title="View Seat"><i class="fas fa-eye"></i></a>
+                                                        <a href="{{ route('seats.history', $seat->id) }}" class="btn tooltips btn-default p-2 btn-sm rounded" title="View Seat"><i class="fas fa-eye"></i></a>
                                                     </li>
                                                 </ul>
                                             </td>

@@ -15,6 +15,7 @@ class DashboardController extends Controller
         $user=Auth::user();
        
         if ($user->hasRole('Super Admin')) {
+            
             $count_fullday=Customers::where('hours',16)->count();
             $count_firstH=Customers::where('hours',8)->where('plan_type_id',2)->count();
             $count_secondH=Customers::where('hours',8)->where('plan_type_id',3)->count();

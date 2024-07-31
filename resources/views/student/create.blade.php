@@ -253,7 +253,28 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Profile Image</label>
+                                <input type="file" class="form-control @error('profile_image') is-invalid @enderror" name="profile_image" accept="image/*">
+                                @error('profile_image')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
                         
+                        @if(isset($student) && $student->profile_image)
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Current Profile Image</label>
+                                    <div>
+                                        <img src="{{ asset('storage/' . $student->profile_image) }}" alt="Profile Image" class="img-thumbnail" width="150">
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-12">

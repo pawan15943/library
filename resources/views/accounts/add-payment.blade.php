@@ -55,7 +55,7 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label>Paid Amount</label>
+                                <label>Paid Date</label>
                                 <input type="date" class="form-control digit-only @error('paid_date') is-invalid @enderror" name="paid_date" 
                                     value="{{ old('paid_date')}}" >
                                 @error('paid_date')
@@ -77,6 +77,32 @@
                 </form>
                 
             </div>
+            <div class="card card-default">
+                @php
+                    $i = 1;
+                @endphp
+                @foreach($transaction_list as $key => $value)
+                    <div class="transaction-item">
+                        <label>Installment {{$i}}</label>
+                        <div class="form-group">
+                            <label>Paid Amount</label>
+                            <input type="text" class="form-control" value="{{$value->paid_amount}}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Pending Amount</label>
+                            <input type="text" class="form-control" value="{{$value->pending_amount}}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Paid Amount Date</label>
+                            <input type="text" class="form-control" value="{{$value->paid_date}}" readonly>
+                        </div>
+                    </div>
+                    @php
+                        $i++;
+                    @endphp
+                @endforeach
+            </div>
+            
         </div>
     </div>
 </div>

@@ -27,7 +27,7 @@ class StudentController extends Controller
     {
         $user = auth()->user();
        
-        $datas = Student::select('students.*','states.state_name','cities.city_name','grades.class_name','courses.course_name','course_types.name as course_type')
+        $datas = Student::select('students.*','states.state_name','cities.city_name','grades.class_name','courses.course_name','course_types.name as course_type','courses.duration','courses.course_fees')
         ->leftJoin('states', 'students.state_id', '=', 'states.id')
         ->leftJoin('cities', 'students.city_id', '=', 'cities.id')
         ->leftJoin('grades', 'students.grade_id', '=', 'grades.id')
@@ -38,22 +38,30 @@ class StudentController extends Controller
         if ($request->ajax()) {
             return DataTables::of($datas)
                 ->addIndexColumn()
-          
+                ->addColumn('is_paid', function($row){
+                    return $row->is_paid == 1 ? 'Yes' : 'No';
+                })
+                ->addColumn('is_completed', function($row){
+                    return $row->status == 0 ? 'Yes' : 'No';
+                })
+                ->addColumn('is_certificate', function($row){
+                    return $row->is_certificate == 1 ? 'Yes' : 'No';
+                })
                 ->addColumn('action', function ($row) use ($user) {
                     $btn = '<ul class="actionables">';
-                  
-                   
-                  
-                        $btn .= '<li><a href="' . route('student.edit', $row->id) . '"class="btn tooltips btn-default p-2 btn-sm rounded mr-2" title="Edit Student"><i class="fas fa-edit"></i></a></li>';
-                 
-                    
+                    $btn .= '<li><a href="' . route('student.edit', $row->id) . '" class="btn tooltips btn-default p-2 btn-sm rounded mr-2" title="Edit Student"><i class="fas fa-edit"></i></a></li>
+                        <li><a href="' . route('student.show', $row->id) . '" class="btn tooltips btn-default p-2 btn-sm rounded mr-2" title="View Student"><i class="fas fa-eye"></i></a></li>
+                        <li><a href="#" class="btn tooltips btn-default p-2 btn-sm rounded mr-2 delete-student" data-id="' . $row->id . '" title="Delete Student"><i class="fas fa-trash"></i></a></li>
+                        <li><a href="' . route('admin.accounts_payment', $row->id) . '" class="btn tooltips btn-default p-2 btn-sm rounded mr-2" title="make payment"><i class="fas fa-credit-card"></i></a></li>
+                        <li><a href="javascript:void(0)" class="btn tooltips btn-default p-2 btn-sm rounded mr-2 toggle-certificate" data-id="' . $row->id . '" title="Certificate Status"><i class="fas fa-certificate"></i></a></li>
+                        <li><a href="javascript:void(0)" class="btn tooltips btn-default p-2 btn-sm rounded mr-2 toggle-active" data-id="' . $row->id . '" title="Active Status"><i class="fas fa-star"></i></a></li>';
                     $btn .= '</ul>';
-
                     return $btn;
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['contact_info', 'action'])
                 ->make(true);
         }
+    
         return view('student.index');
 
     }
@@ -95,7 +103,7 @@ class StudentController extends Controller
             'course_type_id' => 'required|exists:course_types,id',
             'course_id' => 'required|exists:courses,id',
         ]);
-
+        $validated['form_no']=$this->getNewFormNumber();
         Student::create($validated);
 
         return redirect()->route('student.index')->with('success', 'Student created successfully.');
@@ -107,7 +115,25 @@ class StudentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $student = Student::select(
+            'students.*',
+            'states.state_name',
+            'cities.city_name',
+            'grades.class_name',
+            'courses.course_name',
+            'course_types.name as course_type',
+            'courses.duration',
+            'courses.course_fees'
+        )
+        ->leftJoin('states', 'students.state_id', '=', 'states.id')
+        ->leftJoin('cities', 'students.city_id', '=', 'cities.id')
+        ->leftJoin('grades', 'students.grade_id', '=', 'grades.id')
+        ->leftJoin('courses', 'students.course_id', '=', 'courses.id')
+        ->leftJoin('course_types', 'courses.course_type', '=', 'course_types.id')
+        ->where('students.id', $id)
+        ->firstOrFail();
+
+        return view('student.show', compact('student'));
     }
 
     /**
@@ -176,7 +202,10 @@ class StudentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $student = Student::findOrFail($id);
+        $student->delete();
+    
+        return response()->json(['success' => 'Student deleted successfully.']);
     }
 
     
@@ -214,7 +243,54 @@ class StudentController extends Controller
         ];
         return response()->json($courseDetails);
     }
-    
+    public function getNewFormNumber()
+    {
+      
+        $form_num=250000001;
+        
+        if(Student::select('form_no')->count()>0)
+        {
+            $get_last_form=Student::select('form_no')->where('form_no','>','250000000')->orderBy('form_no', 'desc')->first();
+            if(isset($get_last_form->form_num) && !empty($get_last_form->form_num))
+            {
+                $form_num=$get_last_form->form_num;
+                $form_num++;
+            }
+            
+        }
+        while (Student::select('form_no')->where('form_no',"=",$form_num)->count()>0) {
+            $form_num++;
+        }
+        return $form_num;
+    }
+
+    public function toggleActive($id)
+    {
+        
+        $student = Student::findOrFail($id);
+        if ($student->status == 0) {
+            $student->status = 1;
+        } else {
+            $student->status = 0;
+        };
+        $student->save();
+
+        return response()->json(['success' => 'Student status updated successfully.']);
+    }
+
+    public function toggleCertificate($id)
+    {
+        $student = Student::findOrFail($id);
+        if ($student->is_certificate == 0) {
+            $student->is_certificate = 1;
+        } else {
+            $student->is_certificate = 0;
+        };
+        $student->save();
+      
+
+        return response()->json(['success' => 'Student certificate status updated successfully.']);
+    }
 
    
 

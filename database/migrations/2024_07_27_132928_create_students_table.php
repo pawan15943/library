@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
+            $table->string('form_no');
             $table->string('name');
             $table->string('mobile');
             $table->string('alt_mobile')->nullable();
@@ -29,6 +30,8 @@ return new class extends Migration
             $table->unsignedBigInteger('course_type_id');
             $table->unsignedBigInteger('course_id');
             $table->boolean('status')->default(1);
+            $table->boolean('is_paid')->default(0);
+            $table->boolean('is_certificate')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

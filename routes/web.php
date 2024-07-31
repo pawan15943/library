@@ -102,6 +102,10 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/getCity/{state_id}', [StudentController::class, 'getCity']);
     Route::get('/getCourse/{course_type_id}', [StudentController::class, 'getCourse']);
     Route::get('/getCourseDetails/{course_id}', [StudentController::class, 'getCourseDetails']);
+    Route::post('/students/{id}/toggle-active', [StudentController::class, 'toggleActive'])->name('students.toggleActive');
+    Route::post('/students/{id}/toggle-certificate', [StudentController::class, 'toggleCertificate'])->name('students.toggleCertificate');
+    Route::get('/seats/{id}/history', [UserController::class, 'history'])->name('seats.history');
+
 });
 
 

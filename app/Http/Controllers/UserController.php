@@ -349,6 +349,41 @@ class UserController extends Controller
         ], 200);
     }
 
-    
+    public function show($id)
+    {
+        $customer = Customers::leftJoin('seats', 'customers.seat_no', '=', 'seats.id')
+            ->leftJoin('plans', 'customers.plan_id', '=', 'plans.id')
+            ->leftJoin('plan_types', 'customers.plan_type_id', '=', 'plan_types.id')
+            ->select(
+                'plan_types.name as plan_type_name',
+                'plans.name as plan_name',
+                'seats.seat_no',
+                'customers.*',
+                'plan_types.start_time',
+                'plan_types.end_time'
+            )
+            ->where('customers.id', $id)
+            ->firstOrFail();
+
+        return view('customers.show', compact('customer'));
+    }
+    public function history($id)
+    {
+        $customers = Customers::leftJoin('plans', 'customers.plan_id', '=', 'plans.id')
+        ->leftJoin('plan_types', 'customers.plan_type_id', '=', 'plan_types.id')
+       ->where('customers.seat_no',$id)
+       ->where('customers.status',0)
+        ->select(
+            'plan_types.name as plan_type_name',
+            'plans.name as plan_name',
+            'customers.*',
+            'plan_types.start_time',
+            'plan_types.end_time',
+        )
+        ->get();
+        $seat=DB::table('seats')->where('id',$id)->first('seat_no');
+        return view('seat.seatHistoryView', compact('customers','seat'));
+    }
+
 
 }
