@@ -48,11 +48,13 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    
+                    @php
+                    $x=1;
+                    @endphp
                     <tbody>
                         @foreach($grades as $key => $value)
                         <tr>
-                            <td>{{$value->id}}</td>
+                            <td>{{$x++}}</td>
                             <td>{{$value->class_name}}</td>
                            
                             @if($value->is_active==1)

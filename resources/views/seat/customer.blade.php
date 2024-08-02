@@ -4,7 +4,9 @@
 <!-- Content Header (Page header) -->
 @php
       use Carbon\Carbon;
+      $current_route = Route::currentRouteName();
 @endphp
+
 <!-- Main row -->
 <div class="row ">
     <!-- Main Info -->
@@ -59,10 +61,11 @@
                                         </td>
                                         <td style="width: 20%;">
                                             <ul class="actionables">
-                                                <li><a href="#" class="btn tooltips btn-default p-2 btn-sm rounded " title="Edit Route"><i class="fas fa-edit"></i></a></li>
+                                               
+                                                <li><a href="{{route('edit.user',$value->id)}}" class="btn tooltips btn-default p-2 btn-sm rounded " title="Edit Route"><i class="fas fa-edit"></i></a></li>
                                                 <li>
-                                                <a href="#" class="btn tooltips btn-default p-2 btn-sm rounded" title="Edit Route"><i class="fas fa-eye"></i></a></li>
-                                                <li><a href="#" class="btn tooltips btn-default p-2 btn-sm rounded" title="Edit Route"><i class="fas fa-trash"></i></a></li>
+                                                <a href="{{route('geUser',$value->id)}}" class="btn tooltips btn-default p-2 btn-sm rounded" title="Edit Route"><i class="fas fa-eye"></i></a></li>
+                                                <li><a href="#" class="btn tooltips btn-default p-2 btn-sm rounded mr-2 delete-customer" data-id="{{$value->id}}" title="Delete Customer"><i class="fas fa-trash"></i></a></li>
                                             </ul>
                                             
                                     </td>
@@ -90,6 +93,48 @@
     $(document).ready(function() {
         $('#datatable').DataTable();
     });
+    $(document).on('click', '.delete-customer', function() {
+    var id = $(this).data('id');
+    var url = '{{ route('customers.destroy', ':id') }}';
+    url = url.replace(':id', id);
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: url,
+                type: 'DELETE',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    Swal.fire(
+                        'Deleted!',
+                        'User has been deleted.',
+                        'success'
+                    ).then(() => {
+                        location.reload(); // Optionally, you can refresh the page
+                    });
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire(
+                        'Error!',
+                        'An error occurred while deleting the student.',
+                        'error'
+                    );
+                }
+            });
+        }
+    });
+});
+
 </script>
 
 

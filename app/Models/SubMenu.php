@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\Notifiable;
 
-class Customers extends Model
+class SubMenu extends Model
 {
-    use HasFactory,SoftDeletes,Notifiable;
+    use HasFactory;
     protected $guarded = []; 
+    public function children()
+    {
+        return $this->hasMany(Menu::class, 'parent_id');
+    }
 }

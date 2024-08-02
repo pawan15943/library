@@ -103,7 +103,6 @@ class UserController extends Controller
             $seats[] = [
                 'seat_no' => $startSeatNo + $i,
                 'is_available' => true,
-                'plan_type' => json_encode([]),
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
@@ -113,22 +112,66 @@ class UserController extends Controller
     
         return redirect()->route('seats')->with('success', 'Data created successfully.');
     }
-    public function customerStore(Request $request){
-  
-        $validator = Validator::make($request->all(), [
+    protected function validateCustomer(Request $request, $id = null)
+    {
+        $rules = [
             'seat_no' => 'required|integer',
-            'name' => 'required|string|max:255',
-            'mobile' => 'required|string|max:15',
-            'email' => 'required|email|max:255',
-            'dob' => 'required|date',
             'plan_id' => 'required|integer',
             'plan_type_id' => 'required|integer',
-            'plan_start_date' => 'required|date',
-          
-            'plan_price_id' => 'required',
-        
-            // 'id_proof_file' => 'file|mimes:jpg,jpeg,png,pdf|max:2048',
-        ]);
+            'plan_price_id' => 'required|integer',
+        ];
+
+        // If it's an update (i.e., $id is not null), add conditional rules
+        if ($id) {
+            $validator = Validator::make($request->all(), $rules);
+            
+            // Conditionally require fields if $id is not null
+            $validator->sometimes(['name', 'dob', 'mobile', 'email'], 'required', function ($input) use ($id) {
+                return $id !== null;
+            });
+            
+            // Conditionally require 'user_id' if $id is null
+            $validator->sometimes('user_id', 'required|integer', function ($input) use ($id) {
+                return !$id;
+            });
+
+            return $validator;
+        }
+
+        // For create, return the validator with basic rules
+        return Validator::make($request->all(), $rules);
+    }
+    protected function seat_availablity(Request $request){
+     
+        $seat = DB::table('seats')->where('seat_no', $request->seat_no)->first();
+        //available(not booked)=1,not available=0, firstHBook= 2 secondHbook=3 hourly=4 , fullbooked=5
+                    //plan type 1=fullday, 2=firstH, 3=secondH,4=hourly	
+                    // Determine new seat availability based on conditions
+                      
+        $available=5;
+        if( $seat->is_available == 1 && $request->plan_type_id==1 ){
+            $available = 5;
+        }elseif($seat->is_available == 1 && $request->plan_type_id==2 ){
+            $available = 2;
+        }elseif($seat->is_available == 1 && $request->plan_type_id==3 ){
+            $available = 3;
+        }elseif($seat->is_available == 1 && $request->plan_type_id==4 ){
+            $available = 4;
+        }elseif($seat->is_available == 2 && $request->plan_type_id==3){
+            $available = 5;
+        }elseif($seat->is_available == 3 && $request->plan_type_id==2){
+            $available = 5;
+        }elseif($seat->is_available == 4 && ($request->plan_type_id==5 || $request->plan_type_id==6 || $request->plan_type_id==5)){
+            $available = 4;
+        }
+      
+        // Update seat availability
+        DB::table('seats')->where('seat_no', $request->seat_no)->update(['is_available' => $available]);
+    }
+    
+    public function customerStore(Request $request){
+  
+        $validator = $this->validateCustomer($request);
         if(Customers::where('seat_no',$request->seat_no)->where('plan_type_id',$request->plan_type_id)->count()>0){
             return response()->json([
                 'error' => true,
@@ -183,37 +226,93 @@ class UserController extends Controller
             'hours' =>$hours,
             'payment_mode' => $request->input('payment_mode'),
         ]);
-        $seat = DB::table('seats')->where('seat_no', $request->seat_no)->first();
-        //available(not booked)=1,not available=0, firstHBook= 2 secondHbook=3 hourly=4 , fullbooked=5
-                    //plan type 1=fullday, 2=firstH, 3=secondH,4=hourly	
-                    // Determine new seat availability based on conditions
-                      
-        $available=5;
-        if( $seat->is_available == 1 && $request->plan_type_id==1 ){
-            $available = 5;
-        }elseif($seat->is_available == 1 && $request->plan_type_id==2 ){
-            $available = 2;
-        }elseif($seat->is_available == 1 && $request->plan_type_id==3 ){
-            $available = 3;
-        }elseif($seat->is_available == 1 && $request->plan_type_id==4 ){
-            $available = 4;
-        }elseif($seat->is_available == 2 && $request->plan_type_id==3){
-            $available = 5;
-        }elseif($seat->is_available == 3 && $request->plan_type_id==2){
-            $available = 5;
-        }elseif($seat->is_available == 4 && ($request->plan_type_id==5 || $request->plan_type_id==6 || $request->plan_type_id==5)){
-            $available = 4;
-        }
-      
         // Update seat availability
-        DB::table('seats')->where('seat_no', $request->seat_no)->update(['is_available' => $available]);
+
+        $this->seat_availablity($request);
         // Return a JSON response
         return response()->json([
             'success' => true,
             'message' => 'Customer created successfully!',
         ], 201);
     }
-    
+    // customer update and upgrade plan function
+    public function userUpdate(Request $request, $id = null)
+    {
+      
+        $validator = $this->validateCustomer($request, $id);
+       
+        if($request->input('user_id')){
+            $user_id=$request->input('user_id');
+
+                // Check if the validation fails
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+        }else{
+            $user_id=$id;
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+        }
+       
+        // Find the customer by user_id
+        $customer = Customers::findOrFail($user_id);
+        if (!$customer) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Customer not found.'
+            ], 404);
+        }
+
+        // Determine hours based on plan_type_id
+        if(PlanType::where('id',$request->plan_type_id)->count()>0){
+            $hours=PlanType::where('id',$request->plan_type_id)->value('slot_hours');
+        }
+       
+       
+        // Calculate new plan_end_date by adding duration to the current plan_end_date
+        $months=Plan::where('id',$request->plan_id)->value('plan_id');
+        $duration = $months ?? 0;
+        $currentEndDate = Carbon::parse($customer->plan_end_date);
+        $newEndDate = $currentEndDate->addMonths($duration);
+        // Handle the file upload
+        if ($request->hasFile('id_proof_file')) {
+            $file = $request->file('id_proof_file');
+            $filePath = $file->store('id_proofs', 'public');
+        }else{
+            $filePath=null;
+        }
+        // Update customer details
+        $customer->seat_no = $request->input('seat_no');
+        $customer->plan_id = $request->input('plan_id');
+        $customer->plan_type_id = $request->input('plan_type_id');
+        $customer->plan_price_id = $request->input('plan_price_id');
+        $customer->name = $request->input('name');
+        $customer->mobile = $request->input('mobile');
+        $customer->email = $request->input('email');
+        $customer->plan_end_date = $newEndDate->toDateString();
+        $customer->hours = $hours;
+        $customer->id_proof_file = $filePath;
+        $customer->save();
+
+        // Update seat availability
+        $this->seat_availablity($request);
+
+
+        if($request->input('user_id')){
+            // Return a JSON response
+            return response()->json([
+                'success' => true,
+                'message' => 'Customer updated successfully!',
+            ], 200);
+        }else{
+            return redirect('customers/list')->with('success', 'User Update successfully.');
+        }
+       
+    }
     public function custmorList(){
         $customers = Customers::leftJoin('seats', 'customers.seat_no', '=', 'seats.id')
         ->leftJoin('plans', 'customers.plan_id', '=', 'plans.id')
@@ -235,123 +334,14 @@ class UserController extends Controller
        
         return view('seat.seatHistory' ,compact('customers_seats','seats'));
     }
-    public function geUser(Request $request){
-       
-        $customer_seats = Customers::where('customers.id', $request->id)
-        ->leftJoin('seats', 'customers.seat_no', '=', 'seats.id')
-        ->leftJoin('plans', 'customers.plan_id', '=', 'plans.id')
-        ->leftJoin('plan_types', 'customers.plan_type_id', '=', 'plan_types.id')
-       
-        ->select(
-            'plan_types.name as plan_type_name',
-            'plans.name as plan_name',
-            'seats.seat_no','customers.*',
-            'plan_types.start_time',
-            'plan_types.end_time',
-        )
-        ->first();
-        
-        return response()->json($customer_seats);
-    }
-   
-
-    public function userUpdate(Request $request)
+    public function getUser(Request $request, $id = null)
     {
-      
-        $validator = Validator::make($request->all(), [
-            'seat_no' => 'required|integer',
-            'user_id' => 'required|integer',
-            'plan_id' => 'required|integer',
-            'plan_type_id' => 'required|integer',
-            'plan_price_id' => 'required|integer',
-           
-        ]);
+        // Determine the customer ID to use
+        $customerId = $request->id ?? $id;
 
-        // Check if the validation fails
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
-        // Find the customer by user_id
-        $customer = Customers::find($request->input('user_id'));
-        if (!$customer) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Customer not found.'
-            ], 404);
-        }
-
-        // Determine hours based on plan_type_id
-        if ($request->plan_type_id == 1) {
-            $hours = 16;
-        } elseif ($request->plan_type_id == 2 || $request->plan_type_id == 3) {
-            $hours = 8;
-        } elseif ($request->plan_type_id == 4) {
-            $hours = 4;
-        }
-        if($request->plan_id == 1){
-            $duration=1;
-        }elseif($request->plan_id == 2){
-            $duration=2;
-        }elseif($request->plan_id == 3){
-            $duration=3;
-        }elseif($request->plan_id == 4){
-            $duration=4;
-        }elseif($request->plan_id == 5){
-            $duration=5;
-        }elseif($request->plan_id == 6){
-            $duration=6;
-        }elseif($request->plan_id == 7){
-            $duration=12;
-        }
-
-        // Calculate new plan_end_date by adding duration to the current plan_end_date
-        $currentEndDate = Carbon::parse($customer->plan_end_date);
-        $newEndDate = $currentEndDate->addMonths($duration);
-
-        // Update customer details
-        $customer->seat_no = $request->input('seat_no');
-        $customer->plan_id = $request->input('plan_id');
-        $customer->plan_type_id = $request->input('plan_type_id');
-        $customer->plan_price_id = $request->input('plan_price_id');
-        $customer->plan_end_date = $newEndDate->toDateString();
-        $customer->hours = $hours;
-        $customer->save();
-
-        // Update seat availability
-        $seat = DB::table('seats')->where('seat_no', $request->seat_no)->first();
-        //available(not booked)=1,not available=0, firstHBook= 2 secondHbook=3 hourly=4 , fullbooked=5
-        //plan type 1=fullday, 2=firstH, 3=secondH,4=hourly    
-        // Determine new seat availability based on conditions
-
-        if ($seat->is_available == 1 && $request->plan_type_id == 1) {
-            $available = 5;
-        } elseif ($seat->is_available == 1 && $request->plan_type_id == 2) {
-            $available = 2;
-        } elseif ($seat->is_available == 1 && $request->plan_type_id == 3) {
-            $available = 3;
-        } elseif ($seat->is_available == 1 && $request->plan_type_id == 4) {
-            $available = 4;
-        } else {
-            $available = 4;
-        }
-
-        // Update seat availability
-        DB::table('seats')->where('seat_no', $request->seat_no)->update(['is_available' => $available]);
-
-        // Return a JSON response
-        return response()->json([
-            'success' => true,
-            'message' => 'Customer updated successfully!',
-        ], 200);
-    }
-
-    public function show($id)
-    {
-        $customer = Customers::leftJoin('seats', 'customers.seat_no', '=', 'seats.id')
+        // Query to get customer details
+        $customer = Customers::where('customers.id', $customerId)
+            ->leftJoin('seats', 'customers.seat_no', '=', 'seats.id')
             ->leftJoin('plans', 'customers.plan_id', '=', 'plans.id')
             ->leftJoin('plan_types', 'customers.plan_type_id', '=', 'plan_types.id')
             ->select(
@@ -362,11 +352,17 @@ class UserController extends Controller
                 'plan_types.start_time',
                 'plan_types.end_time'
             )
-            ->where('customers.id', $id)
             ->firstOrFail();
-
-        return view('customers.show', compact('customer'));
+            $plans = Plan::all();
+            $planTypes = PlanType::all();
+        // Check the request type or the presence of a parameter to determine the response
+        if ($request->expectsJson() || $request->has('id')) {
+            return response()->json($customer);
+        } else {
+            return view('seat.customerShow', compact('customer', 'plans', 'planTypes'));
+        }
     }
+
     public function history($id)
     {
         $customers = Customers::leftJoin('plans', 'customers.plan_id', '=', 'plans.id')
@@ -383,6 +379,16 @@ class UserController extends Controller
         ->get();
         $seat=DB::table('seats')->where('id',$id)->first('seat_no');
         return view('seat.seatHistoryView', compact('customers','seat'));
+    }
+
+    public function destroy($id)
+    {
+        
+        $customer = Customers::findOrFail($id);
+      
+        $customer->delete();
+    
+        return response()->json(['success' => 'User deleted successfully.']);
     }
 
 

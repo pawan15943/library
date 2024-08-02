@@ -68,11 +68,13 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    
+                    @php
+                    $x=1;
+                    @endphp
                     <tbody>
                         @foreach($citys as $key => $city)
                         <tr>
-                            <td>{{$city->city_id}}</td>
+                            <td>{{$x++}}</td>
                             <td>{{$city->city_name}}</td>
                             <td>{{$city->state_name}}</td>
                           

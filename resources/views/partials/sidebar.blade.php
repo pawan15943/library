@@ -2,6 +2,9 @@
 <ul class="navbar-nav bg-custom-primary sidebar sidebar-dark accordion" id="accordionSidebar">
     @php
     $current_route = Route::currentRouteName();
+    $menu=App\Models\Menu::where('name','!=','Dashboard')->get();
+    $submenu=App\Models\SubMenu::where('name','!=','Dashboard')->get();
+    $i=1;
     @endphp
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -25,69 +28,32 @@
     <hr class="sidebar-divider">
 
     <!-- Nav Item - Manage Students -->
-    <li class="nav-item @if ($current_route == 'student.index') @endif">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseManageStudents" aria-expanded="true" aria-controls="collapseManageStudents">
-            <i class="fa fa-fw fa-user-graduate"></i>
-            <span>Manage Students</span>
-        </a>
-        <div id="collapseManageStudents" class="collapse" aria-labelledby="headingManageStudents" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a href="{{ route('student.index') }}" class="collapse-item @if ($current_route == 'student.index') active @endif">
-                    Student List
-                </a>
-                <a href="{{ route('admin.accounts') }}" class="collapse-item @if ($current_route == 'admin.accounts') active @endif">
-                    Payment List
-                </a>
-            </div>
-        </div>
-    </li>
+    
+@foreach($menu as $key => $value)
 
-    <!-- Nav Item - Manage Seats -->
-    <li class="nav-item @if ($current_route == 'seats') @endif">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseManageSeats" aria-expanded="true" aria-controls="collapseManageSeats">
-            <i class="fa fa-fw fa-chair"></i>
-            <span>Manage Seats</span>
-        </a>
-        <div id="collapseManageSeats" class="collapse" aria-labelledby="headingManageSeats" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a href="{{ route('seats') }}" class="collapse-item @if ($current_route == 'seats') active @endif">
-                    Library Sitting
-                </a>
-                <a href="{{ route('customers.list') }}" class="collapse-item @if ($current_route == 'customers.list') active @endif">
-                    Users Allotment
-                </a>
-                <a href="{{ route('history.seat.list') }}" class="collapse-item @if ($current_route == 'history.seat.list') active @endif">
-                    Seat Booking History
-                </a>
-            </div>
-        </div>
-    </li>
+<li class="nav-item @if ($current_route == $value->url) @endif">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseManageMasters{{$i}}" aria-expanded="true" aria-controls="collapseManageMasters">
+        <i class="fa fa-fw fa-cog"></i>
+        <span>{{$value->name}}</span>
+    </a>
+    <div id="collapseManageMasters{{$i}}" class="collapse" aria-labelledby="headingManageMasters" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            @foreach($submenu as $key => $subvalue)
+            @if($value->id==$subvalue->parent_id)
+            <a href="{{ route($subvalue->url) }}" class="collapse-item @if ($current_route == $subvalue->url) active @endif">{{$subvalue->name}}</a>  
 
+            @endif
+            @endforeach
+           
+        </div>
+    </div>
+</li>
+@php
+    $i++;
+@endphp
+@endforeach
     <!-- Nav Item - Manage Masters -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseManageMasters" aria-expanded="true" aria-controls="collapseManageMasters">
-            <i class="fa fa-fw fa-cog"></i>
-            <span>Manage Masters</span>
-        </a>
-        <div id="collapseManageMasters" class="collapse" aria-labelledby="headingManageMasters" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a href="{{ route('plan.create') }}" class="collapse-item @if ($current_route == 'plan.create') active @endif">
-                    Manage Plans
-                </a>
-                <a href="{{ route('planType.create') }}" class="collapse-item @if ($current_route == 'planType.create') active @endif">
-                    Manage Plans Type
-                </a>
-                <a href="{{ route('planPrice.create') }}" class="collapse-item @if ($current_route == 'planPrice.create') active @endif">
-                    Manage Plans Price
-                </a>
-                <a href="{{ route('state') }}" class="collapse-item @if ($current_route == 'state') active @endif">State Master</a>
-                <a href="{{ route('city') }}" class="collapse-item @if ($current_route == 'city') active @endif">City Master</a>
-                <a href="{{ route('course') }}" class="collapse-item @if ($current_route == 'course') active @endif">Course Master</a>
-                <a href="{{ route('class') }}" class="collapse-item @if ($current_route == 'class') active @endif">Class Master</a>
-                <a href="{{ route('courseType') }}" class="collapse-item @if ($current_route == 'courseType') active @endif">Course Type Master</a>
-            </div>
-        </div>
-    </li>
+    
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

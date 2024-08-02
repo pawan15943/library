@@ -19,17 +19,13 @@
                     <div class="row mt-3">
                         <div class="col-lg-6 ">
                             <div class="form-group">
-                                <label> Plan Name<sup class="text-danger">*</sup></label>
+                                <label> Plan Name<sup class="text-danger"></sup></label>
                                 <select name="plan_id" id="plan_id" class="form-control @error('plan_id') is-invalid @enderror event">
                                     <option value="">Select Plan</option>
                                     @foreach ($plans as $value)
                                         <option value="{{ $value->id }}"
                                             {{ isset($planPrice) && $planPrice->plan_id == $value->id ? 'selected' : '' }}>
-                                            @if($value->name==12)
-                                            Yearly
-                                            @else
                                             {{ $value->name }} 
-                                            @endif
                                         </option>
                                     @endforeach
                                 </select>

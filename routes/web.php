@@ -6,6 +6,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseTypeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DataController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PlanController;
@@ -36,6 +37,18 @@ Route::get('/home', [DashboardController::class, 'index'])->name('home')->middle
 
 // Admin routes
 Route::middleware(['auth', 'is_admin'])->group(function () {
+    Route::get('menu/create', [DataController::class, 'create'])->name('menu.create');
+    Route::post('menu/store', [DataController::class, 'store'])->name('menu.store');
+    Route::get('menu/edit/{id?}', [DataController::class, 'edit'])->name('menu.edit');
+    Route::put('menu/update', [DataController::class, 'update'])->name('menu.update');
+    Route::delete('menu/destroy', [DataController::class, 'delete'])->name('menu.destroy');
+
+    Route::get('submenu/create', [DataController::class, 'submenu_create'])->name('submenu.create');
+    Route::post('submenu/store', [DataController::class, 'submenu_store'])->name('submenu.store');
+    Route::get('submenu/edit/{id?}', [DataController::class, 'submenu_edit'])->name('submenu.edit');
+    Route::put('submenu/update', [DataController::class, 'submenu_update'])->name('submenu.update');
+    Route::delete('submenu/destroy', [DataController::class, 'submenu_delete'])->name('submenu.destroy');
+
     Route::get('student/transportationList', [StudentController::class, 'transportationList'])->name('student.transportationList');
     Route::get('accounts/add-payment/{id}', [AccountController::class, 'addPayment'])->name('admin.accounts_payment');
     Route::post('accounts/make-payment', [AccountController::class, 'savePayment'])->name('admin.account.save_payment');
@@ -70,8 +83,13 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::post('customers/store', [UserController::class, 'customerStore'])->name('customers.store');
     Route::get('customers/list', [UserController::class, 'custmorList'])->name('customers.list');
     Route::get('seat/history/list', [UserController::class, 'seatHistory'])->name('history.seat.list');
-    Route::get('user/show', [UserController::class, 'geUser'])->name('geUser');
-    Route::post('user/update', [UserController::class, 'userUpdate'])->name('user.update');
+    Route::get('user/show/{id?}', [UserController::class, 'getUser'])->name('geUser');
+    Route::get('user/edit/{id?}', [UserController::class, 'getUser'])->name('edit.user');
+    // Define a single route that can handle both cases
+
+
+    Route::put('user/update/{id?}', [UserController::class, 'userUpdate'])->name('cutomer.update');
+    Route::post('user/update/', [UserController::class, 'userUpdate'])->name('user.update');
     
     Route::get('/state', [StateController::class, 'index'])->name('state');
     Route::post('/state/store', [StateController::class, 'store'])->name('state.store');
@@ -105,6 +123,9 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::post('/students/{id}/toggle-active', [StudentController::class, 'toggleActive'])->name('students.toggleActive');
     Route::post('/students/{id}/toggle-certificate', [StudentController::class, 'toggleCertificate'])->name('students.toggleCertificate');
     Route::get('/seats/{id}/history', [UserController::class, 'history'])->name('seats.history');
+    Route::delete('/Customers/{Customers}', [UserController::class, 'destroy'])->name('customers.destroy');
+  
+
 
 });
 

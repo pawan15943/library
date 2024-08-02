@@ -26,7 +26,7 @@ class DashboardController extends Controller
             ->get();   
             $count_course_wise = Student::leftJoin('courses', 'students.course_id', '=', 'courses.id')
             ->select('courses.course_name', DB::raw('COUNT(students.id) as student_count'))
-            ->groupBy('students.course_id')
+            ->groupBy('courses.course_name')
             ->get();  
             // $seats=DB::table('seats')->where('is_available','!=',0)->count();          
             return view('admin.index',compact('count_fullday','count_firstH','count_secondH','count_hourly','count_course_wise','planwise_count'));

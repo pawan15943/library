@@ -46,51 +46,14 @@
 </nav>
 @php
 $current_route = Route::currentRouteName();
-// dd($current_route );
-if($current_route=='student.index'){
-$value='Students List';
-}elseif($current_route=='student.transportationList'){
-$value='Transportation List';
-}elseif($current_route=='admin.accounts_payment'){
-$value='Add Offline Payment';
-}elseif($current_route=='admin.accounts'){
-$value='Pending Payment';
-}elseif($current_route=='customers.list'){
-$value='User List';
-}elseif($current_route=='plan.index'){
-    $value='Plan Name';
-}elseif($current_route=='student.edit'){
-$value='Add Student Transportation Details';
-}elseif($current_route=='home'){
-$value='Dashboard';
-}elseif($current_route=='planType.index'){
-$value='PlanType';
-}elseif($current_route=='admin.approve'){
-$value='Approved Payment';
-}elseif($current_route=='admin.rejected'){
-$value='Rejected Payment';
-}elseif($current_route=='planPrice.index'){
-    $value='Plan Price';  
-}elseif($current_route=='seats'){
-    $value='Library Seat Allotment';  
-}elseif($current_route=='history.seat.list'){
-    $value='History of Seat No.';  
-}elseif($current_route=='plan.create'){
-    $value='Add Plan';  
-}elseif($current_route=='planType.create'){
-    $value='Add Plan Type';  
-}elseif($current_route=='planPrice.create'){
-    $value='Add Plan Price';  
-}elseif($current_route=='seats.create'){
-    $value='Add Seats';  
-}elseif($current_route=='plan.edit'){
-    $value='Edit Plan';  
-}elseif($current_route=='planType.edit'){
-    $value='Edit Plan Type';  
-}elseif($current_route=='planPrice.edit'){
-    $value='Edit Plan Price';  
-}else{
-$value=' List';
+
+$submenu=App\Models\SubMenu::all();
+$value='List';
+foreach($submenu as $key => $subvalue){
+  
+    if($current_route==$subvalue->url){
+        $value=$subvalue->name;
+    }
 }
 
 @endphp

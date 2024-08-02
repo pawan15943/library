@@ -57,9 +57,12 @@
                     </thead>
                     
                     <tbody>
+                        @php
+                            $x=1;
+                        @endphp
                         @foreach($states as $key => $state)
                         <tr>
-                            <td>{{$state->state_id}}</td>
+                            <td>{{$x++}}</td>
                            
                             <td>{{$state->state_name}}</td>
                             @if($state->is_active==1)

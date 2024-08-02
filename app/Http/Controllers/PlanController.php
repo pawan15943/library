@@ -164,8 +164,24 @@ class PlanController extends Controller
             'plan_type_id' => 'required',
             'price' => 'required',
         ]);
+        if($request->plan_id){
+            PlanPrice::create($request->all());
+        }else{
+            $plans=Plan::all();
+            foreach($plans as $plan){
+                $plan_id=$plan->id;
+                $plan_type_id=$request->plan_type_id;
+                $price=($plan->plan_id) * ($request->price);
+                PlanPrice::create([
+                    'plan_id'=>$plan_id,
+                    'plan_type_id'=>$plan_type_id,
+                    'price'=>$price,
+                ]);
+            }
+        }
+        
      
-        PlanPrice::create($request->all());
+       
         return redirect()->route('planPrice.create')->with('success', 'Plan Price created successfully.');
     }
     public function planPriceupdate(Request $request, PlanPrice $planPrice)

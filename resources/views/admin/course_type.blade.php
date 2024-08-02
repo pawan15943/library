@@ -48,11 +48,13 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    
+                    @php
+                    $x=1;
+                    @endphp
                     <tbody>
                         @foreach($course_type as $key => $value)
                         <tr>
-                            <td>{{$value->id}}</td>
+                            <td>{{$x++}}</td>
                             <td>{{$value->name}}</td>
                            
                             @if($value->is_active==1)
