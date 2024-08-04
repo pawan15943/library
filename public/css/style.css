@@ -161,6 +161,8 @@ span {
 .button {
     background: var(--c2) !important;
     color: #fff;
+    border: none !important;
+    height:  auto !important;
 }
 
 .button-1 {}
@@ -908,5 +910,16 @@ label span {
 .px-3 {
     padding: 0 1.1rem !important;
 }
+
+#detailsTable tr th:nth-child(1),
+#detailsTable tr td:nth-child(1){
+    text-align: right !important;
+}
+
+#detailsTable tr th:nth-child(2),
+#detailsTable tr td:nth-child(2){
+    text-align: left !important;
+}
+
 
 /* Mobile CSS */

@@ -52,7 +52,7 @@
                                         }
                                     @endphp
                                     <tr class="text-center">
-                                        <td>{{$value->name}}</td>
+                                        <td class="uppercase">{{$value->name}}</td>
                                         <td>{{$value->mobile}}</td>
                                         <td>{{$value->email}}</td>
                                         <td>{{$value->city_name}}</td>
@@ -63,7 +63,7 @@
                                         <td>{{$paid_amount}}</td>
                                         <td>{{$pending_amount}}</td>
                                         <td>
-                                            <a href="{{ route('admin.accounts_payment', $value->id) }}" class="btn btn-primary">Make Payment</a>
+                                            <a href="{{ route('admin.accounts_payment', $value->id) }}" class="btn btn-primary button"> <i class="fas fa-credit-card"></i> &nbsp; Pay Now</a>
                                         </td>
                                     </tr>
                                         
