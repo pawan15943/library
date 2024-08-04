@@ -76,12 +76,12 @@ class StudentController extends Controller
                 })
                 ->addColumn('action', function ($row) use ($user) {
                     $btn = '<ul class="actionables">';
-                    $btn .= '<li><a href="' . route('student.edit', $row->id) . '" class="btn tooltips btn-default p-2 btn-sm rounded mr-2" title="Edit Student"><i class="fas fa-edit"></i></a></li>
-                        <li><a href="' . route('student.show', $row->id) . '" class="btn tooltips btn-default p-2 btn-sm rounded mr-2" title="View Student"><i class="fas fa-eye"></i></a></li>
-                        <li><a href="#" class="btn tooltips btn-default p-2 btn-sm rounded mr-2 delete-student" data-id="' . $row->id . '" title="Delete Student"><i class="fas fa-trash"></i></a></li>
-                        <li><a href="' . route('admin.accounts_payment', $row->id) . '" class="btn tooltips btn-default p-2 btn-sm rounded mr-2" title="make payment"><i class="fas fa-credit-card"></i></a></li>
-                        <li><a href="javascript:void(0)" class="btn tooltips btn-default p-2 btn-sm rounded mr-2 toggle-certificate" data-id="' . $row->id . '" title="Certificate Status"><i class="fas fa-certificate"></i></a></li>
-                        <li><a href="javascript:void(0)" class="btn tooltips btn-default p-2 btn-sm rounded mr-2 toggle-active" data-id="' . $row->id . '" title="Active Status"><i class="fas fa-star"></i></a></li>';
+                    $btn .= '<li><a href="' . route('student.edit', $row->id) . '"  title="Edit Student"><i class="fas fa-edit"></i></a></li>
+                        <li><a href="' . route('student.show', $row->id) . '" title="View Student"><i class="fas fa-eye"></i></a></li>
+                        <li><a href="#"  data-id="' . $row->id . '" title="Delete Student"><i class="fas fa-trash"></i></a></li>
+                        <li><a href="' . route('admin.accounts_payment', $row->id) . '"  title="make payment"><i class="fas fa-credit-card"></i></a></li>
+                        <li><a href="javascript:void(0)"  data-id="' . $row->id . '" title="Certificate Status"><i class="fas fa-certificate"></i></a></li>
+                        <li><a href="javascript:void(0)"  data-id="' . $row->id . '" title="Active Status"><i class="fas fa-star"></i></a></li>';
                     $btn .= '</ul>';
                     return $btn;
                 })

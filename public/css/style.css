@@ -357,7 +357,7 @@ span.mr-2.d-none.d-lg-inline {
 
 #accordionSidebar li a {
     padding: 0;
-    padding: .8rem 1rem;
+    padding: .5rem 1rem;
 }
 
 #accordionSidebar li a.nav-link span {
@@ -502,6 +502,7 @@ ul.actionables {
     align-items: center;
     justify-content: center;
     margin: 0;
+    gap: 1rem;
 }
 
 ul.actionables li a {
@@ -628,6 +629,11 @@ ul.actionables li a {
     padding: .3rem 1rem;
     background: var(--bg1);
     border-radius: var(--br-0);
+}
+
+.bg-white.py-2.collapse-inner.rounded a+a {
+    display: block;
+    margin-top: .2rem ! IMPORTANT;
 }
 
 .uppercase {
@@ -835,15 +841,33 @@ label span {
     gap: .5rem;
 }
 
-.w-65{
+#createStudent .d-flex {
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    height: 45px;
+}
+
+#createStudent input[type="radio"] {
+    height: 20px;
+    width: 20px;
+}
+
+#createStudent .d-flex label {
+    display: flex;
+    gap: .6rem;
+    align-items: center;
+}
+
+.w-65 {
     width: 50px;
 }
 
-.card{
+.card {
     border: none;
 }
 
-.px-3{
+.px-3 {
     padding: 0 1.1rem !important;
 }
 

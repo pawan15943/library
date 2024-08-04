@@ -59,12 +59,12 @@ $title = HelperService::generateTitle();
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
-            <div class="d-sm-flex align-items-center justify-content-between">
-                <h3 class="h3">
+            <div class="d-flex align-items-center justify-content-between">
+                <h4>
                     @if($title!='Home')
                     {{ $title }}
                     @endif
-                </h3>
+                </h4>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         @if($value == 'Dashboard')
