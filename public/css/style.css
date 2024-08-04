@@ -357,7 +357,7 @@ span.mr-2.d-none.d-lg-inline {
 
 #accordionSidebar li a {
     padding: 0;
-    padding: .8rem 1rem;
+    padding: .5rem 1rem;
 }
 
 #accordionSidebar li a.nav-link span {
@@ -502,6 +502,7 @@ ul.actionables {
     align-items: center;
     justify-content: center;
     margin: 0;
+    gap: 1rem;
 }
 
 ul.actionables li a {
@@ -628,6 +629,11 @@ ul.actionables li a {
     padding: .3rem 1rem;
     background: var(--bg1);
     border-radius: var(--br-0);
+}
+
+.bg-white.py-2.collapse-inner.rounded a + a {
+    display: block;
+    margin-top: .2rem ! IMPORTANT;
 }
 
 .uppercase {

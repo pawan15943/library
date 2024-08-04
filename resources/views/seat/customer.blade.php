@@ -65,10 +65,10 @@
                                         <td style="width: 20%;">
                                             <ul class="actionables">
                                                
-                                                <li><a href="{{route('edit.user',$value->id)}}" class="btn tooltips btn-default p-2 btn-sm rounded " title="Edit Route"><i class="fas fa-edit"></i></a></li>
+                                                <li><a href="{{route('edit.user',$value->id)}}" title="Edit Route"><i class="fas fa-edit"></i></a></li>
                                                 <li>
-                                                <a href="{{route('geUser',$value->id)}}" class="btn tooltips btn-default p-2 btn-sm rounded" title="Edit Route"><i class="fas fa-eye"></i></a></li>
-                                                <li><a href="#" class="btn tooltips btn-default p-2 btn-sm rounded mr-2 delete-customer" data-id="{{$value->id}}" title="Delete Customer"><i class="fas fa-trash"></i></a></li>
+                                                <a href="{{route('geUser',$value->id)}}" title="Edit Route"><i class="fas fa-eye"></i></a></li>
+                                                <li><a href="#" data-id="{{$value->id}}" title="Delete Customer"><i class="fas fa-trash"></i></a></li>
                                             </ul>
                                             
                                     </td>

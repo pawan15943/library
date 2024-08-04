@@ -1,8 +1,5 @@
 @extends('layouts.admin')
 @section('content')
-<div>
-    <a href="{{route('student.create')}}">Add Student</a>
-</div>
 
 <!-- Main row -->
 <div class="row">
@@ -16,7 +13,11 @@
             <div class="card-body p-0">
                 <div class="row">
                     <div class="col-lg-12">
-
+                    <div class="d-flex action-heading">
+                        <!-- <h4>Student List</h4> -->
+                        <a href="{{route('student.create')}}" class="button"><i class="fa-solid fa-plus"></i> Student</a>
+                       
+                    </div>
                         <div class="table-responsive tableRemove_scroll mt-2">
                             <table class="table table-hover border data-table" id="datatable">
                                 <thead>

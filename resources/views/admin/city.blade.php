@@ -17,7 +17,7 @@
                     <div class="row">
                     <input type="hidden" name="id" value="" id="city_id">
 
-                    <div class="col-lg-3">
+                    <div class="col-lg-6">
                         <label> State <sup class="text-danger">*</sup></label>
                         <select id="stateid" name="state_id" class="form-control @error('state') is-invalid @enderror" placeholder="Select State">
                             @error('state')
@@ -31,7 +31,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-6">
                         <label> City Name <sup class="text-danger">*</sup></label>
                         <input type="text" id="city" name="city_name" value="{{ old('city') }}" class="form-control @error('city') is-invalid @enderror" placeholder="City Name">
                         @error('city')
@@ -41,8 +41,7 @@
                         @enderror
                     </div>
                     </div>
-                    <div class="row">
-                        
+                    <div class="row mt-3">
                         <div class="col-lg-3">
                             <button type="submit" class="btn btn-primary btn-block">Add City </button>
                         </div>
@@ -52,52 +51,48 @@
         </div>
         <!-- City List -->
         <div class="card card-default main_card_content" id="generalInfo">
-            <div class="card-body">
-               <div class="col-lg-12">
-                <h4 class="px-3">All Cities List</h4>
+            <div class="card-body p-0">
+                <h4 class="px-3 py-2">All Cities List</h4>
                 <div class="table-responsive tableRemove_scroll mt-2">
-                        <table class="table table-hover dataTable m-0" id="datatable" style="display:table !important">
-                            <thead>
-                                <tr>
-                                    <th>S.No.</th>
-                                    <th>City Name</th>
-                                    <th>State </th>
-                                    <th>Active</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            @php
-                            $x=1;
-                            @endphp
-                            <tbody>
-                                @foreach($citys as $key => $city)
-                                <tr>
-                                    <td>{{$x++}}</td>
-                                    <td>{{$city->city_name}}</td>
-                                    <td>{{$city->state_name}}</td>
-                                    <td>
-                                    @if($city->is_active==1)
-                                    <div class="text-success">Active</div>
-                                    @else
-                                    <div class="text-danger">Inactive</div>
-                                    @endif
-                                    </td>
-                                    <td>
-                                        <ul class="actionables">
-                                            <li><a href="javascript:void(0)" type="button" class="city_edit" data-id="{{$city->city_id}}"><i class="fas fa-edit"></i></a></li>
-                                            <li><a href="javascript:void(0)" type="button" class="delete" data-id="{{$city->city_id}}"><i class="fas fa-trash"></i></a></li>
-                                        </ul>
-                                        
-                                        
+                    <table class="table table-hover dataTable m-0" id="datatable" style="display:table !important">
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>City Name</th>
+                                <th>State </th>
+                                <th>City Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        @php
+                        $x=1;
+                        @endphp
+                        <tbody>
+                            @foreach($citys as $key => $city)
+                            <tr>
+                                <td>{{$x++}}</td>
+                                <td>{{$city->city_name}}</td>
+                                <td>{{$city->state_name}}</td>
+                                <td>
+                                @if($city->is_active==1)
+                                <div class="text-success">Active</div>
+                                @else
+                                <div class="text-danger">Inactive</div>
+                                @endif
+                                </td>
+                                <td>
+                                    <ul class="actionables">
+                                        <li><a href="javascript:void(0)" type="button" class="city_edit" data-id="{{$city->city_id}}"><i class="fas fa-edit"></i></a></li>
+                                        <li><a href="javascript:void(0)" type="button" class="delete" data-id="{{$city->city_id}}"><i class="fas fa-trash"></i></a></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            @endforeach
 
-                                    </td>
-                                </tr>
-                                @endforeach
-
-                            </tbody>
-                        </table>
-                    </div>
-               </div>
+                        </tbody>
+                    </table>
+                </div>
+               
             </div>
         </div>
     </div>

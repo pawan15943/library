@@ -27,7 +27,7 @@
         @php
             $is_active_menu = false;
         @endphp
-        <li class="nav-item">
+        <li class="nav-item {{ $submenu->where('parent_id', $value->id)->pluck('url')->contains($current_route) ? 'bg-active' : '' }}">
             <a class="nav-link collapsed {{ $submenu->where('parent_id', $value->id)->pluck('url')->contains($current_route) ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapseManageMasters{{$i}}" aria-expanded="true" aria-controls="collapseManageMasters">
                 <i class="fa fa-fw fa-cog"></i>
                 <span>{{$value->name}}</span>
