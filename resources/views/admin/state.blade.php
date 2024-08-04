@@ -5,46 +5,39 @@
 <div class="row">
     <!-- Page Main Content -->
     <div class="col-lg-12">
-        <!-- Add State Fields -->
-        <div class="card card-default" id="generalInfo">
+        
+        <div class="card card-default">
+            
+            <!-- Add State Fields -->
             <div class="card-body">
                 <form id="submit">
                     @csrf
-
-
                     @if(session('message'))
                     <div class="alert alert-success">
                         {{ session('message') }}
                     </div>
                     @endif
-
                     <div class="row g-4">
                         <input type="hidden" name="id" value="" id="state_id">
-
                         <div class="col-lg-5">
                             <input type="text" id="state" name="state_name" value="{{ old('state') }}" class="form-control @error('state') is-invalid @enderror" placeholder="State Name">
-
                             @error('state')
                             <span class="invalid-feedback" role="alert">
                                 {{ $message }}
                             </span>
                             @enderror
                         </div>
-
                         <div class="col-lg-3">
                             <button type="submit" class="btn btn-primary btn-block">Add State</button>
                         </div>
-
                     </div>
-
                 </form>
-
             </div>
-        </div>
-        <!-- State List -->
-        <div class="card card-default" id="generalInfo">
+            <!-- end -->
+        
+            <!-- ALL State List -->
             <div class="card-body p-0">
-            <div class="table-responsive tableRemove_scroll mt-2">
+                <div class="table-responsive tableRemove_scroll mt-2">
                     <table class="table table-hover dataTable m-0" id="datatable" style="display:table !important">
                         <thead>
                             <tr>
@@ -91,9 +84,11 @@
                         </tbody>
                     </table>
                 </div>
-
             </div>
+            <!-- end -->
+
         </div>
+        
     </div>
 </div>
 

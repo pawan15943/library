@@ -2,6 +2,13 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Outfit:wght@100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 
+input.btn.btn-primary.btn-block,button.btn.btn-primary.btn-block {
+    background: var(--c1) !important;
+    color: var(--c5) !important;
+    box-shadow: none ! IMPORTANT;
+}
+
+
 body.modal-open {
     overflow-y: scroll;
 }
@@ -12,7 +19,7 @@ body.modal-open {
     top: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.7);
+    background: #fff;
     z-index: 9999;
     display: flex;
     align-items: center;
@@ -20,11 +27,11 @@ body.modal-open {
 }
 
 .spinner {
-    border: 16px solid #f3f3f3;
-    border-top: 16px solid #3498db;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
     border-radius: 50%;
-    width: 120px;
-    height: 120px;
+    width: 60px;
+    height: 60px;
     animation: spin 2s linear infinite;
 }
 
@@ -52,7 +59,7 @@ body {
 }
 
 :root {
-    --c1: #423a82;
+    --c1: #243074;
     --c2: #00CCCD;
     --c3: #a2ed22;
     /* bLACK AND wHITE */
@@ -325,6 +332,12 @@ span.mr-2.d-none.d-lg-inline {
     max-width: 18em !important;
     min-width: 18em !important;
     box-sizing: border-box !important;
+    border-right: 1px solid #efefef;
+}
+
+.sidebar .nav-item .collapse,
+.sidebar .nav-item .collapsing {
+    margin: 0 .6rem;
 }
 
 .sidebar .nav-item .nav-link {
@@ -344,7 +357,7 @@ span.mr-2.d-none.d-lg-inline {
 }
 
 .bg-white.py-2.collapse-inner.rounded a:hover {
-    background: #fff !important;
+    background: #ffffff24 !important;
 }
 
 #accordionSidebar {
@@ -357,7 +370,7 @@ span.mr-2.d-none.d-lg-inline {
 
 #accordionSidebar li a {
     padding: 0;
-    padding: .5rem 1rem;
+    padding: .6rem .6rem;
 }
 
 #accordionSidebar li a.nav-link span {
@@ -366,26 +379,41 @@ span.mr-2.d-none.d-lg-inline {
 }
 
 
+
 #accordionSidebar li.active a {
-    background: #f7f7f7;
+    background: var(--c1);
     border-radius: var(--br-0);
+}
+
+#accordionSidebar li.active a *,
+#accordionSidebar li.active a span {
+    color: var(--c5) !important;
 }
 
 .bg-active {
-    background: #f7f7f7;
+    background: var(--c1);
     border-radius: var(--br-0);
 }
 
+.nav-item.bg-active *,
+#accordionSidebar li.nav-item.bg-active span {
+    color: #fff !important;
+}
+
+.sidebar-dark .nav-item.bg-active .nav-link[data-toggle=collapse]::after {
+    color: #fff !important;
+}
+
 .bg-white.py-2.collapse-inner.rounded {
-    background: #0707071f !important;
+    background: #ffffff14 !important;
 }
 
 a.collapse-item.active {
-    background: #fff;
+    background: #ffffff29;
 }
 
 #content {
-    background: #f3f5ff;
+    background: #fff;
 }
 
 .breadcrumb {
@@ -423,7 +451,9 @@ footer * {
     height: 30px;
     border: 1px solid #eaeaea;
 }
-
+table.dataTable tbody th, table.dataTable tbody td{
+    padding: 15px 10px;
+}
 .table-responsive.tableRemove_scroll.mt-2 #datatable_length,
 .table-responsive.tableRemove_scroll.mt-2 #datatable_info {
     margin-left: .8rem;
@@ -490,6 +520,15 @@ table th {
     text-overflow: ellipsis;
 }
 
+.table thead th {
+    background: #dae0ff75;
+    color: #000 !important;
+}
+.table-hover tbody tr:hover {
+    color: #858796;
+    background-color: rgb(229 233 255 / 27%);
+}
+
 .dataTable small,
 table small {
     font-weight: var(--fw-3) !important;
@@ -511,26 +550,27 @@ ul.actionables li a {
 }
 
 /* Dashboard */
-/* .row .col-lg-4:nth-child(odd) .dashibox{
-    background: var(--c7) !important;
+.row .col-lg-4:nth-child(odd) .dashibox {
+    background: #f6f8ff;
 }
-.row .col-lg-4:nth-child(even) .dashibox{
-    background: var(--c8) !important;
-} */
 
-.dashibox,
-.course-list {
+.row .col-lg-4:nth-child(even) .dashibox {
+    background: #defbff;
+}
+
+.dashibox, .course-list {
     background: #fff;
     padding: var(--p-1);
     border-radius: var(--br-1);
-    box-shadow: var(--bs-3);
+    /* box-shadow: var(--bs-3); */
     border-radius: var(--br-1);
-
 }
 
 .course-list {
     min-height: 422px;
     overflow: auto;
+    border: 1px solid #efefef;
+
 }
 
 .dashibox h4,
@@ -585,7 +625,7 @@ ul.actionables li a {
 }
 
 .dashibox a {
-    background: #e5e5e5;
+    background: #fff;
     width: 30px;
     height: 30px;
     display: flex;
@@ -863,9 +903,7 @@ label span {
     width: 50px;
 }
 
-.card {
-    border: none;
-}
+
 
 .px-3 {
     padding: 0 1.1rem !important;

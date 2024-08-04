@@ -9,78 +9,77 @@
     <!-- Page Main Content -->
     <div class="col-lg-12" id="planType">
         <!-- General Information -->
-        <div class="card card-default" id="generalInfo">
-            <div class="card-body">
-                <form action="{{ isset($planType) ? route('planType.update', $planType->id) : route('planType.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @if (isset($planType))
-                    @method('PUT')
-                    @endif
+        <div class="card card-default">
 
-                    <div class="row g-4">
-                        <div class="col-lg-3">
-                            <label>Plan Type<sup class="text-danger">*</sup></label>
-                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Enter Plan Type" value="{{ old('name', isset($planType) ? $planType->name : '') }}">
-                            @error('name')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                        <div class="col-lg-3">
-                            <label>Plan Start Time<sup class="text-danger">*</sup></label>
+                <!-- Add Plan Type -->
+                <div class="card-body">
+                    <form action="{{ isset($planType) ? route('planType.update', $planType->id) : route('planType.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @if (isset($planType))
+                        @method('PUT')
+                        @endif
+                        <div class="row g-4">
+                            <div class="col-lg-3">
+                                <label>Plan Type<sup class="text-danger">*</sup></label>
+                                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Enter Plan Type" value="{{ old('name', isset($planType) ? $planType->name : '') }}">
+                                @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-3">
+                                <label>Plan Start Time<sup class="text-danger">*</sup></label>
 
-                            <input type="text" id="start_time" class="form-control @error('start_time') is-invalid @enderror" name="start_time" value="{{ old('start_time', isset($planType) ? $planType->start_time : '') }}" placeholder="Select start time">
-                            @error('start_time')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                        <div class="col-lg-3">
-                            <label>Plan End Time<sup class="text-danger">*</sup></label>
-                            <input type="text" id="end_time" class="form-control @error('end_time') is-invalid @enderror" name="end_time" value="{{ old('end_time', isset($planType) ? $planType->end_time : '') }}" placeholder="Select end time">
-                            @error('end_time')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                        <div class="col-lg-3">
-                            <label>Slot Duration</label>
-                            <input type="text" id="slot_hours" class="form-control @error('slot_hours') is-invalid @enderror" name="slot_hours" readonly value="{{ old('slot_hours', isset($planType) ? $planType->slot_hours : '') }}" placeholder="Slot duration">
-                            @error('slot_hours')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                        <div class="col-lg-12">
-                            <label>Select Seat Color <sup class="text-danger">*</sup></label>
-                            <div class="d-flex">
-                                <label for="orange">
-                                    <input type="radio" name="image_colour" value="orange" id="orange">
-                                    Orange
-                                </label>
-                                <label for="light_orange">
-                                    <input type="radio" name="image_colour" value="light_orange" id="light_orange">
-                                    Light Orange</label>
-                                <label for="green">
-                                    <input type="radio" name="image_colour" value="green" id="green">
-                                    Green</label>
+                                <input type="text" id="start_time" class="form-control @error('start_time') is-invalid @enderror" name="start_time" value="{{ old('start_time', isset($planType) ? $planType->start_time : '') }}" placeholder="Select start time">
+                                @error('start_time')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-3">
+                                <label>Plan End Time<sup class="text-danger">*</sup></label>
+                                <input type="text" id="end_time" class="form-control @error('end_time') is-invalid @enderror" name="end_time" value="{{ old('end_time', isset($planType) ? $planType->end_time : '') }}" placeholder="Select end time">
+                                @error('end_time')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-3">
+                                <label>Slot Duration</label>
+                                <input type="text" id="slot_hours" class="form-control @error('slot_hours') is-invalid @enderror" name="slot_hours" readonly value="{{ old('slot_hours', isset($planType) ? $planType->slot_hours : '') }}" placeholder="Slot duration">
+                                @error('slot_hours')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-12">
+                                <label>Select Seat Color <sup class="text-danger">*</sup></label>
+                                <div class="d-flex">
+                                    <label for="orange">
+                                        <input type="radio" name="image_colour" value="orange" id="orange">
+                                        Orange
+                                    </label>
+                                    <label for="light_orange">
+                                        <input type="radio" name="image_colour" value="light_orange" id="light_orange">
+                                        Light Orange</label>
+                                    <label for="green">
+                                        <input type="radio" name="image_colour" value="green" id="green">
+                                        Green</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <input type="submit" class="btn btn-primary btn-block" value="Submit">
                             </div>
                         </div>
-
-                        <div class="col-lg-3">
-                            <input type="submit" class="btn btn-primary btn-block" value="Submit">
-                        </div>
-                    </div>
-
-                </form>
-            </div>
-            <!-- /.card-body -->
-            <div class="card card-default main_card_content" id="generalInfo ">
-                <!-- /.card-header -->
+                    </form>
+                </div>
+                <!-- end -->
+                
+                <!-- All Plan Type List -->
                 <div class="card-body p-0">
                     <div class="row">
                         <div class="col-lg-12">
@@ -124,7 +123,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.card-body -->
+                <!-- end -->
+
             </div>
         </div>
     </div>

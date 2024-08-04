@@ -7,9 +7,10 @@
     <!-- Page Main Content -->
     <div class="col-lg-12">
         <!-- Genral Information -->
-        <div class="card card-default" id="generalInfo">
-            <div class="card-body">
+        <div class="card card-default">
 
+            <!-- Add Plan -->
+            <div class="card-body">
                 <form action="{{ isset($plan) ? route('plan.update', $plan->id) : route('plan.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @if (isset($plan))
@@ -42,41 +43,42 @@
 
                 </form>
             </div>
-            <!-- /.card-body -->
-            <div class="card card-default main_card_content" id="generalInfo ">
-                <!-- /.card-header -->
-                <div class="card-body p-0">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h4 class="px-3">All Plans List</h4>
-                            <div class="table-responsive tableRemove_scroll mt-2">
-                                <table class="table dataTable border-0 m-0" id="datatable" style="display:table !important">
-                                    <thead>
-                                        <tr>
-                                            <th>S.No.</th>
-                                            <th>Plan Name</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @php
-                                        $x = 1;
-                                        @endphp
-                                        @foreach($plans as $key => $value)
-                                        <tr>
-                                            <td>{{$x++}}</td>
-                                            <td class="w-75">{{$value->name}}</td>
-                                            <td><a href="{{route('plan.edit', $value->id)}}" title="Edit Route"><i class="fas fa-edit"></i></a></td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
+            <!-- end -->
+
+            <!-- All Plans List -->
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h4 class="px-3">All Plans List</h4>
+                        <div class="table-responsive tableRemove_scroll mt-2">
+                            <table class="table dataTable border-0 m-0" id="datatable" style="display:table !important">
+                                <thead>
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Plan Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                    $x = 1;
+                                    @endphp
+                                    @foreach($plans as $key => $value)
+                                    <tr>
+                                        <td>{{$x++}}</td>
+                                        <td class="w-75">{{$value->name}}</td>
+                                        <td><a href="{{route('plan.edit', $value->id)}}" title="Edit Route"><i class="fas fa-edit"></i></a></td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-                <!-- /.card-body -->
             </div>
+            <!-- end -->
+            </div>
+
         </div>
 
     </div>

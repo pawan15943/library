@@ -5,8 +5,10 @@
 <div class="row">
     <!-- Page Main Content -->
     <div class="col-lg-12">
-        <!-- Add City Fields -->
-        <div class="card card-default" id="generalInfo">
+        
+        <div class="card card-default">
+
+            <!-- Add Menus Fields -->
             <div class="card-body">
                 <form id="submit" action="{{ isset($menu) && $menu->id ? route('menu.update', $menu->id) : route('menu.store') }}" method="post">
                     @csrf
@@ -77,9 +79,9 @@
                     </div>
                 </form>
             </div>
-        </div>
-        <!-- Add City Fields -->
-        <div class="card card-default" id="generalInfo">
+            <!-- end -->
+        
+            <!-- Add Menus List -->
             <div class="card-body p-0">
                 <h4 class="px-3 py-2">All Menus List</h4>
                 <div class="table-responsive tableRemove_scroll mt-2">
@@ -125,6 +127,8 @@
                     </table>
                 </div>
             </div>
+            <!-- end -->
+
         </div>
     </div>
 </div>

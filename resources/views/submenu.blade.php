@@ -5,8 +5,9 @@
 <div class="row">
     <!-- Page Main Content -->
     <div class="col-lg-12">
-        <!-- Add City Fields -->
-        <div class="card card-default" id="generalInfo">
+       
+        <div class="card card-default">
+             <!-- Add Sub Menu Fields -->
             <div class="card-body">
                 <form id="submit" action="{{ isset($menu) && $menu->id ? route('submenu.update', $menu->id) : route('submenu.store') }}" method="post">
                     @csrf
@@ -86,18 +87,15 @@
                             </span>
                             @enderror
                         </div>
-
-
-
                         <div class="col-lg-3">
                             <button type="submit" class="btn btn-primary btn-block">{{ isset($menu) && $menu->id ? 'Update' : 'Add' }}</button>
                         </div>
                     </div>
                 </form>
             </div>
-        </div>
-        <!-- Add City Fields -->
-        <div class="card card-default" id="generalInfo">
+            <!-- end -->
+
+            <!-- All Sub Menus Fields -->
             <div class="card-body">
                 <h4 class="px-3 py-2">All Submenus List</h4>
                 <div class="table-responsive tableRemove_scroll mt-2">
@@ -148,8 +146,9 @@
                         </tbody>
                     </table>
                 </div>
-
             </div>
+            <!-- end -->
+
         </div>
     </div>
 </div>

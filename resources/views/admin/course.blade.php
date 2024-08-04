@@ -4,12 +4,13 @@
 <div class="row">
     <!-- Page Main Content -->
     <div class="col-lg-12">
-        <!-- Add City Fields -->
-        <div class="card card-default" id="generalInfo">
+        
+        <div class="card card-default">
+
+            <!-- Add Course Fields -->
             <div class="card-body">
                 <form id="submit">
                     @csrf
-
                     <div class="row g-4">
                         <input type="hidden" name="id" value="" id="course_id">
                         <div class="col-lg-3">
@@ -47,17 +48,16 @@
                             <input type="text" id="duration" name="duration" value="{{ old('duration') }}" class="form-control @error('duration') is-invalid @enderror" placeholder="Duration">
                         </div>
 
-                        <div class="col-lg-12">
-                            <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+                        <div class="col-lg-3">
+                            <button type="submit" class="btn btn-primary btn-block" id="submit">Submit</button>
                         </div>
                     </div>
 
                 </form>
-
             </div>
-        </div>
-        <!-- Add City Fields -->
-        <div class="card card-default" id="generalInfo">
+            <!-- end -->
+
+            <!-- All Course Fields -->
             <div class="card-body p-0">
                 <h4 class="px-3 py-2">All Courses List</h4>
                 <div class="table-responsive tableRemove_scroll mt-2">
@@ -110,6 +110,8 @@
                 </div>
 
             </div>
+            <!-- end -->
+
         </div>
     </div>
 </div>

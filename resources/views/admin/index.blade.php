@@ -29,7 +29,7 @@
                 <div class="dashibox">
                     <h4>Total Certificate Distributed</h4>
                     <div class="d-flex">
-                        <h2 class="counter">10</h2>
+                        <h2 class="counter" data-count="55">0</h2>
                         <a href=""><i class="fa-solid fa-arrow-right-long"></i></a>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                 <div class="dashibox">
                     <h4>Booked Seats </h4>
                     <div class="d-flex">
-                        <h2 class="counter">10</h2>
+                        <h2 class="counter" data-count="35">0</h2>
                         <a href=""><i class="fa-solid fa-arrow-right-long"></i></a>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                 <div class="dashibox">
                     <h4>Available Seats</h4>
                     <div class="d-flex">
-                        <h2 class="counter">10</h2>
+                        <h2 class="counter" data-count="87">0</h2>
                         <a href="" class="water-drop-button"><i class="fa-solid fa-arrow-right-long" ></i></a>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                 <div class="dashibox">
                     <h4>Monthly Revenue</h4>
                     <div class="d-flex">
-                        <h2 class="counter">10</h2>
+                        <h2 class="counter" data-count="52">0</h2>
                         <a href=""><i class="fa-solid fa-arrow-right-long"></i></a>
                     </div>
                 </div>
@@ -85,7 +85,6 @@
 <div class="row mt-4">
     
     <div class="col-lg-6">
-
         <div class="course-list">
             <h4>Plan Wise Enrolments</h4>
             <ul>
@@ -97,8 +96,13 @@
                     </div>
                 </li>
                 @endforeach
-
             </ul>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="course-list">
+            <h4>Course Wise Enrollements</h4>
+            
         </div>
     </div>
 </div>

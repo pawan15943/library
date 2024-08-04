@@ -5,76 +5,77 @@
     <!-- Page Main Content -->
     <div class="col-lg-12">
         <!-- Add City Fields -->
-        <div class="card card-default" id="generalInfo">
+        <div class="card card-default">
+
+            <!-- Add City Fields -->
             <div class="card-body">
-            <form id="submit">
-                @csrf
-
-                <div class="row g-4">
-                    <input type="hidden" name="id" value="" id="class_id">
-                    <div class="col-lg-6">
-                        <label for="class_name"> Class<sup class="text-danger">*</sup></label>
-                        <input type="text" id="class_name" name="class_name" value="{{ old('class_name') }}" class="form-control @error('class_name') is-invalid @enderror" placeholder="Enter your class">
-                        @error('class_name')
-                        <span class="invalid-feedback" role="alert">
-                            {{ $message }}
-                        </span>
-                        @enderror
+                <form id="submit">
+                    @csrf
+                    <div class="row g-4">
+                        <input type="hidden" name="id" value="" id="class_id">
+                        <div class="col-lg-6">
+                            <label for="class_name"> Class<sup class="text-danger">*</sup></label>
+                            <input type="text" id="class_name" name="class_name" value="{{ old('class_name') }}" class="form-control @error('class_name') is-invalid @enderror" placeholder="Enter your class">
+                            @error('class_name')
+                            <span class="invalid-feedback" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
+                        </div>
                     </div>
-                    
-                </div>
-                <div class="row mt-4">
-                    <div class="col-lg-3">
-                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                    <div class="row mt-4">
+                        <div class="col-lg-3">
+                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
             </div>
-        </div>
-        <!-- Add City Fields -->
-        <div class="card card-default" id="generalInfo">
+            <!-- end -->
+        
+            <!-- Add City Fields -->
             <div class="card-body p-0">
-            <h4 class="px-3 py-2">All Classes List</h4>
-            <div class="table-responsive tableRemove_scroll mt-2">
-                <table class="table table-hover dataTable m-0" id="datatable" style="display:table !important">
-                    <thead>
-                        <tr>
-                            <th>S.No.</th>
-                            <th>Class Name</th>
-                            <th>Class Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    @php
-                    $x=1;
-                    @endphp
-                    <tbody>
-                        
-                        @foreach($grades as $key => $value)
-                        <tr>
-                            <td>{{$x++}}</td>
-                            <td>{{$value->class_name}}</td>
-                            <td>
-                            @if($value->is_active==1)
-                            <div class="text-success">Active</div>
-                            @else
-                            <div class="text-danger">Inactive</div>
-                            @endif
-                            </td>
-                            <td>
-                                <ul class="actionables">
-                                    <li><a href="javascript:void(0)" type="button" class="class_edit" data-id="{{$value->id}}"><i class="fa fa-edit"></i></a></li>
-                                    <li><a href="javascript:void(0)" type="button" class="delete" data-id="{{$value->id}}"><i class="fa fa-trash"></i></a></li>
-                                </ul>                            
-                            </td>
-                        </tr>
-                        @endforeach
+                <h4 class="px-3 py-2">All Classes List</h4>
+                <div class="table-responsive tableRemove_scroll mt-2">
+                    <table class="table table-hover dataTable m-0" id="datatable" style="display:table !important">
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>Class Name</th>
+                                <th>Class Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        @php
+                        $x=1;
+                        @endphp
+                        <tbody>
+                            
+                            @foreach($grades as $key => $value)
+                            <tr>
+                                <td>{{$x++}}</td>
+                                <td>{{$value->class_name}}</td>
+                                <td>
+                                @if($value->is_active==1)
+                                <div class="text-success">Active</div>
+                                @else
+                                <div class="text-danger">Inactive</div>
+                                @endif
+                                </td>
+                                <td>
+                                    <ul class="actionables">
+                                        <li><a href="javascript:void(0)" type="button" class="class_edit" data-id="{{$value->id}}"><i class="fa fa-edit"></i></a></li>
+                                        <li><a href="javascript:void(0)" type="button" class="delete" data-id="{{$value->id}}"><i class="fa fa-trash"></i></a></li>
+                                    </ul>                            
+                                </td>
+                            </tr>
+                            @endforeach
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
-            </div>
+            <!-- end -->
+             
         </div>
     </div>
 </div>

@@ -4,17 +4,18 @@
 <div class="row">
     <!-- Page Main Content -->
     <div class="col-lg-12">
-        <!-- Add Course Type Fields -->
-        <div class="card card-default" id="generalInfo">
+        
+        <div class="card card-default">
+            
+            <!-- Add Course Type Fields -->
             <div class="card-body">
                 <form id="submit">
                     @csrf
-
                     <div class="row g-4">
                         <input type="hidden" name="id" value="" id="course_type_id">
 
-                        <div class="col-lg-4 mt-2">
-                            <label for="name"> Course Type Name</label>
+                        <div class="col-lg-6 mt-2">
+                            <label for="name"> Course Type Name<sup class="text-danger">*</sup></label>
                             <input type="text" id="name" name="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" placeholder="Course Type Name">
 
                             @error('name')
@@ -24,17 +25,19 @@
                             @enderror
                         </div>
 
-                        <div class="col-lg-2  mt-3">
-                            <button type="submit" class="btn btn-primary mt-4">Submit</button>
-                        </div>
+                        
 
                     </div>
-
+                    <div class="row mt-4">
+                        <div class="col-lg-3">
+                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                        </div>
+                    </div>
                 </form>
             </div>
-        </div>
-        <!-- Add Course Type Fields -->
-        <div class="card card-default" id="generalInfo">
+            <!-- end -->
+        
+            <!-- Add Course Type Fields -->
             <div class="card-body p-0">
                 <h4 class="px-3 py-2">All Course Types List</h4>
                 <div class="table-responsive tableRemove_scroll mt-2">
@@ -77,6 +80,8 @@
                 </div>
 
             </div>
+            <!-- end -->
+
         </div>
     </div>
 </div>

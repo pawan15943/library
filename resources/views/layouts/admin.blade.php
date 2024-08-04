@@ -137,6 +137,10 @@
 
         $(document).ready(function() {
             $('#accordionSidebar .nav-link').on('click', function() {
+                // Remove the class from all items
+                $('#accordionSidebar .nav-item').removeClass('bg-active');
+
+                // Add the class to the clicked item
                 $(this).parent().addClass('bg-active');
             });
         });
@@ -149,7 +153,6 @@
             $('.nav-link span').each(function() {
                 // Get the URL from the data-url attribute
                 var itemUrl = $(this).data('url');
-
                 // Check if the current URL matches the item URL
                 if (currentUrl === itemUrl) {
                     // Add 'active' class to the current nav-item
@@ -160,8 +163,8 @@
         $(document).ready(function() {
             $('#datatable').DataTable();
         });
-        
-        $("#back_btn").click(function (){
+
+        $("#back_btn").click(function() {
             window.history.back();
         });
     </script>

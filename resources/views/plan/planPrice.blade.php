@@ -7,7 +7,8 @@
     <!-- Page Main Content -->
     <div class="col-lg-12">
         <!-- Genral Information -->
-        <div class="card card-default" id="generalInfo">
+        <div class="card card-default">
+            <!-- Add Plan Price -->
             <div class="card-body">
                 <form action="{{ isset($planPrice) ? route('planPrice.update', $planPrice->id) : route('planPrice.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -67,11 +68,9 @@
 
                 </form>
             </div>
-            <!-- /.card-body -->
-        </div>
-        <div class="card card-default main_card_content" id="generalInfo ">
+            <!-- end -->
 
-            <!-- /.card-header -->
+            <!-- All Plan Price List -->
             <div class="card-body p-0">
                 <div class="row">
                     <div class="col-lg-12">
@@ -111,7 +110,7 @@
                     </div>
                 </div>
             </div>
-            <!-- /.card-body -->
+            <!-- end -->
         </div>
     </div>
 </div>

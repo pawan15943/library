@@ -4,8 +4,10 @@
 <div class="row">
     <!-- Page Main Content -->
     <div class="col-lg-12">
-        <!-- Add City Fields -->
-        <div class="card card-default" id="generalInfo">
+        
+        <div class="card card-default">
+            
+            <!-- Add City Fields -->
             <div class="card-body">
                 <form id="submit">
                     @csrf
@@ -47,9 +49,9 @@
                     </div>
                 </form>
             </div>
-        </div>
-        <!-- City List -->
-        <div class="card card-default main_card_content" id="generalInfo">
+            <!-- end -->
+
+            <!-- All City List -->
             <div class="card-body p-0">
                 <h4 class="px-3 py-2">All Cities List</h4>
                 <div class="table-responsive tableRemove_scroll mt-2">
@@ -91,8 +93,9 @@
                         </tbody>
                     </table>
                 </div>
-               
             </div>
+            <!-- end -->
+
         </div>
     </div>
 </div>
