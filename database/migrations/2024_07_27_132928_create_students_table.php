@@ -32,6 +32,7 @@ return new class extends Migration
             $table->boolean('status')->default(1);
             $table->boolean('is_paid')->default(0);
             $table->boolean('is_certificate')->default(0);
+            $table->string('profile_image')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

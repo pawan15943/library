@@ -199,7 +199,13 @@ class UserController extends Controller
         if(PlanType::where('id',$request->plan_type_id)->count()>0){
             $hours=PlanType::where('id',$request->plan_type_id)->value('slot_hours');
         }
-      
+        if((Customers::where('seat_no',$request->seat_no)->sum('hours') + $hours)>16){
+            return response()->json([
+                'error' => true,
+                'message' => 'You can not select this plan type'
+            ], 422);
+            die;
+        }
     
         $plan_id = $request->input('plan_id');
         $months=Plan::where('id',$plan_id)->value('plan_id');

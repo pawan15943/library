@@ -122,7 +122,10 @@
             }
         });
         $('input').attr('autocomplete', 'off');
-
+        
+        $("#back_btn").click(function (){
+        window.history.back();
+        });
     </script>
 
 </body>

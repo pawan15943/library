@@ -127,7 +127,7 @@
                         @enderror
                     </div>
                     <div class="col-lg-12">
-                        <label for="">Upload Scan Copy of Proof <span>*</span></label>
+                        <label for="">Upload Scan Copy of Proof </label>
                         <input type="file" class="form-control @error('id_proof_file') is-invalid @enderror" name="id_proof_file" id="id_proof_file">
                         @error('id_proof_file')
                         <span class="invalid-feedback" role="alert">
@@ -175,4 +175,5 @@
     </div>
     @endif
 </div>
+@include('script')
 @endsection

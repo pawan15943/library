@@ -33,7 +33,7 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-       
+
         $validator = Validator::make($request->all(), [
             'course_name' => 'required|string|max:255',
             'course_fees' => 'required',
@@ -57,7 +57,7 @@ class CourseController extends Controller
         $data['is_active']=1;
      
         $course_fees=$data['course_fees'];
-
+      
         try {
             if($data['id']==null){
                 Course::create($data);

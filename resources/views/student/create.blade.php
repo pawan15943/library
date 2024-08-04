@@ -34,7 +34,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Mobile No.</label>
-                                <input type="text" class="form-control digit-only @error('mobile') is-invalid @enderror" name="mobile" 
+                                <input type="text" class="form-control digit-only @error('mobile') is-invalid @enderror" name="mobile" maxlength="10" minlength="10"
                                     value="{{ old('mobile', isset($student) ? $student->mobile : '') }}" placeholder="Enter mobile number">
                                 @error('mobile')
                                 <span class="invalid-feedback" role="alert">
@@ -46,7 +46,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Alternative Mobile No.</label>
-                                <input type="text" class="form-control digit-only @error('alt_mobile') is-invalid @enderror" name="alt_mobile" 
+                                <input type="text" class="form-control digit-only @error('alt_mobile') is-invalid @enderror" name="alt_mobile" maxlength="10" minlength="10"
                                     value="{{ old('alt_mobile', isset($student) ? $student->alt_mobile : '') }}" placeholder="Enter alternative mobile number">
                                 @error('alt_mobile')
                                 <span class="invalid-feedback" role="alert">
@@ -93,12 +93,12 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label>Gender</label>
+                                <label>Gender</label><br>
                                 <input type="radio" id="male" name="gender" value="male" class="form-control @error('gender') is-invalid @enderror"
-                                    {{ isset($student) && $student->gender == 'male' ? 'checked' : '' }}>
+                                    {{ old('gender', isset($student) ? $student->gender : '') == 'male' ? 'checked' : '' }}>
                                 <label for="male">Male</label><br>
                                 <input type="radio" id="female" name="gender" value="female" class="form-control @error('gender') is-invalid @enderror"
-                                    {{ isset($student) && $student->gender == 'female' ? 'checked' : '' }}>
+                                    {{ old('gender', isset($student) ? $student->gender : '') == 'female' ? 'checked' : '' }}>
                                 <label for="female">Female</label><br>
                                 @error('gender')
                                 <span class="invalid-feedback" role="alert">
@@ -107,6 +107,7 @@
                                 @enderror
                             </div>
                         </div>
+                        
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Class<sup class="text-danger">*</sup></label>
@@ -128,7 +129,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label>Stream</label>
+                                <label>Stream<sup class="text-danger">*</sup></label>
                                 <input type="text" class="form-control char-only @error('stream') is-invalid @enderror" name="stream" 
                                     value="{{ old('stream', isset($student) ? $student->stream : '') }}" placeholder="Enter stream">
                                 @error('stream')
@@ -175,7 +176,7 @@
                         <div class="col-lg-6 ">
                             <div class="form-group">
                                 <label>Address<sup class="text-danger">*</sup></label>
-                                <textarea class="form-control @error('address') is-invalid @enderror" name="address">{{ old('address', isset($student) ? $student->address : '') }}</textarea>
+                                <textarea class="form-control @error('address') is-invalid @enderror" name="address" placeholder="Address">{{ old('address', isset($student) ? $student->address : '') }}</textarea>
                                 @error('address')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -187,7 +188,7 @@
                             <div class="form-group">
                                 <label>Pin Code</label>
                                 <input type="text" class="form-control digit-only @error('pin_code') is-invalid @enderror" name="pin_code" 
-                                    value="{{ old('pin_code', isset($student) ? $student->pin_code : '') }}" placeholder="Enter pin code">
+                                    value="{{ old('pin_code', isset($student) ? $student->pin_code : '') }}" placeholder="Enter pin code" maxlength="6" minlength="6">
                                 @error('pin_code')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -196,30 +197,31 @@
                             </div>
                         </div>
                         
-                        <div class="col-lg-6 ">
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Course Type<sup class="text-danger">*</sup></label>
                                 <select name="course_type_id" id="course_type" class="form-control @error('course_type_id') is-invalid @enderror event">
                                     <option value="">Select Course Type</option>
                                     @foreach($course_types as $value)
-
-                                    <option value="{{ $value->id }}" {{ old('course_type_id', isset($student) ? $student->course_type_id : '') == $value->id ? 'selected' : '' }}>
-                                        {{ $value->name }}
+                                        <option value="{{ $value->id }}" {{ old('course_type_id', isset($student) ? $student->course_type_id : '') == $value->id ? 'selected' : '' }}>
+                                            {{ $value->name }}
                                         </option>
                                     @endforeach
-                                    @error('course_type_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                    @enderror
                                 </select>
+                                @error('course_type_id')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
+                        
                         <div class="col-lg-6 ">
                             <div class="form-group">
                                 <label>Course<sup class="text-danger">*</sup></label>
                                 <select name="course_id" id="course" class="form-control @error('course_id') is-invalid @enderror ">
                                     @if(isset($student) && $student->course_id )
+                                        <option value="">Select Course</option>
                                         @foreach ($courses as $key => $value)
                                         <option value="{{$value}}" @if($value == $student->course_id) {{ "selected" }} @endif>{{$key}}</option> 
                                         @endforeach
@@ -228,12 +230,17 @@
 
                                     @endif
                                 </select>
+                                @error('course_id')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Duration (in months)</label>
-                                <input type="text" id="duration" class="form-control @error('duration') is-invalid @enderror"  value="{{ old('duration', isset($student) ? $fees->duration : '') }}" readonly>
+                                <input type="text" id="duration" class="form-control @error('duration') is-invalid @enderror"  value="{{ old('duration', isset($student) ? $fees->duration : '') }}" name="duration" readonly>
                                 @error('duration')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -245,7 +252,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Fees</label>
-                                <input type="text" id="fees" class="form-control @error('fees') is-invalid @enderror"  value="{{ old('fees', isset($student) ? $fees->course_fees : '') }}" readonly>
+                                <input type="text" id="fees" class="form-control @error('fees') is-invalid @enderror"  value="{{ old('fees', isset($student) ? $fees->course_fees : '') }}" readonly name="fees">
                                 @error('fees')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -279,7 +286,7 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <button type="submit" class="btn btn-primary">
-                                {{ isset($student) ? 'Update' : 'Add' }}
+                                {{ isset($student) ? 'Update' : 'Register' }}
                             </button>
                         </div>
                     </div>
@@ -289,10 +296,11 @@
         </div>
     </div>
 </div>
+@include('script')
+@endsection
 
-
-
-<script>
+{{-- <script>
+    /** Students modules Script***/
     $(document).ready(function() {
        
         var oldDuration = "{{ old('duration', isset($student) ? $fees->duration : '') }}";
@@ -331,7 +339,7 @@
 
         // Get initial course details if a course is already selected
         var course_id = $('#course').val();
-        console.log('Initial course ID:', course_id); // Debugging line
+      
         if (course_id) {
             readonlyget(course_id);
         }
@@ -456,6 +464,4 @@
             $('#course_type').trigger('change');
         }
     });
-</script>
-
-@endsection
+</script> --}}

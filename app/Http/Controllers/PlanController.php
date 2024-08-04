@@ -218,9 +218,12 @@ class PlanController extends Controller
                     return in_array($id, $planTypesRemovals);
                 });
             }
-   
+
+        $selectedPlan=Customers::where('seat_no', $seatId)->where('id',$request->user_id)
+        ->pluck('plan_id');
+        $selectedPlanName=Plan::where('id',$selectedPlan)->pluck('name','id');
         // Return the filtered plan types as JSON
-        return response()->json($filteredPlanTypes);
+        return response()->json([$filteredPlanTypes,$selectedPlanName]);
     }
     
     
@@ -247,10 +250,12 @@ class PlanController extends Controller
 
         // Step 1: Retrieve the plan_type_ids from Customers for the given seat
         $planTypesRemovals = Customers::where('seat_no', $seatId)
-        ->where('status',1)
+            ->where('status',1)
             ->pluck('plan_type_id')
             ->toArray();
-
+        $plantypeHours=Customers::where('seat_no', $seatId)
+        ->where('status',1)->sum('hours');
+        
         // Step 2: Retrieve all plan_types as an associative array
         $planTypes = PlanType::pluck('name', 'id');
 
@@ -258,7 +263,7 @@ class PlanController extends Controller
         $filteredPlanTypes = $planTypes->reject(function ($name, $id) use ($planTypesRemovals) {
             return in_array($id, $planTypesRemovals);
         });
-
+      
         // Return the filtered plan types as JSON
         return response()->json($filteredPlanTypes);
     }
