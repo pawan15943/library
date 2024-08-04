@@ -43,7 +43,7 @@
                     </div>
                   
                     <div class="col-lg-12  mt-3">
-                        <button type="submit"  class="btn btn-primary mt-4" >Submit</button>
+                        <button type="submit"  class="btn btn-primary mt-4" id="submit">Submit</button>
                     </div>
 
                 </div>
@@ -102,10 +102,11 @@
 </div>
 
 
-<script type="text/javascript">
-$(document).ready(function() {
+<script >
+
    
     $(document.body).on('submit', '#submit', function(event){
+       
         event.preventDefault();
        
         var formData = new FormData(this); 
@@ -259,7 +260,7 @@ $(document).ready(function() {
         });
 
      });
-    });
+  
 </script>
                
  @endsection

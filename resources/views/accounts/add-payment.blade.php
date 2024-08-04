@@ -78,29 +78,27 @@
                 
             </div>
             <div class="card card-default">
-                @php
-                    $i = 1;
-                @endphp
-                @foreach($transaction_list as $key => $value)
+                        @php
+                            $i = 1;
+                        @endphp
+               
                     <div class="transaction-item">
-                        <label>Installment {{$i}}</label>
-                        <div class="form-group">
-                            <label>Paid Amount</label>
-                            <input type="text" class="form-control" value="{{$value->paid_amount}}" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Pending Amount</label>
-                            <input type="text" class="form-control" value="{{$value->pending_amount}}" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Paid Amount Date</label>
-                            <input type="text" class="form-control" value="{{$value->paid_date}}" readonly>
-                        </div>
+                        <table>
+                            @foreach($transaction_list as $key => $value)
+                            <tr>
+                                <td>Installment {{$i}}</td>
+                                <td>Paid Amount- {{$value->paid_amount}}</td>
+                                <td>Pending Amount- {{$value->pending_amount}}</td>
+                                <td>Paid Amount Date- {{$value->paid_date}}</td>
+                            </tr>
+                            @php
+                                $i++;
+                            @endphp
+                            @endforeach
+                        </table>
+                        
                     </div>
-                    @php
-                        $i++;
-                    @endphp
-                @endforeach
+               
             </div>
             
         </div>

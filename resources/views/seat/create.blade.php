@@ -45,5 +45,5 @@
 </div>
    
 <!-- /.content -->
-
+@include('script')
 @endsection

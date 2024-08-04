@@ -1,6 +1,8 @@
+
 <script>
     // jQuery script
     $(document).ready(function() {
+       
         $('.first_popup').on('click', function() {
             var seatId = $(this).attr('id');
             $('#seat_no').val(seatId);
@@ -21,7 +23,7 @@
                     },
                     dataType: 'json',
                     success: function (html) {
-                       console.log(html);
+                      
                         if (html) {
                             $("#plan_type_id").empty();
                             $("#plan_type_id").append('<option value="">Select Plan Type</option>');
@@ -44,6 +46,7 @@
             }
         });
         $('.second_popup').on('click', function() {
+            $('#upgrade').hide();
             var seatId = $(this).attr('id');
             $('#seatAllotmentModal2').modal('show');
             $('#user_id').val(seatId);
@@ -81,6 +84,17 @@
                         $('#seat_name').text(html.seat_no);
                         $('#planTiming').text(html.start_time+' to '+html.end_time);
                         $('#seat_details_info').text('Booking Details of Seat No. : ' + html.seat_no);
+                        var planEndDateStr = html.plan_end_date;
+                        var today = new Date();
+                        var planEndDate = new Date(planEndDateStr);
+                        var timeDiff = planEndDate - today;
+                        var daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+                        if(daysRemaining <= 3) {
+                            $('#upgrade').show();
+                        }else{
+                            $('#upgrade').hide();
+                        }
                     }
                 });
             }
@@ -88,12 +102,13 @@
 
         });
         $('#upgrade').on('click', function() {
-           
+            // $("#update_plan_id").trigger('change');
             var user_id = $('#user_id').val();
             var seat_no_id = $('#seat_name').text().trim();
-
+          
             var endOnDate = $('#endOn').text().trim();
-
+            var plan_id=$('#update_plan_id').val();
+            console.log(plan_id);
             // Hide the first modal
             $('#seatAllotmentModal2').modal('hide');
 
@@ -119,15 +134,19 @@
                     },
                     dataType: 'json',
                     success: function (html) {
-                        // console.log(html);
-                        if (html) {
                        
-                            $.each(html, function(key, value) {
+                        if (html[0]) {
+                       
+                            $.each(html[0], function(key, value) {
                                 $("#updated_plan_type_id").append('<option value="'+key+'">'+value+'</option>');
                             });
                         } else {
                             $("#updated_plan_type_id").append('<option value="">Select Plan Type</option>');
                         }
+
+                        // $.each(html[1], function(key, value) {
+                        //     $('#update_plan_id option[value="'+key+'"]').prop('selected', true);
+                        // });
 
                     },
                     error: function(xhr, status, error) {
@@ -145,8 +164,19 @@
             event.preventDefault();
             var plan_type_id = $(this).val();
             var plan_id = $('#plan_id').val();
+           
+            getPlanPrice(plan_type_id,plan_id);
+        });
+        $('#plan_id').on('change', function(event) {
+            event.preventDefault();
+            var plan_id = $(this).val();
+            var plan_type_id = $('#plan_type_id').val();
+          
+            getPlanPrice(plan_type_id,plan_id);
+        });
 
-            if (plan_type_id && plan_id) {
+       function getPlanPrice(plan_type_id,plan_id){
+        if (plan_type_id && plan_id) {
                 $.ajax({
                     url: '{{ route('getPricePlanwise') }}',
                     headers: {
@@ -170,7 +200,7 @@
                 $("#plan_price_id").empty();
                
             }
-        });
+       }
 
         $('#update_plan_id').on('change', function(event) {
             event.preventDefault();
@@ -270,7 +300,7 @@
                 contentType: false,
                 dataType: 'json',
                 success: function(response) {
-
+                    console.log(response);
                     if (response.success) {
 
                         Swal.fire({
@@ -292,24 +322,37 @@
                             inputField.addClass("is-invalid");
                             inputField.after('<div class="invalid-feedback">' + value[0] + '</div>');
                         });
+                    }else if (response.error) {
+                        console.log("yes error");
+                        $("#error-message").text(response.message).show();
+                        $("#success-message").hide();
+
+                       
                     } else {
                         $("#error-message").text(response.message).show();
                         $("#success-message").hide();
                     }
                 },
                 error: function(xhr, status, error) {
-
+     
                     if (xhr.status === 422) {
                         var response = xhr.responseJSON;
-                        $(".is-invalid").removeClass("is-invalid");
-                        $(".invalid-feedback").remove();
-                        $("#error-message").hide();
+                        console.log("422 response:", response); // Log the response
 
-                        $.each(response.errors, function(key, value) {
-                            var inputField = $("input[name='" + key + "'], select[name='" + key + "']");
-                            inputField.addClass("is-invalid");
-                            inputField.after('<div class="invalid-feedback">' + value[0] + '</div>');
-                        });
+                        if (response.error) {
+                            $("#error-message").text(response.message).show();
+                            $("#success-message").hide();
+                        } else if (response.errors) {
+                            $(".is-invalid").removeClass("is-invalid");
+                            $(".invalid-feedback").remove();
+                            $("#error-message").hide();
+
+                            $.each(response.errors, function(key, value) {
+                                var inputField = $("input[name='" + key + "'], select[name='" + key + "']");
+                                inputField.addClass("is-invalid");
+                                inputField.after('<div class="invalid-feedback">' + value[0] + '</div>');
+                            });
+                        }
                     } else {
                         $("#error-message").text('Something went wrong. Please try again.').show();
                         $("#success-message").hide();
@@ -415,5 +458,145 @@
             });
         });
 
+    });
+</script>
+<script>
+    /** Students modules Script***/
+    $(document).ready(function() {
+
+          // Handle state and city dropdowns
+        $('#stateid').on('change', function(event){
+            event.preventDefault();
+            var state_id = $(this).val();
+           
+            if(state_id){
+                $.ajax({
+                    url: '{{ route('cityGetStateWise') }}',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    },
+                    type: 'GET',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "state_id": state_id,
+                    },
+                    dataType: 'json',
+                    success: function(html) {
+                        if(html){
+                            $("#cityid").empty();
+                            $("#cityid").append('<option value="">Select City</option>');
+                            $.each(html, function(key, value){
+                                var selected = (key == "{{ old('city_id', isset($student) ? $student->city_id : '') }}") ? 'selected' : '';
+                                $("#cityid").append('<option value="'+key+'" '+selected+'>'+value+'</option>');
+                            });
+                        }else{
+                            $("#cityid").append('<option value="">Select City</option>');
+                        }
+                    }
+                });
+            } else {
+                $("#cityid").empty();
+                $("#cityid").append('<option value="">Select City</option>');
+            }
+        });
+        // Handle course type and course dropdowns
+        $('#course_type').on('change', function(event){
+            event.preventDefault();
+            var courseTypeID = $(this).val();
+           
+            if (courseTypeID) {
+                $.ajax({
+                    url: '{{ url('/getCourse') }}/' + courseTypeID,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#course').empty();
+                        $('#duration').val('');
+                        $('#fees').val('');
+                        $('#course').append('<option value="">Select Course</option>');
+                        $.each(data, function(key, value) {
+                            // var selected = (key == "{{ old('course_id', isset($student) ? $student->course_id : '') }}") ? 'selected' : '';
+                            $('#course').append('<option value="' + key + '" >' + value + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#course').empty();
+                $('#duration').val('');
+                $('#fees').val('');
+                $('#course').append('<option value="">Select Course</option>');
+            }
+        });
+       // Handle change event on course dropdown
+        $('#course').change(function() {
+            var courseID = $(this).val();
+            
+            if (courseID) {
+                readonlyget(courseID);
+            } else {
+                $('#duration').val('');
+                $('#fees').val('');
+            }
+        });
+       
+
+        // Function to fetch and set course details
+        function readonlyget(courseID) {
+            if (courseID) {
+                console.log('Fetching details for course ID:', courseID); // Debugging line
+                $.ajax({
+                    url: '{{ url('/getCourseDetails') }}/' + courseID,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                       
+                        if (data && data.duration && data.fees) {
+                            $('#duration').val(data.duration);
+                            $('#fees').val(data.fees);
+                        } else {
+                           
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error:', status, error); // Debugging line
+                    }
+                });
+            }
+        }
+
+        // Get initial course details if a course is already selected
+        var course_id = $('#course').val();
+      
+        if (course_id) {
+            readonlyget(course_id);
+        }
+        
+
+
+        // var courseTypeID = $('#course_type').val();
+        // var courseID = "{{ old('course_id', isset($student) ? $student->course_id : '') }}";
+        // if (courseTypeID && courseID) {
+        //     $.ajax({
+        //         url: '{{ url('/getCourse') }}/' + courseTypeID,
+        //         type: 'GET',
+        //         dataType: 'json',
+        //         success: function(data) {
+        //             $('#course').empty();
+        //             $('#course').append('<option value="">Select Course</option>');
+        //             $.each(data, function(key, value) {
+        //                 var selected = (key == courseID) ? 'selected' : '';
+        //                 $('#course').append('<option value="' + key + '" ' + selected + '>' + value + '</option>');
+        //             });
+        //         }
+        //     });
+        // }
+
+        // Trigger the initial change events to load the data if editing
+        if (stateID) {
+            $('#stateid').trigger('change');
+        }
+        if (courseTypeID) {
+            $('#course_type').trigger('change');
+        }
     });
 </script>

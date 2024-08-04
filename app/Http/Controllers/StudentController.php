@@ -23,6 +23,33 @@ class StudentController extends Controller
     {
         // $this->middleware('permission:student-list|student-edit|student-view', ['only' => ['index', 'show']]);
     }
+    protected function validateUser(Request $request ,$id = null){
+        $request->validate([
+            'name' => 'required|string|max:50',
+            'mobile' => 'required|string|max:10|min:10',
+            'alt_mobile' => 'nullable|string|max:10|min:10',
+            'email' => [
+            'required',
+            'string',
+            'email',
+            'max:255',
+            Rule::unique('students')->ignore($id),
+            ],
+            'father_name' => 'required|string|max:50',
+            'dob' => 'required|date',
+            'gender' => 'required|in:male,female',
+            'grade_id' => 'required|exists:grades,id',
+            'stream' => 'required|string|max:255',
+            'state_id' => 'required|exists:states,id',
+            'city_id' => 'required|exists:cities,id',
+            'address' => 'required|string|max:255',
+            'pin_code' => 'required|string|max:6|min:6',
+            'course_type_id' => 'required|exists:course_types,id',
+            'course_id' => 'required|exists:courses,id',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:200',
+        ]);
+    }
+
     public function index(Request $request)
     {
         $user = auth()->user();
@@ -34,7 +61,7 @@ class StudentController extends Controller
         ->leftJoin('courses', 'students.course_id', '=', 'courses.id')
         ->leftJoin('course_types', 'courses.course_type', '=', 'course_types.id')
         ->orderBy('students.created_at', 'DESC')->get();
-       
+     
         if ($request->ajax()) {
             return DataTables::of($datas)
                 ->addIndexColumn()
@@ -86,24 +113,17 @@ class StudentController extends Controller
     {
        
         
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'mobile' => 'required|string|max:15',
-            'alt_mobile' => 'nullable|string|max:15',
-            'email' => 'required|string|email|max:255|unique:students',
-            'father_name' => 'required|string|max:255',
-            'dob' => 'required|date',
-            'gender' => 'required|in:male,female',
-            'grade_id' => 'required|exists:grades,id',
-            'stream' => 'required|string|max:255',
-            'state_id' => 'required|exists:states,id',
-            'city_id' => 'required|exists:cities,id',
-            'address' => 'required|string|max:255',
-            'pin_code' => 'required|string|max:10',
-            'course_type_id' => 'required|exists:course_types,id',
-            'course_id' => 'required|exists:courses,id',
-        ]);
+        $validated = $this->validateUser($request);
         $validated['form_no']=$this->getNewFormNumber();
+
+        if ($request->hasFile('profile_image')) {
+            $file = $request->file('profile_image');
+            $filePath = $file->store('uploade', 'public');
+        }else{
+            $filePath=null;
+        }
+
+        $validated['profile_image']=$filePath;
         Student::create($validated);
 
         return redirect()->route('student.index')->with('success', 'Student created successfully.');
@@ -151,7 +171,7 @@ class StudentController extends Controller
         $course_types = CourseType::all();
         $courses = Course::where('course_type',$student->course_type_id)->pluck('id','course_name');
         $fees=Course::where('id',$student->course_id)->select('course_fees','duration')->first();
-
+       
         // Check if the student exists
         if (!$student) {
             return redirect()->route('students.index')->with('error', 'Student not found.');
@@ -168,29 +188,15 @@ class StudentController extends Controller
     public function update(Request $request, string $id)
     {
        
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'mobile' => 'required|string|max:15',
-            'alt_mobile' => 'nullable|string|max:15',
-           'email' => [
-            'required',
-            'string',
-            'email',
-            'max:255',
-            Rule::unique('students')->ignore($id),
-            ],
-            'father_name' => 'required|string|max:255',
-            'dob' => 'required|date',
-            'gender' => 'required|in:male,female',
-            'grade_id' => 'required|exists:grades,id',
-            'stream' => 'required|string|max:255',
-            'state_id' => 'required|exists:states,id',
-            'city_id' => 'required|exists:cities,id',
-            'address' => 'required|string|max:255',
-            'pin_code' => 'required|string|max:10',
-            'course_type_id' => 'required|exists:course_types,id',
-            'course_id' => 'required|exists:courses,id',
-        ]);
+        $validated = $this->validateUser($request, $id);
+        if ($request->hasFile('profile_image')) {
+            $file = $request->file('profile_image');
+            $filePath = $file->store('uploade', 'public');
+        }else{
+            $filePath=null;
+        }
+
+        $validated['profile_image']=$filePath;
         
         Student::where("id", $id)->update($validated);
         return redirect()->route('student.index')->with('success', 'Student Update successfully.');

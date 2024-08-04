@@ -65,6 +65,13 @@ class AccountController extends Controller
             'updated_at' => now(),
         ]);
 
+        $lastTransactions = DB::table('transactions')
+            ->where('student_id', $studentId)
+            ->orderBy('id','DESC')->first();
+        if($lastTransactions->pending_amount==0){
+            Student::where('id',$studentId)->update(['is_paid'=>1]);
+        }
+
         return redirect()->back()->with('success', 'Payment successful');
     }
 

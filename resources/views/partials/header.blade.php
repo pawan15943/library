@@ -48,13 +48,10 @@
 $current_route = Route::currentRouteName();
 
 $submenu=App\Models\SubMenu::all();
+use App\Helpers\HelperService;
 $value='List';
-foreach($submenu as $key => $subvalue){
-  
-    if($current_route==$subvalue->url){
-        $value=$subvalue->name;
-    }
-}
+$breadcrumbs = HelperService::generateBreadcrumbs();
+$title = HelperService::generateTitle();
 
 @endphp
 
@@ -62,9 +59,11 @@ foreach($submenu as $key => $subvalue){
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
-            <div id="breadcrumb">
-                <h3>
-                    @php echo $value @endphp
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h3 class="h3">
+                    @if($title!='Home')
+                    {{ $title }}
+                    @endif
                 </h3>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
@@ -74,9 +73,12 @@ foreach($submenu as $key => $subvalue){
                         <li class="breadcrumb-item"><a href="">Dashboard</a></li>
                         @endif
                         @if($value != 'Dashboard')
+                        @foreach ($breadcrumbs as $breadcrumb)
                         <li class="breadcrumb-item active" aria-current="page">
-                            @php echo $value @endphp
+                            <a href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['name'] }}</a>
                         </li>
+                        @endforeach
+                        
                         @endif
                     </ol>
                 </nav>

@@ -159,6 +159,9 @@
         });
         $(document).ready(function() {
             $('#datatable').DataTable();
+        
+        $("#back_btn").click(function (){
+        window.history.back();
         });
     </script>
 

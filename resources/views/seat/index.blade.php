@@ -232,9 +232,10 @@ $fullDayCount = 0;
     <div class="modal-dialog modal-lg">
 
         <div id="success-message" class="alert alert-success" style="display:none;"></div>
-        <div id="error-message" class="alert alert-danger" style="display:none;"></div>
+        
 
         <div class="modal-content">
+            <div id="error-message" class="alert alert-danger" style="display:none;"></div>
             <div id="validation-error-message" class="alert alert-danger" style="display:none;"></div>
             <div class="modal-body ">
                 <form id="seatAllotmentForm">
@@ -381,7 +382,7 @@ $fullDayCount = 0;
                                 </table>
                             </div>
                             <input type="hidden" value="" id="user_id">
-                            <a id="upgrade" class="btn btn-primary mt-2">Upgrade Plan Now</a>
+                            <a id="upgrade " class="btn btn-primary mt-2 ">Upgrade Plan Now</a>
                         </div>
                     </div>
                 </div>
@@ -403,7 +404,7 @@ $fullDayCount = 0;
                         <div class="row g-4 mt-1">
                             <div class="col-lg-6">
                                 <label for="">Select Plan <span>*</span></label>
-                                <select name="" id="update_plan_id" class="form-control" name="plan_id">
+                                <select  id="update_plan_id" class="form-control" name="plan_id">
                                     <option value="">Select Plan</option>
                                     @foreach($plans as $key => $value)
                                     <option value="{{$value->id}}">{{$value->name}}</option>
@@ -414,8 +415,7 @@ $fullDayCount = 0;
                             </div>
                             <div class="col-lg-6">
                                 <label for="">Plan Type <span>*</span></label>
-                                <select id="updated_plan_type_id" class="form-control" name="plan_type_id">
-                                    <option value="">Select Plan Type</option>
+                                <select id="updated_plan_type_id" class="form-control" name="plan_type_id" @readonly(true)>
                                    
                                 </select>
                             </div>
