@@ -119,6 +119,9 @@ class UserController extends Controller
             'plan_id' => 'required|integer',
             'plan_type_id' => 'required|integer',
             'plan_price_id' => 'required|integer',
+            'id_proof_file' => 'nullable|file|mimes:jpg,png|max:200',
+            'mobile' => 'nullable|digits:10', 
+            'pin_code' => 'nullable|digits:6',  
         ];
 
         // If it's an update (i.e., $id is not null), add conditional rules
@@ -244,7 +247,7 @@ class UserController extends Controller
     // customer update and upgrade plan function
     public function userUpdate(Request $request, $id = null)
     {
-      
+     
         $validator = $this->validateCustomer($request, $id);
        
         if($request->input('user_id')){
@@ -359,6 +362,7 @@ class UserController extends Controller
                 'plan_types.end_time'
             )
             ->firstOrFail();
+           
             $plans = Plan::all();
             $planTypes = PlanType::all();
         // Check the request type or the presence of a parameter to determine the response

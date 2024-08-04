@@ -2,48 +2,19 @@
 <script>
     // jQuery script
     $(document).ready(function() {
+        /**customer edit page**/
+        var edit_seat_id=$("#edit_seat").val();
+        if(edit_seat_id){
+            getTypeSeatwise(edit_seat_id);
+            $('#plan_type_id').trigger('change');
+        }
        
         $('.first_popup').on('click', function() {
             var seatId = $(this).attr('id');
             $('#seat_no').val(seatId);
             $('#seat_no_head').text('Book Seat No ' + seatId);
             $('#seatAllotmentModal').modal('show');
-
-            
-            if (seatId) {
-                $.ajax({
-                    url: '{{ route('gettypeSeatwise') }}',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                    },
-                    type: 'GET',
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                        "seatId": seatId,
-                    },
-                    dataType: 'json',
-                    success: function (html) {
-                      
-                        if (html) {
-                            $("#plan_type_id").empty();
-                            $("#plan_type_id").append('<option value="">Select Plan Type</option>');
-                            $.each(html, function(key, value) {
-                               
-                                $("#plan_type_id").append('<option value="'+key+'">'+value+'</option>');
-                            });
-                        } else {
-                            $("#plan_type_id").append('<option value="">Select Plan Type</option>');
-                        }
-
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("AJAX error:", status, error); // Log any errors
-                    }
-                    });
-            } else {
-                    $("#plan_type_id").empty();
-                    $("#plan_type_id").append('<option value="">Select Plan Type</option>');
-            }
+            getTypeSeatwise(seatId);
         });
         $('.second_popup').on('click', function() {
             $('#upgrade').hide();
@@ -98,7 +69,6 @@
                     }
                 });
             }
-
 
         });
         $('#upgrade').on('click', function() {
@@ -164,43 +134,26 @@
             event.preventDefault();
             var plan_type_id = $(this).val();
             var plan_id = $('#plan_id').val();
+            if(plan_type_id && plan_id){
+                getPlanPrice(plan_type_id,plan_id);
+            }else{
+                $("#plan_price_id").val('');
+            }
            
-            getPlanPrice(plan_type_id,plan_id);
         });
         $('#plan_id').on('change', function(event) {
             event.preventDefault();
             var plan_id = $(this).val();
             var plan_type_id = $('#plan_type_id').val();
           
-            getPlanPrice(plan_type_id,plan_id);
+            if(plan_type_id && plan_id){
+                getPlanPrice(plan_type_id,plan_id);
+            }else{
+                $("#plan_price_id").val('');
+            }
         });
 
-       function getPlanPrice(plan_type_id,plan_id){
-        if (plan_type_id && plan_id) {
-                $.ajax({
-                    url: '{{ route('getPricePlanwise') }}',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                    },
-                    type: 'GET',
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                        "plan_type_id": plan_type_id,
-                        "plan_id": plan_id,
-                    },
-                    dataType: 'json',
-                    success: function(html) {
-                             $.each(html, function(key, value) {
-                                $("#plan_price_id").val(value);
-                            });
-                     
-                    }
-                });
-            } else {
-                $("#plan_price_id").empty();
-               
-            }
-       }
+      
 
         $('#update_plan_id').on('change', function(event) {
             event.preventDefault();
@@ -458,7 +411,116 @@
             });
         });
 
-    });
+        function getPlanPrice(plan_type_id,plan_id){
+            if (plan_type_id && plan_id) {
+                    $.ajax({
+                        url: '{{ route('getPricePlanwise') }}',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                        },
+                        type: 'GET',
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            "plan_type_id": plan_type_id,
+                            "plan_id": plan_id,
+                        },
+                        dataType: 'json',
+                        success: function(html) {
+                                $.each(html, function(key, value) {
+                                    $("#plan_price_id").val(value);
+                                });
+                        
+                        }
+                    });
+                } else {
+                    $("#plan_price_id").empty();
+                
+                }
+            }
+
+        });
+        function getTypeSeatwise(seatId) {
+            if (seatId) {
+                $.ajax({
+                    url: '{{ route('gettypeSeatwise') }}',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    },
+                    type: 'GET',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "seatId": seatId,
+                    },
+                    dataType: 'json',
+                    success: function (html) {
+                        if (html) {
+                            // Keep the existing selected option
+                            let selectedOption = $("#plan_type_id").find("option:selected");
+
+                            // Empty the dropdown but keep the default option
+                            $("#plan_type_id").empty();
+                            $("#plan_type_id").append('<option value="">Select Plan Type</option>');
+
+                            // Re-add the previously selected option
+                            if (selectedOption.val() !== "") {
+                                $("#plan_type_id").append('<option value="'+selectedOption.val()+'" selected>'+selectedOption.text()+'</option>');
+                            }
+
+                            // Append new options from the AJAX response
+                            $.each(html, function(index, planType) {
+                                // Avoid adding the option that is already selected
+                                if (planType.id != selectedOption.val()) {
+                                    $("#plan_type_id").append('<option value="'+planType.id+'">'+planType.name+'</option>');
+                                }
+                            });
+                        } else {
+                            $("#plan_type_id").empty();
+                            $("#plan_type_id").append('<option value="">Select Plan Type</option>');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX error:", status, error); // Log any errors
+                    }
+                });
+            } else {
+                $("#plan_type_id").empty();
+                $("#plan_type_id").append('<option value="">Select Plan Type</option>');
+            }
+        }
+        // function getTypeSeatwise(seatId){
+        //     if (seatId) {
+        //         $.ajax({
+        //             url: '{{ route('gettypeSeatwise') }}',
+        //             headers: {
+        //                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+        //             },
+        //             type: 'GET',
+        //             data: {
+        //                 "_token": "{{ csrf_token() }}",
+        //                 "seatId": seatId,
+        //             },
+        //             dataType: 'json',
+        //             success: function (html) {
+        //                 if (html) {
+        //                     $("#plan_type_id").empty();
+        //                     $("#plan_type_id").append('<option value="">Select Plan Type</option>');
+        //                     $.each(html, function(index, planType) {
+        //                         $("#plan_type_id").append('<option value="'+planType.id+'">'+planType.name+'</option>');
+        //                     });
+        //                 } else {
+        //                     $("#plan_type_id").empty();
+        //                     $("#plan_type_id").append('<option value="">Select Plan Type</option>');
+        //                 }
+        //             },
+        //             error: function(xhr, status, error) {
+        //                 console.error("AJAX error:", status, error); // Log any errors
+        //             }
+        //         });
+        //     } else {
+        //         $("#plan_type_id").empty();
+        //         $("#plan_type_id").append('<option value="">Select Plan Type</option>');
+        //     }
+        // }
 </script>
 <script>
     /** Students modules Script***/
@@ -592,11 +654,11 @@
         // }
 
         // Trigger the initial change events to load the data if editing
-        if (stateID) {
-            $('#stateid').trigger('change');
-        }
-        if (courseTypeID) {
-            $('#course_type').trigger('change');
-        }
+        // if (stateID) {
+        //     $('#stateid').trigger('change');
+        // }
+        // if (courseTypeID) {
+        //     $('#course_type').trigger('change');
+        // }
     });
 </script>
