@@ -382,7 +382,7 @@ $fullDayCount = 0;
                                 </table>
                             </div>
                             <input type="hidden" value="" id="user_id">
-                            <a id="upgrade " class="btn btn-primary mt-2 ">Upgrade Plan Now</a>
+                            <a id="upgrade" class="btn btn-primary mt-2 ">Upgrade Plan Now</a>
                         </div>
                     </div>
                 </div>

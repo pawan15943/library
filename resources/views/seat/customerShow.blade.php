@@ -9,13 +9,13 @@
       
         <a href="{{route('customers.list')}}" class="btn btn-primary mb-3">Back to Customers</a>
        
-        <form action="{{ route('cutomer.update', $customer->id) }}" method="POST" enctype="multipart/form-data" id="seatAllotmentForm">
+        <form action="{{ route('cutomer.update', $customer->id) }}" method="POST" enctype="multipart/form-data" >
             @csrf
             @method('PUT')
             
             <div class="details">
                 <div class="row g-3 mt-1">
-                    <input type="hidden" name="seat_no" value="{{ old('seat_no', $customer->seat_no) }}">
+                    <input id="edit_seat" type="hidden" name="seat_no" value="{{ old('seat_no', $customer->seat_no) }}">
                     <div class="col-lg-6">
                         <label for="">Full Name <span>*</span></label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror char-only" placeholder="Full Name" name="name" id="name" value="{{ old('name', $customer->name) }}">
@@ -53,7 +53,7 @@
                         @enderror
                     </div>
                     <div class="col-lg-4">
-                        <label for="">Select Plan <span>*</span></label>
+                        <label for=""> Plan  <span>*</span></label>
                         <select id="plan_id" class="form-control @error('plan_id') is-invalid @enderror" name="plan_id">
                             <option value="">Select Plan</option>
                             @foreach($plans as $key => $value)
@@ -70,9 +70,8 @@
                         <label for="">Plan Type <span>*</span></label>
                         <select id="plan_type_id" class="form-control @error('plan_type_id') is-invalid @enderror" name="plan_type_id">
                             <option value="">Select Plan Type</option>
-                            @foreach($planTypes as $key => $value)
-                                <option value="{{ $value->id }}" {{ old('plan_type_id', $customer->plan_type_id) == $value->id ? 'selected' : '' }}>{{ $value->name }}</option>
-                            @endforeach
+                            <option value="{{$customer->plan_type_id}}" selected>{{$customer->plan_type_name}}</option>
+                            
                         </select>
                         @error('plan_type_id')
                         <span class="invalid-feedback" role="alert">
@@ -113,7 +112,7 @@
                         @enderror
                     </div>
                     <div class="col-lg-4">
-                        <label for="">Id Proof Received <span>*</span></label>
+                        <label for="">Id Proof Received </label>
                         <select id="id_proof_name" class="form-control @error('id_proof_name') is-invalid @enderror" name="id_proof_name">
                             <option value="">Select Id Proof</option>
                             <option value="1" {{ old('id_proof_name', $customer->id_proof_name) == 1 ? 'selected' : '' }}>Aadhar</option>

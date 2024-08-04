@@ -247,26 +247,52 @@ class PlanController extends Controller
     
     public function getPlanTypeSeatWise(Request $request){
         $seatId = $request->seatId;
-
-        // Step 1: Retrieve the plan_type_ids from Customers for the given seat
-        $planTypesRemovals = Customers::where('seat_no', $seatId)
-            ->where('status',1)
-            ->pluck('plan_type_id')
-            ->toArray();
-        $plantypeHours=Customers::where('seat_no', $seatId)
-        ->where('status',1)->sum('hours');
-        
-        // Step 2: Retrieve all plan_types as an associative array
-        $planTypes = PlanType::pluck('name', 'id');
-
-        // Step 3: Filter out the plan_types that match the retrieved plan_type_ids
-        $filteredPlanTypes = $planTypes->reject(function ($name, $id) use ($planTypesRemovals) {
-            return in_array($id, $planTypesRemovals);
-        });
-      
+    
+        // Step 1: Retrieve all bookings for the given seat
+        $bookings = DB::table('customers')
+            ->join('plan_types', 'customers.plan_type_id', '=', 'plan_types.id')
+            ->where('seat_no', $seatId)
+            ->where('customers.status', 1)
+            ->get(['customers.plan_type_id', 'plan_types.start_time', 'plan_types.end_time', 'plan_types.slot_hours']);
+    
+        // Step 2: Retrieve all plan types
+        $planTypes = PlanType::all();
+    
+        // Step 3: Initialize an array to store the plan_type_ids to be removed
+        $planTypesRemovals = [];
+    
+        // Step 4: Calculate total booked hours for the seat
+        $totalBookedHours = $bookings->sum('slot_hours');
+    
+        // Step 5: Determine conflicts based on plan_type_id and hours
+        foreach ($bookings as $booking) {
+            foreach ($planTypes as $planType) {
+                if ($booking->start_time < $planType->end_time && $booking->end_time > $planType->start_time) {
+                    $planTypesRemovals[] = $planType->id;
+                }
+            }
+        }
+    
+        // Remove duplicate entries in planTypesRemovals
+        $planTypesRemovals = array_unique($planTypesRemovals);
+    
+        // If total booked hours >= 16, all plan types should be removed
+        if ($totalBookedHours >= 16) {
+            $planTypesRemovals = $planTypes->pluck('id')->toArray();
+        }
+    
+        // Step 6: Filter out the plan_types that match the retrieved plan_type_ids
+        $filteredPlanTypes = $planTypes->filter(function ($planType) use ($planTypesRemovals) {
+            return !in_array($planType->id, $planTypesRemovals);
+        })->map(function ($planType) {
+            return ['id' => $planType->id, 'name' => $planType->name];
+        })->values(); // Ensure the keys are reset to a continuous numerical index
+    
         // Return the filtered plan types as JSON
         return response()->json($filteredPlanTypes);
     }
+    
+    
     
     
 
