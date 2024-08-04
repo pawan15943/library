@@ -8,17 +8,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <!-- Favicon link -->
+    <link rel="icon" href="/path/to/your/favicon.ico" type="image/x-icon">
+    <!-- Title -->
     <title>@yield('title')</title>
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <!-- Custom fonts for this template-->
-    <link href="{{ asset('public/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 
-    <!-- Custom styles for this template-->
-
+    <!-- Admin Style-->
     <link href="{{ asset('public/css/sb-admin-2.min.css') }}" rel="stylesheet">
 
+    <!-- Include Datatables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+
+    <!-- Custom Style -->
     <link href="{{ asset('public/css/style.css') }}" rel="stylesheet">
+
 </head>
 
 <body class="bg-custom-primary">
@@ -26,45 +31,46 @@
     <div class="login-form">
         <div class="left-box">
             <div class="logo">
-                <img src="{{ asset('public/img/sitelogo.png') }}" class="fav_img logo" alt="logo" />
+                <h1>Library<span>Pro</span></h1>
             </div>
-            <div class="creative">
-                <img src="{{ asset('public/img/Vector.png') }}" class="fav_img img-fluid p-3" alt="logo" />
-            </div>
-            <div class="footer text-center text-dark">Admin Portal</div>
+
         </div>
         <div class="right-box">
+            <div class="contact"><p>Call Us : 8114479678</p></div>
             <div class="login-fields">
-                <h4>Welcome to Admin</h4>
-                <p>Sign in to continue</p>
+                <div class="heading">
+                    <h4>Welcome to Admin</h4>
+                    <p>Sign in to continue</p>
+                </div>
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="form-code">
 
-                        <input id="email" placeholder="Enter Email Address" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="email" autofocus>
-                        @error('email')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-                        <input id="password" placeholder="Password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="current-password">
+                        <div class="input">
+                            <input id="email" placeholder="Enter Email Address" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="email" autofocus>
+                            @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <div class="input">
+                            <input id="password" placeholder="Password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="current-password">
+                            @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
 
-                        @error('password')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-
-                        <button type="submit" class="btn btn-primary btn-user btn-block bg-custom-primary">Login</button>
-
-                        {{-- @if (Route::has('password.request'))
-                    <a class="text-center d-block" href="{{ route('password.request') }}">
-                        Forgot Your Password?</a>
-                        @endif --}}
+                        <div class="input">
+                            <button type="submit" class="btn btn-primary btn-user btn-block bg-custom-primary">Login</button>
+                        </div>
 
                     </div>
                 </form>
             </div>
+            <div class="developedby"><span><a href="javascript:;">Developed By : NBCC</a></span></div>
         </div>
     </div>
 
@@ -77,6 +83,11 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('public/js/sb-admin-2.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('input').attr('autocomplete', 'off');
+        });
+    </script>
 
 </body>
 

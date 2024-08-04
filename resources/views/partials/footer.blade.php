@@ -1,12 +1,12 @@
  <!-- Footer -->
- <footer class="sticky-footer bg-white">
-    <div class="container my-auto">
-        <div class="copyright text-center my-auto">
+ <footer>
+    <div class="container">
+        <div class=" text-center">
             <span>Copyright © 
                 @php
-                echo  date('Y') ;
+                echo date('Y') ;
                 @endphp 
-            ALLEN Overseas. </span>
+           By NBCC </span>
         </div>
     </div>
 </footer>

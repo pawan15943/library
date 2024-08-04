@@ -14,7 +14,7 @@
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Welcome, {{Auth::user()->name}}</span>
+                <span class="mr-2 d-none d-lg-inline">Welcome, {{Auth::user()->name}}</span>
                 <img class="img-profile rounded-circle" src="{{ asset('public/img/undraw_profile.svg') }}">
             </a>
             <!-- Dropdown - User Information -->
@@ -62,8 +62,8 @@ foreach($submenu as $key => $subvalue){
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
-            <div class="d-sm-flex align-items-center justify-content-between">
-                <h3 class="h3 mb-0 text-gray-800">
+            <div id="breadcrumb">
+                <h3>
                     @php echo $value @endphp
                 </h3>
                 <nav aria-label="breadcrumb">
@@ -84,7 +84,7 @@ foreach($submenu as $key => $subvalue){
         </div>
     </div>
 
-    <div class="row">
+    <!-- <div class="row">
         {{-- Success Message --}}
         <div class="col-lg-12">
             @if (session('success'))
@@ -98,20 +98,19 @@ foreach($submenu as $key => $subvalue){
             </div>
             @endif
         </div>
-    </div>
+    </div> -->
    
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    @if($current_route=='planType.index')
-    <a href="{{ route('planType.create') }}"><i class="fa fa-plus"></i> Add Plan Type</a>
-    @elseif($current_route=='planPrice.index')
-    <a href="{{ route('planPrice.create') }}"><i class="fa fa-plus"></i> Add Plan Price</a>
-    @elseif($current_route=='seats')
-    <a href="{{ route('seats.create') }}"><i class="fa fa-plus"></i> Add seats</a>
-    @elseif($current_route=='plan.index')
-    <a href="{{ route('plan.create') }}"><i class="fa fa-plus"></i> Add Plan Name</a> 
-    
-    @endif
-</div>
+    <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        @if($current_route=='planType.index')
+        <a href="{{ route('planType.create') }}"><i class="fa fa-plus"></i> Add Plan Type</a>
+        @elseif($current_route=='planPrice.index')
+        <a href="{{ route('planPrice.create') }}"><i class="fa fa-plus"></i> Add Plan Price</a>
+        @elseif($current_route=='seats')
+        <a href="{{ route('seats.create') }}"><i class="fa fa-plus"></i> Add seats</a>
+        @elseif($current_route=='plan.index')
+        <a href="{{ route('plan.create') }}"><i class="fa fa-plus"></i> Add Plan Name</a> 
+        @endif
+    </div> -->
 </div>
 
 <!-- End of Topbar -->

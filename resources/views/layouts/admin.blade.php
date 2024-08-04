@@ -7,37 +7,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" href="https://d23hiuzhfk4xdw.cloudfront.net/wp-content/uploads/2023/05/03073537/cropped-favicon-32x32.png" sizes="32x32" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
+    <meta name="description" content="NEW BALAJI COMPUTER CLASSES, SOFTWARE DEVELOPMENT COMPANY">
     <meta name="author" content="">
-
     <title>@yield('title')</title>
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <!-- Custom fonts for this template-->
-    <link href="{{ asset('public/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
 
-    <!-- Custom styles for this template-->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 
+    <!-- Admin Style-->
     <link href="{{ asset('public/css/sb-admin-2.min.css') }}" rel="stylesheet">
-
-    <link href="{{ asset('public/css/style.css') }}" rel="stylesheet">
-    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> --}}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Include Datatables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
-    {{-- <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- Custom Style -->
+    <link href="{{ asset('public/css/style.css') }}" rel="stylesheet">
 
-<!-- Optional theme -->
-
+    <!-- Main JS File -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </head>
 
 <body id="page-top">
-
+    <div id="page-loader">
+        <div class="spinner"></div>
+    </div>
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -75,28 +69,18 @@
     </div>
     <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
 
-
-    <!-- Bootstrap core JavaScript-->
- 
-    <script src="{{ asset('public/vendor/jquery/jquery.min.js') }}"></script>
+    <!-- JavaScriptS-->
     <script src="{{ asset('public/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="{{ asset('public/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('public/js/sb-admin-2.min.js') }}"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-  
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+        // Input Digit Only Validation
         var elements = document.querySelectorAll('.digit-only');
         for (i in elements) {
             elements[i].onkeypress = function(e) {
@@ -104,12 +88,13 @@
                 if (isNaN(this.value + "" + String.fromCharCode(e.charCode)))
                     return false;
             }
-            
         }
+
         $('.digit-only').on('keyup', function(e) {
             $(this).val($(this).val().replace(/\s/g, ''));
         });
 
+        // Input Char Only Validation
 
         $('.char-only').keydown(function(e) {
             if (e.ctrlKey || e.altKey) {
@@ -122,7 +107,59 @@
             }
         });
         $('input').attr('autocomplete', 'off');
+        // Stop autocomplete
+        $(document).ready(function() {
+            $('input').attr('autocomplete', 'off');
+        });
+        // Loader
+        $(window).on('load', function() {
+            $("#page-loader").fadeOut("slow");
+        });
+    </script>
+    <script>
+        // Function to get scrollbar width
+        function getScrollbarWidth() {
+            return window.innerWidth - document.documentElement.clientWidth;
+        }
 
+        // Adjust padding on modal open
+        $(document).on('show.bs.modal', function() {
+            var scrollbarWidth = getScrollbarWidth();
+            if (scrollbarWidth > 0) {
+                $('body').css('padding-right', scrollbarWidth);
+            }
+        });
+
+        // Remove padding adjustment on modal close
+        $(document).on('hidden.bs.modal', function() {
+            $('body').css('padding-right', 0);
+        });
+
+        $(document).ready(function() {
+            $('#accordionSidebar .nav-link').on('click', function() {
+                $(this).parent().addClass('bg-active');
+            });
+        });
+
+        $(document).ready(function() {
+            // Get the current URL path
+            var currentUrl = window.location.href;
+
+            // Loop through each nav-item
+            $('.nav-link span').each(function() {
+                // Get the URL from the data-url attribute
+                var itemUrl = $(this).data('url');
+
+                // Check if the current URL matches the item URL
+                if (currentUrl === itemUrl) {
+                    // Add 'active' class to the current nav-item
+                    $(this).addClass('active');
+                }
+            });
+        });
+        $(document).ready(function() {
+            $('#datatable').DataTable();
+        });
     </script>
 
 </body>

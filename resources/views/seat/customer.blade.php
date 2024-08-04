@@ -11,13 +11,17 @@
 <div class="row ">
     <!-- Main Info -->
     <div class="col-lg-12 ">
-
         <!-- Add Document -->
         <div class="card card-default main_card_content">
             <!-- /.card-header -->
             <div class="card-body p-0">
                 <div class="row">
                     <div class="col-lg-12">
+                    <div class="d-flex action-heading">
+                        <!-- <h4>Student List</h4> -->
+                        <a href="" class="button"><i class="fa-solid fa-plus"></i> New Customer</a>
+                    </div>
+
                         <div class="table-responsive tableRemove_scroll mt-2">
                             <table class="table table-hover data-table" id="datatable">
                                 <thead>
@@ -36,14 +40,13 @@
                                 <tbody>
                                     @foreach($customers as $key => $value)
                                     @php
-                                       
-                                         $today = Carbon::today();
+                                        $today = Carbon::today();
                                         $endDate = Carbon::parse($value->plan_end_date);
                                         $diffInDays = $today->diffInDays($endDate, false);
                                     @endphp
                                     <tr class="text-center">
-                                        <td > {{$value->seat_no}}</td>
-                                        <td style="width: 20%;"> <span class="truncate">{{$value->name}}</span></td>
+                                        <td>{{$value->seat_no}}</td>
+                                        <td style="width: 20%;"> <span class="truncate uppercase">{{$value->name}}</span></td>
                                         <td> {{$value->mobile}}</td>
                                         <td> {{$value->email }}</td>
                                         <td> {{$value->plan_name}}</td>
@@ -51,11 +54,11 @@
                                         <td style="width: 10%;"> {{$value->plan_start_date}}</td>
                                         <td style="width: 13%;"> {{$value->plan_end_date}}
                                             @if ($diffInDays > 0)
-                                            <small class="text-success fs-10">Expires in {{ $diffInDays }} days</small>
+                                            <small class="text-success fs-10 d-block">Expires in {{ $diffInDays }} days</small>
                                             @elseif ($diffInDays < 0)
-                                                <small class="text-danger fs-10">Expired {{ abs($diffInDays) }} days ago</small>
+                                                <small class="text-danger fs-10 d-block">Expired {{ abs($diffInDays) }} days ago</small>
                                             @else
-                                                <small class="text-warning fs-10">Expires today</small>
+                                                <small class="text-warning fs-10 d-block">Expires today</small>
                                             @endif
                                            
                                         </td>
@@ -90,9 +93,7 @@
 <!-- /.content -->
 
 <script>
-    $(document).ready(function() {
-        $('#datatable').DataTable();
-    });
+ 
     $(document).on('click', '.delete-customer', function() {
     var id = $(this).data('id');
     var url = '{{ route('customers.destroy', ':id') }}';

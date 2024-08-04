@@ -4,66 +4,66 @@
 
 @section('content')
 
-<div class="row g-4">
-    <div class="col-lg-4">
-        <div class="dashibox">
-            <h4>Total Enrollments</h4>
-            <div class="d-flex">
-                <h2>1202</h2>
-                <a href=""><i class="fa fa-arrow-right"></i></a>
+<div class="row">
+    <div class="col-lg-9">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="dashibox">
+                    <h4>Total Enrollments</h4>
+                    <div class="d-flex">
+                        <h2 class="counter" data-count="1202">0</h2>
+                        <a href=""><i class="fa-solid fa-arrow-right-long"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="dashibox">
+                    <h4>Total Course Completed</h4>
+                    <div class="d-flex">
+                        <h2 class="counter" data-count="15">0</h2>
+                        <a href=""><i class="fa-solid fa-arrow-right-long"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="dashibox">
+                    <h4>Total Certificate Distributed</h4>
+                    <div class="d-flex">
+                        <h2 class="counter">10</h2>
+                        <a href=""><i class="fa-solid fa-arrow-right-long"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="dashibox">
+                    <h4>Booked Seats </h4>
+                    <div class="d-flex">
+                        <h2 class="counter">10</h2>
+                        <a href=""><i class="fa-solid fa-arrow-right-long"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="dashibox">
+                    <h4>Available Seats</h4>
+                    <div class="d-flex">
+                        <h2 class="counter">10</h2>
+                        <a href="" class="water-drop-button"><i class="fa-solid fa-arrow-right-long" ></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="dashibox">
+                    <h4>Monthly Revenue</h4>
+                    <div class="d-flex">
+                        <h2 class="counter">10</h2>
+                        <a href=""><i class="fa-solid fa-arrow-right-long"></i></a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-4">
-        <div class="dashibox">
-            <h4>Total Course Completed</h4>
-            <div class="d-flex">
-                <h2>15</h2>
-                <a href=""><i class="fa fa-arrow-right"></i></a>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="dashibox">
-            <h4>Total Certificate Distributed</h4>
-            <div class="d-flex">
-                <h2>10</h2>
-                <a href=""><i class="fa fa-arrow-right"></i></a>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="dashibox">
-            <h4>Booked Seats </h4>
-            <div class="d-flex">
-                <h2>10</h2>
-                <a href=""><i class="fa fa-arrow-right"></i></a>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="dashibox">
-            <h4>Available Seats</h4>
-            <div class="d-flex">
-                <h2>10</h2>
-                <a href=""><i class="fa fa-arrow-right"></i></a>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="dashibox">
-            <h4>Monthly Revenue</h4>
-            <div class="d-flex">
-                <h2>10</h2>
-                <a href=""><i class="fa fa-arrow-right"></i></a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row mb-4">
-    <div class="col-lg-6">
-
+    <div class="col-lg-3">
         <div class="course-list">
             <h4>Course Wise Enrollments</h4>
             <ul>
@@ -75,11 +75,15 @@
                     </div>
                 </li>
                 @endforeach
-               
-               
+
+
             </ul>
         </div>
     </div>
+</div>
+
+<div class="row mt-4">
+    
     <div class="col-lg-6">
 
         <div class="course-list">
@@ -93,7 +97,7 @@
                     </div>
                 </li>
                 @endforeach
-                
+
             </ul>
         </div>
     </div>
@@ -184,6 +188,27 @@
 
 </div>
 
+<script>
+$(document).ready(function() {
+    $('.counter').each(function() {
+        var $this = $(this),
+            countTo = $this.attr('data-count');
 
+        $({ countNum: $this.text() }).animate({
+            countNum: countTo
+        },
+        {
+            duration: 1000,
+            easing: 'linear',
+            step: function() {
+                $this.text(Math.floor(this.countNum));
+            },
+            complete: function() {
+                $this.text(this.countNum);
+            }
+        });
+    });
+});
+</script>
 
 @endsection
