@@ -16,7 +16,6 @@
                     @endif
                     <div class="row">
                     <input type="hidden" name="id" value="" id="city_id">
-
                     <div class="col-lg-6">
                         <label> State <sup class="text-danger">*</sup></label>
                         <select id="stateid" name="state_id" class="form-control @error('state') is-invalid @enderror" placeholder="Select State">

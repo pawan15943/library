@@ -7,7 +7,7 @@
     <!-- Page Main Content -->
     <div class="col-lg-12">
         <!-- General Information -->
-        <div class="card card-default" id="generalInfo">
+        <div class="card card-default" id="createStudent">
             <div class="card-body">
                 
                 <form action="{{ isset($student) ? route('student.update', $student->id) : route('student.store') }}" method="POST"
@@ -17,11 +17,11 @@
                         @method('PUT')
                     @endif
                     
-                    <div class="row mt-3">
+                    <div class="row">
                        
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label>Full Name</label>
+                                <label>Full Name<sup class="text-danger">*</sup></label>
                                 <input type="text" class="form-control char-only @error('name') is-invalid @enderror" name="name" 
                                     value="{{ old('name', isset($student) ? $student->name : '') }}" placeholder="Enter full name">
                                 @error('name')
@@ -33,7 +33,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label>Mobile No.</label>
+                                <label>Mobile No.<sup class="text-danger">*</sup></label>
                                 <input type="text" class="form-control digit-only @error('mobile') is-invalid @enderror" name="mobile" maxlength="10" minlength="10"
                                     value="{{ old('mobile', isset($student) ? $student->mobile : '') }}" placeholder="Enter mobile number">
                                 @error('mobile')
@@ -57,7 +57,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label>Email Address</label>
+                                <label>Email Address<sup class="text-danger">*</sup></label>
                                 <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" 
                                     value="{{ old('email', isset($student) ? $student->email : '') }}" placeholder="Enter email address">
                                 @error('email')
@@ -69,7 +69,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label>Father's Name</label>
+                                <label>Father's Name<sup class="text-danger">*</sup></label>
                                 <input type="text" class="form-control char-only @error('father_name') is-invalid @enderror" name="father_name" 
                                     value="{{ old('father_name', isset($student) ? $student->father_name : '') }}" placeholder="Enter father's name">
                                 @error('father_name')
@@ -81,7 +81,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label>DOB</label>
+                                <label>DOB<sup class="text-danger">*</sup></label>
                                 <input type="date" class="form-control @error('dob') is-invalid @enderror" name="dob" 
                                     value="{{ old('dob', isset($student) ? $student->dob : '') }}">
                                 @error('dob')
@@ -92,20 +92,23 @@
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="form-group">
-                                <label>Gender</label><br>
-                                <input type="radio" id="male" name="gender" value="male" class="form-control @error('gender') is-invalid @enderror"
-                                    {{ old('gender', isset($student) ? $student->gender : '') == 'male' ? 'checked' : '' }}>
-                                <label for="male">Male</label><br>
-                                <input type="radio" id="female" name="gender" value="female" class="form-control @error('gender') is-invalid @enderror"
-                                    {{ old('gender', isset($student) ? $student->gender : '') == 'female' ? 'checked' : '' }}>
-                                <label for="female">Female</label><br>
-                                @error('gender')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
+                                <label>Gender<sup class="text-danger">*</sup></label>
+                                <div class="d-flex">
+                                <label for="male">
+                                    <input type="radio" id="male" name="gender" value="male" @error('gender') is-invalid @enderror"
+                                        {{ old('gender', isset($student) ? $student->gender : '') == 'male' ? 'checked' : '' }}>
+                                    Male</label>
+                                    <label for="female">
+                                    <input type="radio" id="female" name="gender" value="female"  @error('gender') is-invalid @enderror"
+                                        {{ old('gender', isset($student) ? $student->gender : '') == 'female' ? 'checked' : '' }}>
+                                    Female</label><br>
+                                    @error('gender')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                                
                         </div>
                         
                         <div class="col-lg-6">
@@ -186,7 +189,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label>Pin Code</label>
+                                <label>Pin Code<sup class="text-danger">*</sup></label>
                                 <input type="text" class="form-control digit-only @error('pin_code') is-invalid @enderror" name="pin_code" 
                                     value="{{ old('pin_code', isset($student) ? $student->pin_code : '') }}" placeholder="Enter pin code" maxlength="6" minlength="6">
                                 @error('pin_code')
@@ -239,7 +242,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label>Duration (in months)</label>
+                                <label>Course Duration (in months)<sup class="text-danger">*</sup></label>
                                 <input type="text" id="duration" class="form-control @error('duration') is-invalid @enderror"  value="{{ old('duration', isset($student) ? $fees->duration : '') }}" name="duration" readonly>
                                 @error('duration')
                                 <span class="invalid-feedback" role="alert">
@@ -251,7 +254,7 @@
 
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label>Fees</label>
+                                <label>Course Fees<sup class="text-danger">*</sup></label>
                                 <input type="text" id="fees" class="form-control @error('fees') is-invalid @enderror"  value="{{ old('fees', isset($student) ? $fees->course_fees : '') }}" readonly name="fees">
                                 @error('fees')
                                 <span class="invalid-feedback" role="alert">
