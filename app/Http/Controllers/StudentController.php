@@ -80,9 +80,8 @@ class StudentController extends Controller
                         <li><a href="' . route('student.show', $row->id) . '" title="View Student"><i class="fas fa-eye"></i></a></li>
                         <li><a href="#"  data-id="' . $row->id . '" title="Delete Student"><i class="fas fa-trash"></i></a></li>
                         <li><a href="' . route('admin.accounts_payment', $row->id) . '"  title="make payment"><i class="fas fa-credit-card"></i></a></li>
-                        <li><a href="javascript:void(0)"  data-id="' . $row->id . '" title="Certificate Status"><i class="fas fa-certificate"></i></a></li>
-                        <li><a href="javascript:void(0)"  data-id="' . $row->id . '" title="Active Status"><i class="fas fa-star"></i></a></li>';
-                    $btn .= '</ul>';
+                       <li><a href="javascript:void(0)" class="toggle-certificate" data-id="' . $row->id . '" title="Certificate Status"><i class="fas fa-certificate"></i></a></li>
+                        <li><a href="javascript:void(0)" class="toggle-active" data-id="' . $row->id . '" title="Active Status"><i class="fas fa-star"></i></a></li>';                    $btn .= '</ul>';
                     return $btn;
                 })
                 ->rawColumns(['contact_info', 'action'])
@@ -187,15 +186,39 @@ class StudentController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:50',
+            'mobile' => 'required|string|max:10|min:10',
+            'alt_mobile' => 'nullable|string|max:10|min:10',
+            'email' => [
+            'required',
+            'string',
+            'email',
+            'max:255',
+            Rule::unique('students')->ignore($id),
+            ],
+            'father_name' => 'required|string|max:50',
+            'dob' => 'required|date',
+            'gender' => 'required|in:male,female',
+            'grade_id' => 'required|exists:grades,id',
+            'stream' => 'required|string|max:255',
+            'state_id' => 'required|exists:states,id',
+            'city_id' => 'required|exists:cities,id',
+            'address' => 'required|string|max:255',
+            'pin_code' => 'required|string|max:6|min:6',
+            'course_type_id' => 'required|exists:course_types,id',
+            'course_id' => 'required|exists:courses,id',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:200',
+        ]);
        
-        $validated = $this->validateUser($request, $id);
         if ($request->hasFile('profile_image')) {
             $file = $request->file('profile_image');
             $filePath = $file->store('uploade', 'public');
         }else{
             $filePath=null;
         }
-
+       
         $validated['profile_image']=$filePath;
         
         Student::where("id", $id)->update($validated);

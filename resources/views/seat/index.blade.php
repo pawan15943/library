@@ -334,7 +334,7 @@ $fullDayCount = 0;
                 <div class="detailes">
                     <button type="button" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
                     <h3 id="seat_details_info"></h3>
-                    <span id="seat_name"></span>
+                    <span id="seat_name" style="display: none;"></span>
 
                     <div class="row">
                         <div class="col-lg-12">

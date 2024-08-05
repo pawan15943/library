@@ -11,8 +11,8 @@
                 <div class="dashibox">
                     <h4>Total Enrollments</h4>
                     <div class="d-flex">
-                        <h2 class="counter" data-count="1202">0</h2>
-                        <a href=""><i class="fa-solid fa-arrow-right-long"></i></a>
+                        <h2 class="counter" data-count="{{$total_enrollment}}">{{$total_enrollment}}</h2>
+                        <a href="{{route('student.index')}}"><i class="fa-solid fa-arrow-right-long"></i></a>
                     </div>
                 </div>
             </div>
@@ -20,8 +20,8 @@
                 <div class="dashibox">
                     <h4>Total Course Completed</h4>
                     <div class="d-flex">
-                        <h2 class="counter" data-count="15">0</h2>
-                        <a href=""><i class="fa-solid fa-arrow-right-long"></i></a>
+                        <h2 class="counter" data-count="{{$course_complete}}">{{$course_complete}}</h2>
+                        <a href="{{route('student.index')}}"><i class="fa-solid fa-arrow-right-long"></i></a>
                     </div>
                 </div>
             </div>
@@ -29,8 +29,8 @@
                 <div class="dashibox">
                     <h4>Total Certificate Distributed</h4>
                     <div class="d-flex">
-                        <h2 class="counter" data-count="55">0</h2>
-                        <a href=""><i class="fa-solid fa-arrow-right-long"></i></a>
+                        <h2 class="counter" data-count="{{$certificate_complete}}">{{$certificate_complete}}</h2>
+                        <a href="{{route('student.index')}}"><i class="fa-solid fa-arrow-right-long"></i></a>
                     </div>
                 </div>
             </div>
@@ -38,8 +38,8 @@
                 <div class="dashibox">
                     <h4>Booked Seats </h4>
                     <div class="d-flex">
-                        <h2 class="counter" data-count="35">0</h2>
-                        <a href=""><i class="fa-solid fa-arrow-right-long"></i></a>
+                        <h2 class="counter" data-count="{{$booked_seats}}">{{$booked_seats}}</h2>
+                        <a href="{{route('customers.list')}}"><i class="fa-solid fa-arrow-right-long"></i></a>
                     </div>
                 </div>
             </div>
@@ -47,8 +47,8 @@
                 <div class="dashibox">
                     <h4>Available Seats</h4>
                     <div class="d-flex">
-                        <h2 class="counter" data-count="87">0</h2>
-                        <a href="" class="water-drop-button"><i class="fa-solid fa-arrow-right-long" ></i></a>
+                        <h2 class="counter" data-count="{{$availble_seats}}">{{$availble_seats}}</h2>
+                        <a href="{{route('seats')}}" class="water-drop-button"><i class="fa-solid fa-arrow-right-long" ></i></a>
                     </div>
                 </div>
             </div>
@@ -56,8 +56,8 @@
                 <div class="dashibox">
                     <h4>Monthly Revenue</h4>
                     <div class="d-flex">
-                        <h2 class="counter" data-count="52">0</h2>
-                        <a href=""><i class="fa-solid fa-arrow-right-long"></i></a>
+                        <h2 class="counter" data-count="{{$monthly_revenue}}">{{$monthly_revenue}}</h2>
+                        <a href="{{route('admin.accounts')}}"><i class="fa-solid fa-arrow-right-long"></i></a>
                     </div>
                 </div>
             </div>

@@ -2,8 +2,8 @@
 <ul class="navbar-nav bg-custom-primary sidebar sidebar-dark accordion" id="accordionSidebar">
     @php
     $current_route = Route::currentRouteName();
-    $menu = App\Models\Menu::where('name', '!=', 'Dashboard')->get();
-    $submenu = App\Models\SubMenu::where('name', '!=', 'Dashboard')->get();
+    $menu = App\Models\Menu::orderBy('order','ASC')->get();
+    $submenu = App\Models\SubMenu::orderBy('order','ASC')->get();
     $i = 1;
     @endphp
     <!-- Sidebar - Brand -->
@@ -16,20 +16,23 @@
     </a>
 
 
-    <!-- Nav Item - Dashboard -->
-    <li class="nav-item {{ $current_route == 'home' ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('home') }}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span>
-        </a>
-    </li>
+  
     @foreach($menu as $key => $value)
         @php
             $is_active_menu = false;
         @endphp
+        @if($value->name=='Dashboard')
+        <li class="nav-item {{ $current_route == $value->url ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route($value->url) }}">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>{{$value->name}}</span>
+            </a>
+        </li>
+       
+        @else
         <li class="nav-item {{ $submenu->where('parent_id', $value->id)->pluck('url')->contains($current_route) ? 'bg-active' : '' }}">
-            <a class="nav-link collapsed {{ $submenu->where('parent_id', $value->id)->pluck('url')->contains($current_route) ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapseManageMasters{{$i}}" aria-expanded="true" aria-controls="collapseManageMasters">
-                <i class="fa fa-fw fa-cog"></i>
+            <a class="nav-link collapsed {{ $submenu->where('parent_id', $value->id)->pluck('url')->contains($current_route) ? $value->url : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapseManageMasters{{$i}}" aria-expanded="true" aria-controls="collapseManageMasters">
+                <i class=" {{$value->icon}}"></i>
                 <span>{{$value->name}}</span>
             </a>
             <div id="collapseManageMasters{{$i}}" class="collapse {{ $submenu->where('parent_id', $value->id)->pluck('url')->contains($current_route) ? 'show' : '' }}" aria-labelledby="headingManageMasters" data-parent="#accordionSidebar">
@@ -47,6 +50,8 @@
                 </div>
             </div>
         </li>
+        @endif
+     
         @php
             $i++;
         @endphp

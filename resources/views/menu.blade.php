@@ -103,7 +103,7 @@
                                 <td>{{ $x++ }}</td>
                                 <td>{{ $value->name }}</td>
                                 <td>
-                                    @if($value->is_active==1)
+                                    @if($value->status==1)
                                     <div class="text-success">Active</div>
                                     @else
                                     <div class="text-danger">Inactive</div>

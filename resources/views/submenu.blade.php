@@ -104,6 +104,7 @@
                             <tr>
                                 <th>S.No.</th>
                                 <th>Sub Menu Name</th>
+                                <th>Menu Name</th>
                                 <th>Sub Menu Status</th>
                                 <th>Action</th>
                             </tr>
@@ -113,12 +114,13 @@
                             @php
                             $x = 1;
                             @endphp
-                            @foreach($menus as $key => $value)
+                            @foreach($submenus as $key => $value)
                             <tr>
                                 <td>{{ $x++ }}</td>
                                 <td>{{ $value->name }}</td>
+                                <td>{{ $value->menu_name }}</td>
                                 <td>
-                                    @if($value->is_active==1)
+                                    @if($value->status==1)
                                     <div class="text-success">Active</div>
                                     @else
                                     <div class="text-danger">Inactive</div>
