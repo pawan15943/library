@@ -79,7 +79,7 @@ class StudentController extends Controller
                     $btn .= '<li><a href="' . route('student.edit', $row->id) . '"  title="Edit Student"><i class="fas fa-edit"></i></a></li>
                         <li><a href="' . route('student.show', $row->id) . '" title="View Student"><i class="fas fa-eye"></i></a></li>
                         <li><a href="#"  data-id="' . $row->id . '" title="Delete Student"><i class="fas fa-trash"></i></a></li>
-                        <li><a href="' . route('admin.accounts_payment', $row->id) . '"  title="make payment"><i class="fas fa-credit-card"></i></a></li>
+                         <li><a href="' . route('admin.accounts_payment', $row->id) . '"  title="make payment"><i class="fas fa-credit-card"></i></a></li>
                         <li><a href="javascript:void(0)"  data-id="' . $row->id . '" title="Certificate Status"><i class="fas fa-certificate"></i></a></li>
                         <li><a href="javascript:void(0)"  data-id="' . $row->id . '" title="Active Status"><i class="fas fa-star"></i></a></li>';
                     $btn .= '</ul>';

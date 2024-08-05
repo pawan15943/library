@@ -33,7 +33,6 @@
             <div class="logo">
                 <h1>Library<span>Pro</span></h1>
             </div>
-
         </div>
         <div class="right-box">
             <div class="contact"><p>Call Us : 8114479678</p></div>
@@ -45,7 +44,6 @@
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="form-code">
-
                         <div class="input">
                             <input id="email" placeholder="Enter Email Address" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="email" autofocus>
                             @error('email')
