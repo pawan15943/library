@@ -28,8 +28,17 @@ class DashboardController extends Controller
             ->select('courses.course_name', DB::raw('COUNT(students.id) as student_count'))
             ->groupBy('courses.course_name')
             ->get();  
-            // $seats=DB::table('seats')->where('is_available','!=',0)->count();          
-            return view('admin.index',compact('count_fullday','count_firstH','count_secondH','count_hourly','count_course_wise','planwise_count'));
+            // $seats=DB::table('seats')->where('is_available','!=',0)->count(); 
+            $total_enrollment=Student::count();        
+            $course_complete=Student::where('status',0)->count();        
+            $certificate_complete=Student::where('is_certificate',1)->count();  
+            $booked_seats=DB::table('seats')->where('is_available','!=',1)->count();      
+            $availble_seats=DB::table('seats')->where('is_available','=',1)->count(); 
+            $monthly_revenue = DB::table('transactions')
+            ->whereMonth('paid_date', date('m'))
+            ->whereYear('paid_date', date('Y'))
+            ->sum('paid_amount');            
+            return view('admin.index',compact('count_fullday','count_firstH','count_secondH','count_hourly','count_course_wise','planwise_count','total_enrollment','course_complete','certificate_complete','booked_seats','availble_seats','monthly_revenue'));
         }else{
            dd("no");
         }

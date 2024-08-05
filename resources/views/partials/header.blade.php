@@ -86,7 +86,7 @@ $title = HelperService::generateTitle();
         </div>
     </div>
 
-    <!-- <div class="row">
+    <div class="row">
         {{-- Success Message --}}
         <div class="col-lg-12">
             @if (session('success'))
@@ -100,7 +100,7 @@ $title = HelperService::generateTitle();
             </div>
             @endif
         </div>
-    </div> -->
+    </div> 
    
     <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
         @if($current_route=='planType.index')

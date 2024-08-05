@@ -299,7 +299,7 @@
         </div>
     </div>
 </div>
-@include('script')
+@include('student.script')
 @endsection
 
 {{-- <script>
