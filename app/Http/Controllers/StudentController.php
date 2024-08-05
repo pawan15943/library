@@ -114,15 +114,19 @@ class StudentController extends Controller
         
         $validated = $this->validateUser($request);
         $validated['form_no']=$this->getNewFormNumber();
-
-        if ($request->hasFile('profile_image')) {
-            $file = $request->file('profile_image');
-            $filePath = $file->store('uploade', 'public');
+        if($request->hasFile('profile_image'))
+        {
+            $this->validate($request,['profile_image' => 'mimes:webp,png,jpg,jpeg|max:200']);
+            $profile_image = $request->profile_image;
+            $profile_imageNewName = "profile_image".time().$profile_image->getClientOriginalName();
+            $profile_image->move('public/uploade/',$profile_imageNewName);
+            $profile_image = 'public/uploade/'.$profile_imageNewName;
         }else{
-            $filePath=null;
+            $profile_image=null;
         }
+       
 
-        $validated['profile_image']=$filePath;
+        $validated['profile_image']=$profile_image;
         Student::create($validated);
 
         return redirect()->route('student.index')->with('success', 'Student created successfully.');
@@ -212,14 +216,18 @@ class StudentController extends Controller
             'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:200',
         ]);
        
-        if ($request->hasFile('profile_image')) {
-            $file = $request->file('profile_image');
-            $filePath = $file->store('uploade', 'public');
+        if($request->hasFile('profile_image'))
+        {
+            $this->validate($request,['profile_image' => 'mimes:webp,png,jpg,jpeg|max:200']);
+            $profile_image = $request->profile_image;
+            $profile_imageNewName = "profile_image".time().$profile_image->getClientOriginalName();
+            $profile_image->move('public/uploade/',$profile_imageNewName);
+            $profile_image = 'public/uploade/'.$profile_imageNewName;
         }else{
-            $filePath=null;
+            $profile_image=null;
         }
        
-        $validated['profile_image']=$filePath;
+        $validated['profile_image']=$profile_image;
         
         Student::where("id", $id)->update($validated);
         return redirect()->route('student.index')->with('success', 'Student Update successfully.');
@@ -252,6 +260,7 @@ class StudentController extends Controller
 
     public function getCity($state_id)
     {
+        
         $cities = City::where('state_id', $state_id)->pluck('city_name', 'id');
         return response()->json($cities);
     }

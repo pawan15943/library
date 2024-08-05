@@ -192,11 +192,16 @@ class UserController extends Controller
         }
 
         // Handle the file upload
-        if ($request->hasFile('id_proof_file')) {
-            $file = $request->file('id_proof_file');
-            $filePath = $file->store('id_proofs', 'public');
+    
+        if($request->hasFile('id_proof_file'))
+        {
+            $this->validate($request,['id_proof_file' => 'mimes:webp,png,jpg,jpeg|max:200']);
+            $id_proof_file = $request->id_proof_file;
+            $id_proof_fileNewName = "id_proof_file".time().$id_proof_file->getClientOriginalName();
+            $id_proof_file->move('public/uploade/',$id_proof_fileNewName);
+            $id_proof_file = 'public/uploade/'.$id_proof_fileNewName;
         }else{
-            $filePath=null;
+            $id_proof_file=null;
         }
 
         if(PlanType::where('id',$request->plan_type_id)->count()>0){
@@ -231,7 +236,7 @@ class UserController extends Controller
             'plan_end_date' => $endDate->format('Y-m-d'),
             'join_date' => date('Y-m-d'),
             'id_proof_name' => $request->input('id_proof_name'),
-            'id_proof_file' => $filePath, // Store the file path
+            'id_proof_file' => $id_proof_file, // Store the file path
             'hours' =>$hours,
             'payment_mode' => $request->input('payment_mode'),
         ]);
@@ -288,11 +293,15 @@ class UserController extends Controller
         $currentEndDate = Carbon::parse($customer->plan_end_date);
         $newEndDate = $currentEndDate->addMonths($duration);
         // Handle the file upload
-        if ($request->hasFile('id_proof_file')) {
-            $file = $request->file('id_proof_file');
-            $filePath = $file->store('id_proofs', 'public');
+        if($request->hasFile('id_proof_file'))
+        {
+            $this->validate($request,['id_proof_file' => 'mimes:webp,png,jpg,jpeg|max:200']);
+            $id_proof_file = $request->id_proof_file;
+            $id_proof_fileNewName = "id_proof_file".time().$id_proof_file->getClientOriginalName();
+            $id_proof_file->move('public/uploade/',$id_proof_fileNewName);
+            $id_proof_file = 'public/uploade/'.$id_proof_fileNewName;
         }else{
-            $filePath=null;
+            $id_proof_file=null;
         }
         // Update customer details
         $customer->seat_no = $request->input('seat_no');
@@ -304,7 +313,7 @@ class UserController extends Controller
         $customer->email = $request->input('email');
         $customer->plan_end_date = $newEndDate->toDateString();
         $customer->hours = $hours;
-        $customer->id_proof_file = $filePath;
+        $customer->id_proof_file = $id_proof_file;
         $customer->save();
 
         // Update seat availability

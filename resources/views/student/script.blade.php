@@ -39,9 +39,10 @@
         });
         // Handle course type and course dropdowns
         $('#course_type').on('change', function(event){
+           
             event.preventDefault();
             var courseTypeID = $(this).val();
-           
+         
             if (courseTypeID) {
                 $.ajax({
                     url: '{{ url('/getCourse') }}/' + courseTypeID,
@@ -80,8 +81,9 @@
 
         // Function to fetch and set course details
         function readonlyget(courseID) {
+          
             if (courseID) {
-                console.log('Fetching details for course ID:', courseID); // Debugging line
+               
                 $.ajax({
                     url: '{{ url('/getCourseDetails') }}/' + courseID,
                     type: 'GET',
@@ -108,34 +110,56 @@
         if (course_id) {
             readonlyget(course_id);
         }
-        
+        // Set the initial value of cities and courses if editing
+        var stateID = $('#stateid').val();
+        var cityID = "{{ old('city_id', isset($student) ? $student->city_id : '') }}";
+        console.log(stateID);
+        console.log(cityID);
+        if (stateID && cityID) {
+            $.ajax({
+                url: '{{ url('/getCity') }}/' + stateID,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                   
+                    $('#cityid').empty();
+                    $('#cityid').append('<option value="">Select City</option>');
+                    $.each(data, function(key, value) {
+                      
+                        var selected = (key == cityID) ? 'selected' : '';
+                       
+                        $('#cityid').append('<option value="' + key + '" ' + selected + '>' + value + '</option>');
+                    });
+                }
+            });
+        }
 
 
-        // var courseTypeID = $('#course_type').val();
-        // var courseID = "{{ old('course_id', isset($student) ? $student->course_id : '') }}";
-        // if (courseTypeID && courseID) {
-        //     $.ajax({
-        //         url: '{{ url('/getCourse') }}/' + courseTypeID,
-        //         type: 'GET',
-        //         dataType: 'json',
-        //         success: function(data) {
-        //             $('#course').empty();
-        //             $('#course').append('<option value="">Select Course</option>');
-        //             $.each(data, function(key, value) {
-        //                 var selected = (key == courseID) ? 'selected' : '';
-        //                 $('#course').append('<option value="' + key + '" ' + selected + '>' + value + '</option>');
-        //             });
-        //         }
-        //     });
-        // }
+        var courseTypeID = $('#course_type').val();
+        var courseID = "{{ old('course_id', isset($student) ? $student->course_id : '') }}";
+        if (courseTypeID && courseID) {
+            $.ajax({
+                url: '{{ url('/getCourse') }}/' + courseTypeID,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#course').empty();
+                    $('#course').append('<option value="">Select Course</option>');
+                    $.each(data, function(key, value) {
+                        var selected = (key == courseID) ? 'selected' : '';
+                        $('#course').append('<option value="' + key + '" ' + selected + '>' + value + '</option>');
+                    });
+                }
+            });
+        }
 
         // Trigger the initial change events to load the data if editing
-        // if (stateID) {
-        //     $('#stateid').trigger('change');
-        // }
-        // if (courseTypeID) {
-        //     $('#course_type').trigger('change');
-        // }
+        if (stateID) {
+            $('#stateid').trigger('change');
+        }
+        if (courseTypeID) {
+            $('#course_type').trigger('change');
+        }
 
         $(document).on('click', '.toggle-active', function() {
          
