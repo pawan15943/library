@@ -166,6 +166,7 @@
                                 <label>City<sup class="text-danger">*</sup></label>
                                 <select name="city_id" id="cityid" class="form-control @error('city_id') is-invalid @enderror event">
                                     @if(isset($student) && $student->city_id )
+                                    
                                         @foreach ($cities as $key => $value)
                                         <option value="{{$value}}" @if($value == $student->city_id) {{ "selected" }} @endif>{{$key}}</option> 
                                         @endforeach
@@ -280,7 +281,7 @@
                                 <div class="form-group">
                                     <label>Current Profile Image</label>
                                     <div>
-                                        <img src="{{ asset('storage/' . $student->profile_image) }}" alt="Profile Image" class="img-thumbnail" width="150">
+                                        <img src="{{ asset( $student->profile_image) }}" alt="Profile Image" class="img-thumbnail" width="150">
                                     </div>
                                 </div>
                             </div>
