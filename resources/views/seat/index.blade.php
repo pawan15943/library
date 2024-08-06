@@ -230,10 +230,7 @@ $fullDayCount = 0;
 <!-- Booking Popup -->
 <div class="modal fade" id="seatAllotmentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-
         <div id="success-message" class="alert alert-success" style="display:none;"></div>
-        
-
         <div class="modal-content">
             <div id="error-message" class="alert alert-danger" style="display:none;"></div>
             <div id="validation-error-message" class="alert alert-danger" style="display:none;"></div>
@@ -340,23 +337,23 @@ $fullDayCount = 0;
                         <div class="col-lg-12">
 
                             <div class="table-responsive">
-                                <table class="table table-bordered mb-0">
+                                <table class="table table-bordered mb-0" Id="bookingDetails">
 
                                     <tr>
-                                        <th class="w-50">Seat Owner Name</th>
-                                        <th id="owner" style="font-weight:700 !important;"></th>
+                                        <td class="w-50">Seat Owner Name</td>
+                                        <td id="owner" class="uppercase"></td>
                                     </tr>
                                     
                                     <tr>
-                                        <td>Your Plan</td>
+                                        <td>Plan Purchsed</td>
                                         <td id="planName"></td>
                                     </tr>
                                     <tr>
-                                        <td>Plan Price & Status</td>
+                                        <td>Plan Price & Current Status</td>
                                         <td id="price"></td>
                                     </tr>
                                     <tr>
-                                        <td>Your Plan Type</td>
+                                        <td>Plan Type</td>
                                         <td id="planTypeName"></td>
                                     </tr>
                                     <tr>
