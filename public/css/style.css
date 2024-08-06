@@ -2,7 +2,8 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Outfit:wght@100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 
-input.btn.btn-primary.btn-block,button.btn.btn-primary.btn-block {
+input.btn.btn-primary.btn-block,
+button.btn.btn-primary.btn-block {
     background: var(--c1) !important;
     color: var(--c5) !important;
     box-shadow: none ! IMPORTANT;
@@ -66,8 +67,8 @@ body {
     --c4: #000;
     --c5: #fff;
     /* Secondary Color */
-    --c6: #FFC107;
-    --c7: #ffd3d7;
+    --c6: #f6f9fc;
+    --c7: #f8f9fe;
     --c8: #198754;
     /* Secondary Color */
     --c9: #FFC107;
@@ -161,8 +162,8 @@ span {
 .button {
     background: var(--c2) !important;
     color: #fff;
-    border: none !important;
-    height:  auto !important;
+    border: none;
+    height: auto;
 }
 
 .button-1 {}
@@ -225,6 +226,11 @@ table th {
     font-size: var(--fs-1);
 }
 
+table.dataTable tbody th,
+table.dataTable tbody td {
+    padding: 15px 10px !important;
+}
+
 /* Portal CSS Ends Here */
 
 
@@ -246,25 +252,39 @@ table th {
     width: 70%;
 }
 
-
 .left-box {
-    background: url(../img/software-bg.jpg);
+    background: url('../img/software-bg.jpg');
     background-position: center;
     background-size: cover;
     margin: var(--m-1);
     border-radius: var(--br-3);
-    background-repeat: repeat;
-    animation: slowScroll 2000s linear infinite;
+    background-repeat: no-repeat;
     box-shadow: var(--bs-1);
+    overflow: hidden;
+    position: relative;
 }
 
-@keyframes slowScroll {
+.left-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../img/software-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    animation: zoomIn 3600s infinite;
+    z-index: -1;
+}
+
+@keyframes zoomIn {
     0% {
-        background-position: 0 0;
+        transform: scale(1);
     }
 
     100% {
-        background-position: -10000px 0;
+        transform: scale(1.5);
     }
 }
 
@@ -318,9 +338,9 @@ button:focus {
 
 /* Main CSS */
 #content .navbar {
-    box-shadow: none !important;
-    background: transparent !important;
+    background: var(--c5) !important;
     margin-bottom: 0 !important;
+    box-shadow: var(--bs-3) !important;
 }
 
 span.mr-2.d-none.d-lg-inline {
@@ -334,7 +354,8 @@ span.mr-2.d-none.d-lg-inline {
     max-width: 18em !important;
     min-width: 18em !important;
     box-sizing: border-box !important;
-    border-right: 1px solid #efefef;
+    box-shadow: 0 0 2rem 0 rgba(136,152,170,.15) !important;
+    z-index: 1;
 }
 
 .sidebar .nav-item .collapse,
@@ -355,7 +376,7 @@ span.mr-2.d-none.d-lg-inline {
 }
 
 .bg-white.py-2.collapse-inner.rounded {
-    background: #f5f5f5 !IMPORTANT;
+    background: #f5f5f5 !impotant;
 }
 
 .bg-white.py-2.collapse-inner.rounded a:hover {
@@ -383,39 +404,43 @@ span.mr-2.d-none.d-lg-inline {
 
 
 #accordionSidebar li.active a {
-    background: var(--c1);
+    background: var(--c6);
     border-radius: var(--br-0);
 }
 
-#accordionSidebar li.active a *,
+#accordionSidebar li.active a *:not(.fas,.fa),
 #accordionSidebar li.active a span {
-    color: var(--c5) !important;
+    color: var(--c4) !important;
 }
 
 .bg-active {
-    background: var(--c1);
+    background: #f6f9fc;
     border-radius: var(--br-0);
 }
 
-.nav-item.bg-active *,
+/* .nav-item.bg-active *,
 #accordionSidebar li.nav-item.bg-active span {
     color: #fff !important;
 }
 
 .sidebar-dark .nav-item.bg-active .nav-link[data-toggle=collapse]::after {
     color: #fff !important;
-}
+} */
 
 .bg-white.py-2.collapse-inner.rounded {
-    background: #ffffff14 !important;
+    background: var(--c5) !important;
 }
 
 a.collapse-item.active {
-    background: #ffffff29;
+    background: var(--c6);
 }
 
 #content {
-    background: #fff;
+    background: var(--c7);
+}
+
+.navbar-nav .fa, .navbar-nav .fas {
+    color: #36b5ca !important;
 }
 
 .breadcrumb {
@@ -453,9 +478,7 @@ footer * {
     height: 30px;
     border: 1px solid #eaeaea;
 }
-table.dataTable tbody th, table.dataTable tbody td{
-    padding: 15px 10px;
-}
+
 .table-responsive.tableRemove_scroll.mt-2 #datatable_length,
 .table-responsive.tableRemove_scroll.mt-2 #datatable_info {
     margin-left: .8rem;
@@ -526,6 +549,7 @@ table th {
     background: #dae0ff75;
     color: #000 !important;
 }
+
 .table-hover tbody tr:hover {
     color: #858796;
     background-color: rgb(229 233 255 / 27%);
@@ -553,14 +577,15 @@ ul.actionables li a {
 
 /* Dashboard */
 .row .col-lg-4:nth-child(odd) .dashibox {
-    background: #f6f8ff;
+    background: #bff6ff;
 }
 
 .row .col-lg-4:nth-child(even) .dashibox {
-    background: #defbff;
+    background: #ffcebf;
 }
 
-.dashibox, .course-list {
+.dashibox,
+.course-list {
     background: #fff;
     padding: var(--p-1);
     border-radius: var(--br-1);
@@ -906,20 +931,8 @@ label span {
 }
 
 
-
 .px-3 {
     padding: 0 1.1rem !important;
 }
-
-#detailsTable tr th:nth-child(1),
-#detailsTable tr td:nth-child(1){
-    text-align: right !important;
-}
-
-#detailsTable tr th:nth-child(2),
-#detailsTable tr td:nth-child(2){
-    text-align: left !important;
-}
-
 
 /* Mobile CSS */
