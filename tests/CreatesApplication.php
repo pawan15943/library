@@ -18,4 +18,9 @@ trait CreatesApplication
 
         return $app;
     }
+
+    public function generateLicenseKey(string $macAddress): string
+    {
+        return hash('sha256', $macAddress . 'NBC Heena Computer Class 786');
+    }
 }

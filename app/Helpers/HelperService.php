@@ -5,6 +5,8 @@ namespace App\Helpers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 
+
+
 class HelperService
 {
     protected static $titleMap = [
@@ -58,4 +60,10 @@ class HelperService
 
         return implode(' ', $titleParts);
     }
+
+    public static function generateLicenseKey(string $macAddress): string
+    {
+        return hash('sha256', $macAddress . 'NBC Heena Computer Class 786');
+    }
+
 }

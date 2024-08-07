@@ -65,9 +65,10 @@
                                         <td style="width: 20%;">
                                             <ul class="actionables">
                                                
-                                                <li><a href="{{route('edit.user',$value->id)}}" title="Edit Route"><i class="fas fa-edit"></i></a></li>
+                                                <li><a href="{{route('edit.user',$value->id)}}" title="Edit Customer"><i class="fas fa-edit"></i></a></li>
                                                 <li>
-                                                <a href="{{route('geUser',$value->id)}}" title="Edit Route"><i class="fas fa-eye"></i></a></li>
+                                                <a href="{{route('geUser',$value->id)}}" title="Show Customer"><i class="fas fa-eye"></i></a></li>
+                                                <li><a href="{{route('close.customer',$value->id)}}" title="Close Customer"><i class="fas fa-star"></i></a></li>
                                                 <li><a href="#" data-id="{{$value->id}}" title="Delete Customer"><i class="fas fa-trash"></i></a></li>
                                             </ul>
                                             

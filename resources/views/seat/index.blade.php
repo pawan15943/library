@@ -133,7 +133,7 @@ $hourlyCount = 0;
     @foreach($seats as $seat)
     <div class="seat_no">
         @php
-        $usersForSeat = Customers::where('seat_no', $seat->id)->select('id','seat_no','plan_type_id')->get();
+        $usersForSeat = Customers::where('seat_no', $seat->id)->select('id','seat_no','plan_type_id')->where('status',1)->get();
         $remainingHours = 16 - $seat->total_hours;
         $seatCount = 0;
         $halfday = 1;
