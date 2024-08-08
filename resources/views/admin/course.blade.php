@@ -84,7 +84,7 @@
 
                                 <td>{{$course->course_fees}}</td>
 
-                                <td>{{$course->duration}} MONTHS</td>
+                                <td>{{$course->duration}}</td>
                                 <td>
                                     @if($course->is_active==1)
                                     <div class="text-success">Active</div>

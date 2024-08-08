@@ -100,8 +100,14 @@
     </div>
 </div>
 
+<style>
+      #toast-container {
+        top: 150px;
+    }
+</style>
 
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 
 <script type="text/javascript">
@@ -112,26 +118,14 @@
             var city_name = $('#city').val();
             var city_id = $('#city_id').val();
 
-
-            if (state_id == '' || state_id == undefined) {
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'State is required.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
+            if (!state_id) {
+                toastr.error('State is required.');
                 return;
             }
-            if (city_name == '' || city_name == undefined) {
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'City is required.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
+            if (!city_name) {
+                toastr.error('City is required.');
                 return;
             }
-
 
             $.ajax({
                 url: '{{ route('city.store') }}',
@@ -141,57 +135,38 @@
                 type: 'POST',
                 data: {
                     "_token": "{{ csrf_token() }}",
-
                     state_id: state_id,
                     city_name: city_name,
                     id: city_id,
                 },
-
                 dataType: 'json',
                 success: function(response) {
-
                     if (response.success) {
-                        Swal.fire({
-                            title: 'Success!',
-                            text: response.message,
-                            icon: 'success'
-                        }).then(function() {
+                        toastr.success(response.message);
+                        setTimeout(function() {
                             location.reload();
-                        });
+                        }, 2000);
                     } else if (response.errors) {
-
                         $(".is-invalid").removeClass("is-invalid");
                         $(".invalid-feedback").remove();
 
                         $.each(response.errors, function(key, value) {
-
-                            if (key == 'city_name') {
-                                $("#city").addClass("is-invalid");
-                                $("#city").after('<span class="invalid-feedback" role="alert">' + value + '</span>');
-                            }
-
-                            if (key == 'state_id') {
-                                $("#stateid").addClass("is-invalid");
-                                $("#stateid").after('<span class="invalid-feedback" role="alert">' + value + '</span>');
-                            }
-
+                            var element = $("#" + key);
+                            element.addClass("is-invalid");
+                            element.after('<span class="invalid-feedback" role="alert">' + value + '</span>');
                         });
                     } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: response.message,
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        });
+                        toastr.error(response.message);
                     }
-
+                },
+                error: function(xhr) {
+                    toastr.error('An error occurred. Please try again.');
                 }
             });
         });
 
         $(document.body).on('click', '.city_edit', function() {
             var city_id = $(this).data('id');
-            console.log(city_id);
             $.ajax({
                 url: '{{ route('city.edit') }}',
                 headers: {
@@ -201,54 +176,47 @@
                 data: {
                     "_token": "{{ csrf_token() }}",
                     "id": city_id,
-
                 },
-
                 dataType: 'json',
                 success: function(response) {
-
                     $('#city_id').val(response.city.id);
                     $('#city').val(response.city.city_name);
                     $("#stateid").val(response.city.state_id);
+                },
+                error: function(xhr) {
+                    toastr.error('An error occurred. Please try again.');
                 }
             });
-
         });
 
         $('.delete').click(function(e) {
             if (!confirm('Are you sure you want to delete this City?')) {
                 e.preventDefault();
+                return;
             }
             var city_id = $(this).data('id');
             $.ajax({
                 url: '{{ route('city.destroy') }}',
-                type: 'post',
+                type: 'POST',
                 data: {
                     "_token": "{{ csrf_token() }}",
                     "id": city_id,
-
                 },
                 dataType: 'json',
                 success: function(response) {
                     if (response.success) {
-                        Swal.fire({
-                            title: 'Success!',
-                            text: response.message,
-                            icon: 'success'
-                        }).then(function() {
-
+                        toastr.success(response.message);
+                        setTimeout(function() {
                             location.reload();
-
-                        });
+                        }, 2000);
                     } else {
-                        // Handle other cases if needed
+                        toastr.error(response.message);
                     }
                 },
-                error: function(error) {
-                    // Handle errors if the AJAX request fails
+                error: function(xhr) {
+                    toastr.error('An error occurred. Please try again.');
                 }
             });
-
         });
     });
 </script>
