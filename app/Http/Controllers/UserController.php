@@ -291,7 +291,16 @@ class UserController extends Controller
         $months=Plan::where('id',$request->plan_id)->value('plan_id');
         $duration = $months ?? 0;
         $currentEndDate = Carbon::parse($customer->plan_end_date);
-        $newEndDate = $currentEndDate->addMonths($duration);
+        $start_date = Carbon::parse($request->input('plan_start_date'));
+        if($request->input('plan_end_date')){
+            $newEndDate= Carbon::parse($request->input('plan_end_date'));
+        }elseif($start_date){
+            $newEndDate = $start_date->copy()->addMonths($duration);
+        }else{
+            $newEndDate = $currentEndDate->addMonths($duration);
+        }
+       
+        
         // Handle the file upload
         if($request->hasFile('id_proof_file'))
         {
@@ -311,6 +320,10 @@ class UserController extends Controller
         $customer->name = $request->input('name');
         $customer->mobile = $request->input('mobile');
         $customer->email = $request->input('email');
+        if($request->input('plan_start_date')){
+            $customer->plan_start_date =$start_date;
+        }
+       
         $customer->plan_end_date = $newEndDate->toDateString();
         $customer->hours = $hours;
         $customer->id_proof_file = $id_proof_file;
