@@ -14,18 +14,18 @@ class DataController extends Controller
         $user = auth()->user();
        
         $plan=Menu::all();
-        return view('menu',compact('plan'));
+        return view('master.menu',compact('plan'));
     }
     public function create ()
     {
         $menus=Menu::all();
-        return view('menu',compact('menus'));
+        return view('master.menu',compact('menus'));
     }
     public function edit($id)
     {
         $menus=Menu::all();
         $menu=Menu::find($id);
-        return view('menu', compact('menu','menus'));
+        return view('master.menu', compact('menu','menus'));
     }
     public function store(Request $request)
     {
@@ -70,7 +70,7 @@ class DataController extends Controller
     {
        
         $submenus=SubMenu::leftJoin('menus','menus.id','=','sub_menus.parent_id')->select('sub_menus.*','menus.name as menu_name')->get();
-        return view('submenu',compact('submenus'));
+        return view('master.submenu',compact('submenus'));
     }
     public function submenu_create ()
     {
@@ -78,7 +78,7 @@ class DataController extends Controller
         $menus=SubMenu::all();
         $submenus=SubMenu::leftJoin('menus','menus.id','=','sub_menus.parent_id')->select('sub_menus.*','menus.name as menu_name')->get();
 
-        return view('submenu',compact('menus','menu_list','submenus'));
+        return view('master.submenu',compact('menus','menu_list','submenus'));
     }
     public function submenu_edit($id)
     {
@@ -87,7 +87,7 @@ class DataController extends Controller
         $menu=SubMenu::find($id);
         $submenus=SubMenu::leftJoin('menus','menus.id','=','sub_menus.parent_id')->select('sub_menus.*','menus.name as menu_name')->get();
 
-        return view('submenu', compact('menu','menu_list','submenus'));
+        return view('master.submenu', compact('menu','menu_list','submenus'));
     }
     public function submenu_store(Request $request)
     {

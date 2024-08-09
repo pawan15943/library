@@ -24,7 +24,7 @@ class AccountController extends Controller
         ->orderBy('students.created_at', 'DESC')->get();
         
        
-        return view('accounts.index',compact('datas'));
+        return view('student.payment-list',compact('datas'));
     }
 
     public function savePayment(Request $request){
@@ -87,7 +87,7 @@ class AccountController extends Controller
         }
        
         $transaction_list=Transaction::where('student_id',$student->id)->orderBy('id','ASC')->get();
-        return view('accounts.add-payment', compact('student','total_fees','pending_amount','transaction_list'));
+        return view('student.add-payment', compact('student','total_fees','pending_amount','transaction_list'));
     }
 
     

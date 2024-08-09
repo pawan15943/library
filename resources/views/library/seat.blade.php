@@ -441,5 +441,5 @@ $hourlyCount = 0;
         </div>
     </div>
 </div>
-@include('script')
+@include('library.script')
 @endsection

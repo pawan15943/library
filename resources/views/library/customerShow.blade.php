@@ -234,5 +234,5 @@ if($current_route=='close.customer'){
     </div>
 </div>
 
-@include('script')
+@include('library.script')
 @endsection

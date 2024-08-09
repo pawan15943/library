@@ -17,7 +17,7 @@ class CourseController extends Controller
     {
         $courses=Course::get();
         $course_type=CourseType::pluck('id','name');
-        return view('admin.course',compact('courses','course_type'));
+        return view('master.course',compact('courses','course_type'));
     }
 
     /**
