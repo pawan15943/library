@@ -175,7 +175,7 @@ class UserController extends Controller
     public function customerStore(Request $request){
   
         $validator = $this->validateCustomer($request);
-        if(Customers::where('seat_no',$request->seat_no)->where('plan_type_id',$request->plan_type_id)->count()>0){
+        if(Customers::where('seat_no',$request->seat_no)->where('plan_type_id',$request->plan_type_id)->where('status',1)->count()>0){
             return response()->json([
                 'error' => true,
                 'message' => 'This Plan Type Seat already booked'
@@ -207,7 +207,7 @@ class UserController extends Controller
         if(PlanType::where('id',$request->plan_type_id)->count()>0){
             $hours=PlanType::where('id',$request->plan_type_id)->value('slot_hours');
         }
-        if((Customers::where('seat_no',$request->seat_no)->sum('hours') + $hours)>16){
+        if((Customers::where('seat_no',$request->seat_no)->where('status',1)->sum('hours') + $hours)>16){
             return response()->json([
                 'error' => true,
                 'message' => 'You can not select this plan type'
