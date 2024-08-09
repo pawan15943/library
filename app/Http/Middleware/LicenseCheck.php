@@ -31,7 +31,7 @@ class LicenseCheck
  
         
        
-        if ($storedData == $generatedKey) {
+        if ($storedData !== $generatedKey) {
             abort(403, 'Invalid license key or MAC address');
         }
 

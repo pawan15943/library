@@ -348,7 +348,7 @@ class UserController extends Controller
         $customers = Customers::leftJoin('seats', 'customers.seat_no', '=', 'seats.id')
         ->leftJoin('plans', 'customers.plan_id', '=', 'plans.id')
         ->leftJoin('plan_types', 'customers.plan_type_id', '=', 'plan_types.id')
-       
+       ->where('customers.status',1)
         ->select(
             'plan_types.name as plan_type_name',
             'plans.name as plan_name',
