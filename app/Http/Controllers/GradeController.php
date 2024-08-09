@@ -15,7 +15,7 @@ class GradeController extends Controller
     public function index()
     {
         $grades=Grade::get();
-        return view('admin.class' , compact('grades'));
+        return view('master.class' , compact('grades'));
     }
 
     /**

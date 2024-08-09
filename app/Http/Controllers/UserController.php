@@ -75,11 +75,11 @@ class UserController extends Controller
         $count_secondH=Customers::where('hours',8)->where('plan_type_id',3)->count();
         $available=DB::table('seats')->where('is_available',1)->count();
         $not_available=DB::table('seats')->where('is_available',0)->count();
-        return view('seat.index', compact('seats', 'users','plans','plan_types','count_fullday','count_firstH','count_secondH','available','not_available'));
+        return view('library.seat', compact('seats', 'users','plans','plan_types','count_fullday','count_firstH','count_secondH','available','not_available'));
     }
 
     public function seatCreate(){
-        return view('seat.create');
+        return view('library.create');
     }
 
     public function seatStore(Request $request)
@@ -357,13 +357,13 @@ class UserController extends Controller
             'plan_types.end_time',
         )
         ->get();
-        return view('seat.customer' ,compact('customers'));
+        return view('library.customer' ,compact('customers'));
     }
     public function seatHistory(){
         $seats = DB::table('seats')->get();
         $customers_seats=Customers::where('status', 1)->get();
        
-        return view('seat.seatHistory' ,compact('customers_seats','seats'));
+        return view('library.seatHistory' ,compact('customers_seats','seats'));
     }
     public function getUser(Request $request, $id = null)
     {
@@ -391,7 +391,7 @@ class UserController extends Controller
         if ($request->expectsJson() || $request->has('id')) {
             return response()->json($customer);
         } else {
-            return view('seat.customerShow', compact('customer', 'plans', 'planTypes'));
+            return view('library.customerShow', compact('customer', 'plans', 'planTypes'));
         }
     }
 
@@ -410,7 +410,7 @@ class UserController extends Controller
         )
         ->get();
         $seat=DB::table('seats')->where('id',$id)->first('seat_no');
-        return view('seat.seatHistoryView', compact('customers','seat'));
+        return view('library.seatHistoryView', compact('customers','seat'));
     }
 
     public function destroy($id)

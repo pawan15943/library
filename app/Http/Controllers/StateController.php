@@ -18,7 +18,7 @@ class StateController extends Controller
          
         $states=State::select('states.*','states.id as state_id')->get();
        
-        return view('admin.state',compact('states'));
+        return view('master.state',compact('states'));
     }
 
     /**

@@ -15,7 +15,7 @@ class CourseTypeController extends Controller
     public function index()
     {
         $course_type=CourseType::get();
-        return view('admin.course_type' , compact('course_type'));
+        return view('master.course_type' , compact('course_type'));
     }
 
     /**

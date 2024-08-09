@@ -6,11 +6,12 @@
   
 </head>
 <body>
+
     <form action="{{ route('check.variable') }}" method="POST">
         @csrf
         <label for="key">Enter Key:</label>
         <input type="text" id="key" name="key" required>
         <button type="submit">Verify</button>
-    </form>
+    </form> 
 </body>
 </html>

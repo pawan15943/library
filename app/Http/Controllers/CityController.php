@@ -21,7 +21,7 @@ class CityController extends Controller
         $states=State::pluck('id','state_name');
        
        $citys=City::leftJoin('states','states.id','=','cities.state_id')->select('cities.id as city_id','cities.city_name as city_name','states.state_name','cities.is_active')->get();
-        return view('admin.city',compact('states','citys'));
+        return view('master.city',compact('states','citys'));
     }
 
     /**

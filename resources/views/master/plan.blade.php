@@ -20,6 +20,7 @@
                         <div class="col-lg-6">
                             <label> Plan Name<sup class="text-danger">*</sup></label>
                             <select class="form-control @error('plan_id') is-invalid @enderror" name="plan_id">
+                                <option>Select Plan</option>
                                 <option value="1" {{ old('plan_id', isset($plan) ? $plan->plan_id : '') == 1 ? 'selected' : '' }}>1 MONTH</option>
                                 <option value="3" {{ old('plan_id', isset($plan) ? $plan->plan_id : '') == 3 ? 'selected' : '' }}>3 MONTHS</option>
                                 <option value="6" {{ old('plan_id', isset($plan) ? $plan->plan_id : '') == 6 ? 'selected' : '' }}>6 MONTHS</option>

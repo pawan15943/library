@@ -17,6 +17,7 @@ class LicenseCheck
      */
     public function handle($request, Closure $next)
     {
+        
         $filePath = storage_path('framework/cache/.hidden_license_key');
 
         if (!File::exists($filePath)) {

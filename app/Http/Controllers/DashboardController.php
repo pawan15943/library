@@ -38,7 +38,7 @@ class DashboardController extends Controller
             ->whereMonth('paid_date', date('m'))
             ->whereYear('paid_date', date('Y'))
             ->sum('paid_amount');            
-            return view('admin.index',compact('count_fullday','count_firstH','count_secondH','count_hourly','count_course_wise','planwise_count','total_enrollment','course_complete','certificate_complete','booked_seats','availble_seats','monthly_revenue'));
+            return view('admin.dashboard',compact('count_fullday','count_firstH','count_secondH','count_hourly','count_course_wise','planwise_count','total_enrollment','course_complete','certificate_complete','booked_seats','availble_seats','monthly_revenue'));
         }else{
            dd("no");
         }

@@ -94,7 +94,7 @@
                                     @endphp
                                     @foreach($planPrice_list as $key => $value)
                                     <tr>
-                                        <td> {{$x}} </td>
+                                        <td> {{$x++}} </td>
                                         <td> {{$value->plan_name}} </td>
                                         <td> {{$value->plan_type}}</td>
                                         <td> {{$value->price}}</td>

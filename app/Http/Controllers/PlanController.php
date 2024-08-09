@@ -12,22 +12,22 @@ use DB;
 
 class PlanController extends Controller
 {
-    public function index(Request $request)
-    {
-        $user = auth()->user();
+    // public function index(Request $request)
+    // {
+    //     $user = auth()->user();
        
-        $plan=Plan::all();
-        return view('plan.index',compact('plan'));
-    }
+    //     $plan=Plan::all();
+    //     return view('plan.index',compact('plan'));
+    // }
     public function craetePlanName()
     {
         $plans=Plan::all();
-        return view('plan.plan',compact('plans'));
+        return view('master.plan',compact('plans'));
     }
     public function planNameedit(Plan $plan)
     {
         $plans=Plan::all();
-        return view('plan.plan', compact('plan','plans'));
+        return view('master.plan', compact('plan','plans'));
     }
     public function store(Request $request)
     {
@@ -64,19 +64,19 @@ class PlanController extends Controller
 
     public function planTypeList(){
         $plan=PlanType::all();
-        return view('plan.index',compact('plan'));
+        return view('master.index',compact('plan'));
     }
     public function craeteplanType()
     {
         $plan_types=PlanType::all();
         $plans=Plan::all();
-        return view('plan.planType', compact('plans','plan_types'));
+        return view('master.planType', compact('plans','plan_types'));
     }
     public function planTypedit(PlanType $planType)
     {
         $plan_types=PlanType::all();
         $plans=Plan::all();
-        return view('plan.planType', compact('planType','plans','plan_types'));
+        return view('master.planType', compact('planType','plans','plan_types'));
     }
     public function planTypestore(Request $request)
     {
@@ -135,18 +135,18 @@ class PlanController extends Controller
         
         return redirect()->route('planType.create')->with('success', 'Plan Type updated successfully.');
     }
-    public function planPriceList(){
-        $planPrice=PlanPrice::leftJoin('plan_types','plan_prices.plan_type_id','=','plan_types.id')->leftJoin('plans','plan_prices.plan_id','=','plans.id')->select('plans.name as plan_name','plan_types.name as plan_type','plan_prices.*')->get();
+    // public function planPriceList(){
+    //     $planPrice=PlanPrice::leftJoin('plan_types','plan_prices.plan_type_id','=','plan_types.id')->leftJoin('plans','plan_prices.plan_id','=','plans.id')->select('plans.name as plan_name','plan_types.name as plan_type','plan_prices.*')->get();
       
-        return view('plan.index',compact('planPrice'));
-    }
+    //     return view('plan.index',compact('planPrice'));
+    // }
     public function craeteplanPrice()
     {
         $plans=Plan::all();
         $plantypes=PlanType::all();
         $planPrice_list=PlanPrice::leftJoin('plan_types','plan_prices.plan_type_id','=','plan_types.id')->leftJoin('plans','plan_prices.plan_id','=','plans.id')->select('plans.name as plan_name','plan_types.name as plan_type','plan_prices.*')->get();
 
-        return view('plan.planPrice', compact('plans','plantypes','planPrice_list'));
+        return view('master.planPrice', compact('plans','plantypes','planPrice_list'));
     }
     public function planPricedit(PlanPrice $planPrice)
     {
@@ -154,7 +154,7 @@ class PlanController extends Controller
         $plantypes=PlanType::all();
         $planPrice_list=PlanPrice::leftJoin('plan_types','plan_prices.plan_type_id','=','plan_types.id')->leftJoin('plans','plan_prices.plan_id','=','plans.id')->select('plans.name as plan_name','plan_types.name as plan_type','plan_prices.*')->get();
 
-        return view('plan.planPrice', compact('planPrice','plans','plantypes','planPrice_list'));
+        return view('master.planPrice', compact('planPrice','plans','plantypes','planPrice_list'));
     }
     public function planPricestore(Request $request)
     {
