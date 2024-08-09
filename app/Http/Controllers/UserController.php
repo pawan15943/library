@@ -64,8 +64,6 @@ class UserController extends Controller
             }
         }
 
-       
-
         $users = Customers::where('status', 1);
       
         $plans=Plan::get();
