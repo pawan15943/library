@@ -35,7 +35,7 @@ $today = Carbon::today();
                                 <tbody>
                                     @foreach($seats as $seat)
                                     @php
-                                    $usersForSeat = App\Models\Customers::where('seat_no', $seat->seat_no)->get();
+                                    $usersForSeat = App\Models\Customers::where('seat_no', $seat->seat_no)->where('status', 1)->get();
                                     @endphp
                                     @if($usersForSeat->count() > 0)
                                     <tr>
